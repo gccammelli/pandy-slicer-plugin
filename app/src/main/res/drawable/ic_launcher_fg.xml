@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A sliced layer stack on a build plate. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#4DFFFFFF" android:pathData="M30,74h48v3h-48z" />
+    <path android:fillColor="#8CFFFFFF" android:pathData="M37,64h34a2.5,2.5 0 0 1 0,5h-34a2.5,2.5 0 0 1 0,-5z" />
+    <path android:fillColor="#B3FFFFFF" android:pathData="M40,55h28a2.5,2.5 0 0 1 0,5h-28a2.5,2.5 0 0 1 0,-5z" />
+    <path android:fillColor="#D9FFFFFF" android:pathData="M43,46h22a2.5,2.5 0 0 1 0,5h-22a2.5,2.5 0 0 1 0,-5z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M46,37h16a2.5,2.5 0 0 1 0,5h-16a2.5,2.5 0 0 1 0,-5z" />
+</vector>

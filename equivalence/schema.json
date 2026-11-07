@@ -1,0 +1,5839 @@
+{
+ "absolute_correction": {
+  "full_label": " ",
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "accel_to_decel_enable": {
+  "label": "Enable accel_to_decel",
+  "mode": "comAdvanced",
+  "tooltip": "Klipper's max_accel_to_decel will be adjusted automatically",
+  "type": "coBool"
+ },
+ "accel_to_decel_factor": {
+  "label": "accel_to_decel",
+  "max": 100.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Klipper's max_accel_to_decel will be adjusted to this percent of acceleration",
+  "type": "coPercent"
+ },
+ "activate_air_filtration": {
+  "label": "Activate air filtration",
+  "mode": "comSimple",
+  "tooltip": "Activate for better air filtration",
+  "type": "coBools"
+ },
+ "adaptive_layer_height": {
+  "category": "Quality",
+  "label": "Adaptive layer height",
+  "tooltip": "Enabling this option means the height of every layer except the first will be automatically calculated ",
+  "type": "coBool"
+ },
+ "additional_cooling_fan_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Speed of auxiliary part cooling fan. Auxiliary fan will run at this speed during printing except the first several layers ",
+  "type": "coInts"
+ },
+ "additional_fan_full_speed_layer": {
+  "label": "Full fan speed at layer",
+  "max": 100000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "tooltip": "Auxiliary fan speed will be ramped up linearly from layer \"For the first\" to maximum at layer \"Full fan speed at layer\". \"Full fan speed at layer\" will be ignored if lower than \"For the first\", in which case the fan will be running at maximum allowed speed at layer \"For the first\" + 1.",
+  "type": "coInts"
+ },
+ "align_xy": {
+  "label": "Align XY",
+  "tooltip": "Align the model to the given point.",
+  "type": "coPoint"
+ },
+ "allow_mix_temp": {
+  "label": "Allow filaments with high/low temperature to be printed together",
+  "tooltip": "Allow filaments with high/low temperature to be printed together",
+  "type": "coBool"
+ },
+ "allow_multicolor_oneplate": {
+  "label": "Allow multiple color on one plate",
+  "tooltip": "If enabled, the arrange will allow multiple color on one plate",
+  "type": "coBool"
+ },
+ "allow_newer_file": {
+  "label": "Allow 3mf with newer version to be sliced",
+  "tooltip": "Allow 3mf with newer version to be sliced",
+  "type": "coBool"
+ },
+ "allow_rotations": {
+  "label": "Allow rotatations when arrange",
+  "tooltip": "If enabled, the arrange will allow rotations when place object",
+  "type": "coBool"
+ },
+ "alternate_extra_wall": {
+  "category": "Strength",
+  "label": "Alternate extra wall",
+  "tooltip": "Add an extra wall on alternating layers to improve layer bonding and part strength without the full cost of a permanent extra wall.",
+  "type": "coBool"
+ },
+ "ams_filament_load_time_ams": {
+  "label": "AMS filament load time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament load time when printing with an AMS. For statistics only",
+  "type": "coFloat"
+ },
+ "ams_filament_load_time_ams_lite": {
+  "label": "AMS Lite filament load time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament load time when printing with an AMS Lite. For statistics only",
+  "type": "coFloat"
+ },
+ "ams_filament_load_time_n3f_s": {
+  "label": "N3F/N3S filament load time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament load time when printing with an N3F or N3S. For statistics only",
+  "type": "coFloat"
+ },
+ "ams_filament_unload_time_ams": {
+  "label": "AMS filament unload time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament unload time when printing with an AMS. For statistics only",
+  "type": "coFloat"
+ },
+ "ams_filament_unload_time_ams_lite": {
+  "label": "AMS Lite filament unload time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament unload time when printing with an AMS Lite. For statistics only",
+  "type": "coFloat"
+ },
+ "ams_filament_unload_time_n3f_s": {
+  "label": "N3F/N3S filament unload time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Filament unload time when printing with an N3F or N3S. For statistics only",
+  "type": "coFloat"
+ },
+ "apply_scarf_seam_on_circles": {
+  "label": "Scarf Seam On Compensation Circles",
+  "mode": "comAdvanced",
+  "tooltip": "Scarf seam will be applied on circles for better dimensional accuracy.",
+  "type": "coBool"
+ },
+ "area_fill": {
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "arrange": {
+  "label": "Arrange Options",
+  "tooltip": "Arrange options: 0-disable, 1-enable, others-auto",
+  "type": "coInt"
+ },
+ "assemble": {
+  "label": "Assemble",
+  "tooltip": "Arrange the supplied models in a plate and merge them in a single model in order to perform actions once.",
+  "type": "coBool"
+ },
+ "autosave": {
+  "label": "Autosave",
+  "tooltip": "Automatically export current configuration to the specified file.",
+  "type": "coString"
+ },
+ "auxiliary_fan": {
+  "label": "Auxiliary part cooling fan",
+  "mode": "comDevelop",
+  "tooltip": "Enable this option if machine has auxiliary part cooling fan",
+  "type": "coBool"
+ },
+ "avoid_crossing_wall_includes_support": {
+  "category": "Quality",
+  "label": "Avoid crossing wall - Includes support",
+  "mode": "comAdvanced",
+  "tooltip": "Including support while avoiding crossing wall.",
+  "type": "coBool"
+ },
+ "avoid_extrusion_cali_region": {
+  "label": "Avoid extrusion calibrate region when doing arrange",
+  "tooltip": "If enabled, the arrange will avoid extrusion calibrate region when place object",
+  "type": "coBool"
+ },
+ "bed_custom_model": {
+  "label": "Bed custom model",
+  "mode": "comAdvanced",
+  "type": "coString"
+ },
+ "bed_custom_texture": {
+  "label": "Bed custom texture",
+  "mode": "comAdvanced",
+  "type": "coString"
+ },
+ "bed_exclude_area": {
+  "label": "Bed exclude area",
+  "mode": "comAdvanced",
+  "tooltip": "Unprintable area in XY plane. For example, X1 Series printers use the front left corner to cut filament during filament change. ",
+  "type": "coPoints"
+ },
+ "bed_heat_soak_area": {
+  "type": "coPoints"
+ },
+ "bed_temperature_formula": {
+  "enum": [
+   "by_first_filament",
+   "by_highest_temp"
+  ],
+  "enum_labels": [
+   "By First filament",
+   "By Highest Temp"
+  ],
+  "label": "Bed temperature type",
+  "mode": "comDevelop",
+  "tooltip": "This option determines how the bed temperature is set during slicing: based on the temperature of the first filament or the highest temperature of the printed filaments.",
+  "type": "coEnum"
+ },
+ "before_layer_change_gcode": {
+  "label": "Before layer change G-code",
+  "mode": "comDevelop",
+  "tooltip": "This G-code is inserted at every layer change before lifting z",
+  "type": "coString"
+ },
+ "best_object_pos": {
+  "label": "Best object position",
+  "mode": "comAdvanced",
+  "tooltip": "Best auto arranging position in range [0,1] w.r.t. bed shape.",
+  "type": "coPoint"
+ },
+ "bottle_cost": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "bottle_volume": {
+  "label": " ",
+  "min": 50.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "bottle_weight": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "bottom_color_penetration_layers": {
+  "category": "Strength",
+  "label": "Bottom paint penetration layers",
+  "min": 1.0,
+  "tooltip": "This is the number of layers of bottom paint penetration.",
+  "type": "coInt"
+ },
+ "bottom_shell_layers": {
+  "category": "Strength",
+  "full_label": "Bottom shell layers",
+  "label": "Bottom shell layers",
+  "min": 0.0,
+  "tooltip": "This is the number of solid layers of bottom shell, including the bottom ",
+  "type": "coInt"
+ },
+ "bottom_shell_thickness": {
+  "category": "Strength",
+  "full_label": "Bottom shell thickness",
+  "label": "Bottom shell thickness",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": "The number of bottom solid layers is increased when slicing if the thickness calculated by bottom shells layers is ",
+  "type": "coFloat"
+ },
+ "bottom_surface_density": {
+  "category": "Strength",
+  "label": "Bottom surface density",
+  "max": 100.0,
+  "min": 10.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Density of bottom surface infill, 100% means a fully solid filled top layer.",
+  "type": "coPercent"
+ },
+ "bottom_surface_pattern": {
+  "category": "Strength",
+  "label": "Bottom surface pattern",
+  "tooltip": "Line pattern of bottom surface infill, not bridge infill",
+  "type": "coEnum"
+ },
+ "bridge_angle": {
+  "category": "Strength",
+  "label": "Bridge direction",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Bridging angle override. If left to zero, the bridging angle will be calculated ",
+  "type": "coFloat"
+ },
+ "bridge_flow": {
+  "category": "Quality",
+  "label": "Bridge flow",
+  "max": 2.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "Decrease this value slightly(for example 0.9) to reduce the amount of material for bridge, ",
+  "type": "coFloat"
+ },
+ "bridge_no_support": {
+  "category": "Support",
+  "label": "Don't support bridges",
+  "mode": "comAdvanced",
+  "tooltip": "Don't support the whole bridge area which makes support very large. ",
+  "type": "coBool"
+ },
+ "bridge_speed": {
+  "category": "Speed",
+  "label": "Bridge",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of bridge and completely overhang wall",
+  "type": "coFloats"
+ },
+ "brim_object_gap": {
+  "category": "Support",
+  "label": "Brim-object gap",
+  "max": 2.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "A gap between innermost brim line and object can make brim be removed more easily",
+  "type": "coFloat"
+ },
+ "brim_type": {
+  "category": "Support",
+  "label": "Brim type",
+  "mode": "comSimple",
+  "tooltip": "This controls the generation of the brim at outer and/or inner side of models. ",
+  "type": "coEnum"
+ },
+ "brim_width": {
+  "category": "Support",
+  "label": "Brim width",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "Distance from model to the outermost brim line",
+  "type": "coFloat"
+ },
+ "camera_view": {
+  "label": "Camera view angle for exporting png",
+  "tooltip": "Camera view angle for exporting png: 0-Iso, 1-Top_Front, 2-Left, 3-Right, 10-Iso_1, 11-Iso_2, 12-Iso_3",
+  "type": "coInt"
+ },
+ "center": {
+  "label": "Center",
+  "tooltip": "Center the print around the given center.",
+  "type": "coPoint"
+ },
+ "chamber_temperatures": {
+  "full_label": "Chamber temperature",
+  "label": "Chamber temperature",
+  "max": 80.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Higher chamber temperature can help suppress or reduce warping and potentially lead to higher interlayer bonding strength for high temperature materials like ABS, ASA, PC, PA and so on.",
+  "type": "coInts"
+ },
+ "change_filament_gcode": {
+  "label": "Change filament G-code",
+  "mode": "comAdvanced",
+  "tooltip": "This gcode is inserted when change filament, including T command to trigger tool change",
+  "type": "coString"
+ },
+ "check_preset": {
+  "label": "Check preset compatibility",
+  "tooltip": "If enabled, check whether the externally loaded filament presets are compatible with the target printer",
+  "type": "coBool"
+ },
+ "circle_compensation_manual_offset": {
+  "label": "User Customized Offset",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "If you want to have tighter or looser assemble, you can set this value. When it is positive, it indicates tightening, otherwise, it indicates loosening",
+  "type": "coFloat"
+ },
+ "circle_compensation_speed": {
+  "label": "Circle Compensation Speed",
+  "min": 0.0,
+  "sidetext": "mm/s",
+  "tooltip": "circle_compensation_speed",
+  "type": "coFloats"
+ },
+ "clone_objects": {
+  "label": "Clone Objects",
+  "tooltip": "Clone objects in the load list",
+  "type": "coInts"
+ },
+ "close_additional_fan_first_x_layers": {
+  "label": "For the first",
+  "max": 100000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "layers",
+  "tooltip": "Set special auxiliary cooling fan for the first certain layers.",
+  "type": "coInts"
+ },
+ "close_fan_the_first_x_layers": {
+  "label": "For the first",
+  "max": 100000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "layers",
+  "tooltip": "Set special cooling fan for the first certain layers.The part cooling fan of the first layer used to be closed ",
+  "type": "coInts"
+ },
+ "compatible_machine_expression_group": {
+  "type": "coStrings"
+ },
+ "compatible_printers": {
+  "label": "Compatible machine",
+  "mode": "comDevelop",
+  "type": "coStrings"
+ },
+ "compatible_printers_condition": {
+  "label": "Compatible machine condition",
+  "mode": "comDevelop",
+  "tooltip": "A boolean expression using the configuration values of an active printer profile. ",
+  "type": "coString"
+ },
+ "compatible_prints": {
+  "label": "Compatible process profiles",
+  "mode": "comDevelop",
+  "type": "coStrings"
+ },
+ "compatible_prints_condition": {
+  "label": "Compatible process profiles condition",
+  "mode": "comDevelop",
+  "tooltip": "A boolean expression using the configuration values of an active print profile. ",
+  "type": "coString"
+ },
+ "compatible_process_expression_group": {
+  "type": "coStrings"
+ },
+ "complete_print_exhaust_fan_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Speed of exhuast fan after printing completes",
+  "type": "coInts"
+ },
+ "config_compatibility": {
+  "enum": [
+   "disable",
+   "enable",
+   "enable_silent"
+  ],
+  "enum_labels": [
+   "Bail out on unknown configuration values",
+   "Enable reading unknown configuration values by verbosely substituting them with defaults.",
+   "Enable reading unknown configuration values by silently substituting them with defaults."
+  ],
+  "label": "Forward-compatibility rule when loading configurations from config files and project files (3MF, AMF).",
+  "tooltip": "This version of BambuStudio may not understand configurations produced by the newest BambuStudio versions. ",
+  "type": "coEnum"
+ },
+ "convert_unit": {
+  "label": "Convert Unit",
+  "tooltip": "Convert the units of model",
+  "type": "coBool"
+ },
+ "cool_plate_temp": {
+  "full_label": "Bed temperature",
+  "label": "Other layers",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature for layers except the initial one. ",
+  "type": "coInts"
+ },
+ "cool_plate_temp_initial_layer": {
+  "full_label": "Initial layer bed temperature",
+  "label": "Initial layer",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature of the initial layer. ",
+  "type": "coInts"
+ },
+ "cooling_filter_enabled": {
+  "label": "Use cooling filter",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this if printer support cooling filter",
+  "type": "coBool"
+ },
+ "cooling_perimeter_transition_distance": {
+  "label": "Perimeter transition distance",
+  "max": 50.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Distance in millimeters before the end of slowed perimeters where the original ",
+  "type": "coFloats"
+ },
+ "cooling_slowdown_logic": {
+  "enum": [
+   "uniform_cooling",
+   "consistent_surface"
+  ],
+  "enum_labels": [
+   "Uniform cooling",
+   "Consistent surface"
+  ],
+  "label": "Cooling slowdown logic",
+  "mode": "comDevelop",
+  "tooltip": "Determines how the printer slows down when minimum layer time isn't reached.\n\n",
+  "type": "coEnums"
+ },
+ "copy": {
+  "label": "Copy",
+  "min": 1.0,
+  "tooltip": "Duplicate copies of model",
+  "type": "coInt"
+ },
+ "counter_coef_1": {
+  "label": "Counter Coef 1",
+  "tooltip": "counter_coef_1",
+  "type": "coFloats"
+ },
+ "counter_coef_2": {
+  "label": "Contour Coef 2",
+  "tooltip": "counter_coef_2",
+  "type": "coFloats"
+ },
+ "counter_coef_3": {
+  "label": "Contour Coef 3",
+  "sidetext": "mm",
+  "tooltip": "counter_coef_3",
+  "type": "coFloats"
+ },
+ "counter_limit_max": {
+  "label": "Contour limit max",
+  "sidetext": "mm",
+  "tooltip": "counter_limit_max",
+  "type": "coFloats"
+ },
+ "counter_limit_min": {
+  "label": "Contour limit min",
+  "sidetext": "mm",
+  "tooltip": "counter_limit_min",
+  "type": "coFloats"
+ },
+ "counterbore_hole_bridging": {
+  "category": "Quality",
+  "label": "Bridge counterbore holes",
+  "mode": "comAdvanced",
+  "tooltip": "This option creates bridges for counterbore holes, allowing them to be printed without support. Available modes include:\n",
+  "type": "coEnum"
+ },
+ "curr_bed_type": {
+  "label": "Bed type",
+  "mode": "comSimple",
+  "tooltip": "Bed types supported by the printer",
+  "type": "coEnum"
+ },
+ "cut": {
+  "label": "Cut",
+  "tooltip": "Cut model at the given Z.",
+  "type": "coFloat"
+ },
+ "cut_grid": {
+  "label": "Cut",
+  "tooltip": "Cut model in the XY plane into tiles of the specified max size.",
+  "type": "coFloat"
+ },
+ "cut_x": {
+  "label": "Cut",
+  "tooltip": "Cut model at the given X.",
+  "type": "coFloat"
+ },
+ "cut_y": {
+  "label": "Cut",
+  "tooltip": "Cut model at the given Y.",
+  "type": "coFloat"
+ },
+ "datadir": {
+  "label": "Configuration data directory",
+  "tooltip": "Use and store all program settings at the given directory instead of the default location.",
+  "type": "coString"
+ },
+ "debug": {
+  "label": "Debug level",
+  "min": 0.0,
+  "tooltip": "Sets debug logging level. 0:fatal, 1:error, 2:warning, 3:info, 4:debug, 5:trace\n",
+  "type": "coInt"
+ },
+ "default_acceleration": {
+  "label": "Normal printing",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "The default acceleration of both normal printing and travel except initial layer",
+  "type": "coFloats"
+ },
+ "default_ams_type": {
+  "label": "Default AMS type",
+  "mode": "comAdvanced",
+  "tooltip": "The default AMS type used to estimate filament load/unload time, stored as the AMS timing type enum value. It comes from the printer preset and does not reflect the AMS currently attached to the machine.",
+  "type": "coInt"
+ },
+ "default_filament_colour": {
+  "label": "Default color",
+  "mode": "comAdvanced",
+  "tooltip": "Default filament color",
+  "type": "coStrings"
+ },
+ "default_filament_profile": {
+  "label": "Default filament profile",
+  "tooltip": "Default filament profile when switch to this machine profile",
+  "type": "coStrings"
+ },
+ "default_jerk": {
+  "label": "Default",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Default jerk",
+  "type": "coFloat"
+ },
+ "default_nozzle_volume_type": {
+  "label": "Default Nozzle Volume Type",
+  "mode": "comDevelop",
+  "type": "coEnums"
+ },
+ "default_print_profile": {
+  "label": "Default process profile",
+  "tooltip": "Default process profile when switch to this machine profile",
+  "type": "coString"
+ },
+ "default_sla_material_profile": {
+  "label": " ",
+  "tooltip": " ",
+  "type": "coString"
+ },
+ "default_sla_print_profile": {
+  "label": " ",
+  "tooltip": " ",
+  "type": "coString"
+ },
+ "deretraction_speed": {
+  "full_label": "Deretraction Speed",
+  "label": "Deretraction Speed",
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed for reloading filament into extruder. Zero means the same speed as retraction",
+  "type": "coFloats"
+ },
+ "detect_floating_vertical_shell": {
+  "label": "Detect floating vertical shells",
+  "mode": "comAdvanced",
+  "tooltip": "Detect overhang paths in vertical shells and slow them by bridge speed.",
+  "type": "coBool"
+ },
+ "detect_narrow_internal_solid_infill": {
+  "category": "Strength",
+  "label": "Detect narrow internal solid infill",
+  "mode": "comAdvanced",
+  "tooltip": "This option will auto detect narrow internal solid infill area.",
+  "type": "coBool"
+ },
+ "detect_overhang_wall": {
+  "category": "Quality",
+  "label": "Detect overhang wall",
+  "mode": "comDevelop",
+  "tooltip": "Detect the overhang percentage relative to line width and use different speed to print. ",
+  "type": "coBool"
+ },
+ "detect_thin_wall": {
+  "category": "Strength",
+  "label": "Detect thin wall",
+  "mode": "comAdvanced",
+  "tooltip": "Detect thin wall which can't contain two line width. And use single line to print. ",
+  "type": "coBool"
+ },
+ "diameter_limit": {
+  "label": "Diameter limit",
+  "sidetext": "mm",
+  "tooltip": "diameter_limit",
+  "type": "coFloats"
+ },
+ "different_settings_to_system": {
+  "type": "coStrings"
+ },
+ "display_height": {
+  "label": " ",
+  "min": 1.0,
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "display_mirror_x": {
+  "full_label": " ",
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "display_mirror_y": {
+  "full_label": " ",
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "display_orientation": {
+  "enum": [
+   "landscape",
+   "portrait"
+  ],
+  "enum_labels": [
+   " ",
+   " "
+  ],
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coEnum"
+ },
+ "display_pixels_x": {
+  "full_label": " ",
+  "min": 100.0,
+  "tooltip": " ",
+  "type": "coInt"
+ },
+ "display_pixels_y": {
+  "min": 100.0,
+  "tooltip": " ",
+  "type": "coInt"
+ },
+ "display_width": {
+  "label": " ",
+  "min": 1.0,
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "downward_check": {
+  "label": "downward machines check",
+  "tooltip": "if enabled, check whether current machine downward compatible with the machines in the list",
+  "type": "coBool"
+ },
+ "downward_settings": {
+  "label": "downward machines settings",
+  "tooltip": "the machine settings list need to do downward checking",
+  "type": "coStrings"
+ },
+ "draft_shield": {
+  "enum": [
+   "disabled",
+   "limited",
+   "enabled"
+  ],
+  "enum_labels": [
+   "Disabled",
+   "Limited",
+   "Enabled"
+  ],
+  "label": "Draft shield",
+  "mode": "comDevelop",
+  "tooltip": "With draft shield active, the skirt will be printed skirt_distance from the object, possibly intersecting brim.\n",
+  "type": "coEnum"
+ },
+ "duplicate_grid": {
+  "label": "Duplicate by grid",
+  "tooltip": "Multiply copies by creating a grid.",
+  "type": "coPoint"
+ },
+ "during_print_exhaust_fan_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Speed of exhaust fan during printing.This speed will overwrite the speed in filament custom gcode",
+  "type": "coInts"
+ },
+ "elefant_foot_compensation": {
+  "category": "Quality",
+  "label": "Elephant foot compensation",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Shrink the initial layer on build plate to compensate for elephant foot effect",
+  "type": "coFloat"
+ },
+ "elefant_foot_min_width": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "embedding_wall_into_infill": {
+  "category": "Strength",
+  "label": "Embedding the wall into the infill",
+  "tooltip": "Embedding the wall into parts where the wall loops are absent ensures that the wall connects seamlessly to the infill.",
+  "type": "coBool"
+ },
+ "enable_arc_fitting": {
+  "label": "Arc fitting",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this to get a G-code file which has G2 and G3 moves. ",
+  "type": "coBool"
+ },
+ "enable_circle_compensation": {
+  "label": "Auto circle contour-hole compensation",
+  "mode": "comAdvanced",
+  "tooltip": "Expirment feature to compensate the circle holes and circle contour. ",
+  "type": "coBool"
+ },
+ "enable_filament_dynamic_map": {
+  "label": "Enable filament dynamic map",
+  "tooltip": "Support filament map to different nozzle",
+  "type": "coBool"
+ },
+ "enable_height_slowdown": {
+  "category": "Speed",
+  "label": "Slow down by height",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this option to slow printing down by height",
+  "type": "coBools"
+ },
+ "enable_long_retraction_when_cut": {
+  "mode": "comDevelop",
+  "type": "coInt"
+ },
+ "enable_mixed_color_sublayer": {
+  "category": "Quality",
+  "label": "Mixed color sublayer",
+  "mode": "comSimple",
+  "tooltip": "Enable mixed color sublayer splitting. When enabled, layers containing mixed color ",
+  "type": "coBool"
+ },
+ "enable_order_independent_overlap_carving": {
+  "label": "Order-independent overlap carving",
+  "mode": "comDevelop",
+  "tooltip": "When enabled, overlapping model parts are carved by bounding-box size so smaller embedded parts are not removed by larger parts due to volume order.",
+  "type": "coBool"
+ },
+ "enable_overhang_bridge_fan": {
+  "label": "Force cooling for overhang and bridge",
+  "mode": "comSimple",
+  "tooltip": "Enable this option to optimize part cooling fan speed for overhang and bridge to get better cooling",
+  "type": "coBools"
+ },
+ "enable_overhang_speed": {
+  "category": "Speed",
+  "label": "Slow down for overhang",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this option to slow printing down for different overhang degree",
+  "type": "coBools"
+ },
+ "enable_pre_heating": {
+  "type": "coBool"
+ },
+ "enable_pressure_advance": {
+  "label": "Enable pressure advance",
+  "tooltip": "Enable pressure advance, auto calibration result will be overwritten once enabled. Useless for Bambu Printer",
+  "type": "coBools"
+ },
+ "enable_prime_tower": {
+  "label": "Enable",
+  "mode": "comSimple",
+  "tooltip": "The wiping tower can be used to clean up the residue on the nozzle and stabilize the chamber pressure inside the nozzle, ",
+  "type": "coBool"
+ },
+ "enable_support": {
+  "category": "Support",
+  "label": "Enable support",
+  "tooltip": "Enable support generation.",
+  "type": "coBool"
+ },
+ "enable_support_ironing": {
+  "category": "Support",
+  "label": "Enable ironing support interface",
+  "mode": "comDevelop",
+  "tooltip": "Ironing is using small flow to print on same height of surface again to make flat surface more smooth. ",
+  "type": "coBool"
+ },
+ "enable_timelapse": {
+  "label": "Enable timeplapse for print",
+  "tooltip": "If enabled, this slicing will be considered using timelapse",
+  "type": "coBool"
+ },
+ "enable_tower_interface_features": {
+  "label": "Enable tower interface features",
+  "mode": "comDevelop",
+  "tooltip": "When enabled, use dedicated temperature, pre-extrusion and purge settings for prime tower interface layers (where different materials meet), to improve multi-material tool change quality.",
+  "type": "coBool"
+ },
+ "enable_wrapping_detection": {
+  "label": "Enable clumping detection",
+  "mode": "comAdvanced",
+  "tooltip": "Enable clumping detection",
+  "type": "coBool"
+ },
+ "enforce_support_layers": {
+  "category": "Support",
+  "full_label": "Enforce support for the first n layers",
+  "label": "Enforce support for the first",
+  "max": 5000.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "layers",
+  "tooltip": "Generate support material for the specified number of layers counting from bottom, ",
+  "type": "coInt"
+ },
+ "eng_plate_temp": {
+  "full_label": "Bed temperature",
+  "label": "Other layers",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature for layers except the initial one. ",
+  "type": "coInts"
+ },
+ "eng_plate_temp_initial_layer": {
+  "full_label": "Initial layer bed temperature",
+  "label": "Initial layer",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature of the initial layer. ",
+  "type": "coInts"
+ },
+ "ensure_on_bed": {
+  "label": "Ensure on bed",
+  "tooltip": "Lift the object above the bed when it is partially below. Disabled by default",
+  "type": "coBool"
+ },
+ "ensure_vertical_shell_thickness": {
+  "category": "Strength",
+  "enum": [
+   "disabled",
+   "partial",
+   "enabled"
+  ],
+  "enum_labels": [
+   "Disabled",
+   "Partial",
+   "Enabled"
+  ],
+  "label": "Ensure vertical shell thickness",
+  "mode": "comAdvanced",
+  "tooltip": "Add solid infill near sloping surfaces to guarantee the vertical shell thickness ",
+  "type": "coEnum"
+ },
+ "estimate_mode": {
+  "label": "Estimate mode",
+  "tooltip": "When enabled, automatically fill filament presets and extruder state for machine estimation after machine switch",
+  "type": "coBool"
+ },
+ "exclude_object": {
+  "label": "Exclude objects",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this option to add EXCLUDE OBJECT command in g-code for klipper firmware printer",
+  "type": "coBool"
+ },
+ "export_3mf": {
+  "label": "Export 3MF",
+  "tooltip": "Export project as 3MF.",
+  "type": "coString"
+ },
+ "export_amf": {
+  "label": "Export AMF",
+  "tooltip": "Export the model(s) as AMF.",
+  "type": "coBool"
+ },
+ "export_gcode": {
+  "label": "Export G-code",
+  "tooltip": "Slice the model and export toolpaths as G-code.",
+  "type": "coBool"
+ },
+ "export_obj": {
+  "label": "Export OBJ",
+  "tooltip": "Export the model(s) as OBJ.",
+  "type": "coBool"
+ },
+ "export_png": {
+  "label": "Export png of plate",
+  "tooltip": "Export png of plate: 0-all plates, i-plate i, others-invalid",
+  "type": "coInt"
+ },
+ "export_settings": {
+  "label": "Export Settings",
+  "tooltip": "Export settings to a file.",
+  "type": "coString"
+ },
+ "export_sla": {
+  "label": "Export SLA",
+  "tooltip": "Slice the model and export SLA printing layers as PNG.",
+  "type": "coBool"
+ },
+ "export_slicedata": {
+  "label": "Export slicing data",
+  "tooltip": "Export slicing data to a folder.",
+  "type": "coString"
+ },
+ "export_stl": {
+  "label": "Export STL",
+  "tooltip": "Export the objects as single STL.",
+  "type": "coBool"
+ },
+ "export_stls": {
+  "label": "Export multiple stls",
+  "tooltip": "Export the objects as multiple stls to directory",
+  "type": "coString"
+ },
+ "export_svg": {
+  "label": "Export SVG",
+  "tooltip": "Slice the model and export solid slices as SVG.",
+  "type": "coBool"
+ },
+ "exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "extruder": {
+  "category": "Extruders",
+  "label": "Extruder",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "The extruder to use (unless more specific extruder settings are specified). ",
+  "type": "coInt"
+ },
+ "extruder_ams_count": {
+  "label": "Extruder ams count",
+  "tooltip": "Ams counts of per extruder",
+  "type": "coStrings"
+ },
+ "extruder_clearance_dist_to_rod": {
+  "label": "Distance to rod",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Horizontal distance of the nozzle tip to the rod's farther edge. Used for collision avoidance in by-object printing.",
+  "type": "coFloat"
+ },
+ "extruder_clearance_height_to_lid": {
+  "label": "Height to lid",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Distance of the nozzle tip to the lid. ",
+  "type": "coFloat"
+ },
+ "extruder_clearance_height_to_rod": {
+  "label": "Height to rod",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Distance of the nozzle tip to the lower rod. ",
+  "type": "coFloat"
+ },
+ "extruder_clearance_max_radius": {
+  "label": "Max Radius",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Max clearance radius around extruder. Used for collision avoidance in by-object printing.",
+  "type": "coFloat"
+ },
+ "extruder_colour": {
+  "label": "Extruder Color",
+  "mode": "comDevelop",
+  "tooltip": "Only used as a visual help on UI",
+  "type": "coStrings"
+ },
+ "extruder_max_nozzle_count": {
+  "mode": "comDevelop",
+  "type": "coInts"
+ },
+ "extruder_nozzle_count": {
+  "label": "extruder nozzle count",
+  "mode": "comDevelop",
+  "tooltip": "extruder nozzle count",
+  "type": "coInts"
+ },
+ "extruder_nozzle_stats": {
+  "type": "coStrings"
+ },
+ "extruder_nozzle_stats_new": {
+  "type": "coStrings"
+ },
+ "extruder_nozzle_volume_type": {
+  "label": "extruder nozzle volume type",
+  "mode": "comDevelop",
+  "tooltip": "extruder nozzle volume type",
+  "type": "coEnums"
+ },
+ "extruder_offset": {
+  "label": "Extruder offset",
+  "max": 5.0,
+  "min": -5.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "If your firmware doesn't handle the extruder displacement you need the G-code ",
+  "type": "coPoints"
+ },
+ "extruder_printable_area": {
+  "label": "Extruder printable area",
+  "mode": "comAdvanced",
+  "type": "coPointsGroups"
+ },
+ "extruder_printable_height": {
+  "label": "Extruder printable height",
+  "max": 1000.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Maximum printable height of this extruder which is limited by mechanism of printer",
+  "type": "coFloats"
+ },
+ "extruder_type": {
+  "enum": [
+   "Direct Drive",
+   "Bowden"
+  ],
+  "enum_labels": [
+   "Direct Drive",
+   "Bowden"
+  ],
+  "label": "Type",
+  "mode": "comAdvanced",
+  "type": "coEnums"
+ },
+ "extruder_variant_list": {
+  "label": "Extruder variant list",
+  "tooltip": "Extruder variant list",
+  "type": "coStrings"
+ },
+ "faded_layers": {
+  "label": " ",
+  "max": 20.0,
+  "min": 3.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coInt"
+ },
+ "fan_cooling_layer_time": {
+  "label": "Layer time",
+  "max": 1000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "s",
+  "tooltip": "Part cooling fan will be enabled for layers of which estimated time is shorter than this value. ",
+  "type": "coInts"
+ },
+ "fan_direction": {
+  "enum": [
+   "undefine",
+   "left",
+   "right",
+   "both"
+  ],
+  "enum_labels": [
+   "Undefine",
+   "Left",
+   "Right",
+   "Both"
+  ],
+  "label": "Fan direction",
+  "mode": "comDevelop",
+  "tooltip": "Cooling fan direction of the printer",
+  "type": "coEnum"
+ },
+ "fan_max_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Part cooling fan speed may be increased when auto cooling is enabled. ",
+  "type": "coInts"
+ },
+ "fan_min_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Minimum speed for part cooling fan",
+  "type": "coInts"
+ },
+ "farthest_point_timelapse": {
+  "label": "Farthest point timelapse",
+  "mode": "comSimple",
+  "tooltip": "When enabled, the timelapse snapshot is taken at the farthest point from camera ",
+  "type": "coBool"
+ },
+ "fast_tilt_time": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "filament_adaptive_volumetric_speed": {
+  "label": "Adaptive volumetric speed",
+  "mode": "comAdvanced",
+  "tooltip": "When enabled, the extrusion flow is limited by the smaller of ",
+  "type": "coBools"
+ },
+ "filament_adhesiveness_category": {
+  "label": "Adhesiveness Category",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "Filament category",
+  "type": "coInts"
+ },
+ "filament_change_length": {
+  "label": "Extruder change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "When changing the extruder, it is recommended to extrude a certain length of filament from the original extruder. This helps minimize nozzle oozing.",
+  "type": "coFloats"
+ },
+ "filament_change_length_nc": {
+  "label": "Hotend change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "When changing the hotend, it is recommended to extrude a certain length of filament from the original nozzle. This helps minimize nozzle oozing.",
+  "type": "coFloats"
+ },
+ "filament_colour": {
+  "label": "Color",
+  "mode": "comDevelop",
+  "tooltip": "Only used as a visual help on UI",
+  "type": "coStrings"
+ },
+ "filament_colour_type": {
+  "type": "coStrings"
+ },
+ "filament_cooling_before_tower": {
+  "label": "Wipe tower cooling",
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Temperature drop before entering filament tower",
+  "type": "coFloats"
+ },
+ "filament_cost": {
+  "label": "Price",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "money/kg",
+  "tooltip": "Filament price. For statistics only",
+  "type": "coFloats"
+ },
+ "filament_density": {
+  "label": "Density",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "g/cm\u00c2\u00b3",
+  "tooltip": "Filament density. For statistics only",
+  "type": "coFloats"
+ },
+ "filament_dev_ams_drying_ams_limitations": {
+  "type": "coStrings"
+ },
+ "filament_dev_ams_drying_heat_distortion_temperature": {
+  "type": "coFloats"
+ },
+ "filament_dev_ams_drying_temperature": {
+  "type": "coFloats"
+ },
+ "filament_dev_ams_drying_time": {
+  "type": "coFloats"
+ },
+ "filament_dev_chamber_drying_bed_temperature": {
+  "type": "coFloats"
+ },
+ "filament_dev_chamber_drying_time": {
+  "type": "coFloats"
+ },
+ "filament_dev_drying_cooling_temperature": {
+  "mode": "comSimple",
+  "type": "coFloats"
+ },
+ "filament_dev_drying_softening_temperature": {
+  "type": "coFloats"
+ },
+ "filament_diameter": {
+  "label": "Diameter",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": "Filament diameter is used to calculate extrusion in gcode, so it's important and should be accurate",
+  "type": "coFloats"
+ },
+ "filament_end_gcode": {
+  "label": "End G-code",
+  "mode": "comAdvanced",
+  "tooltip": "End G-code when finish the printing of this filament",
+  "type": "coStrings"
+ },
+ "filament_extruder_compatibility": {
+  "label": "Filament-extruder compatibility",
+  "mode": "comDevelop",
+  "tooltip": "A single 32-bit int encoding the compatibility level of a filament across all extruders (up to 10). ",
+  "type": "coInts"
+ },
+ "filament_extruder_id": {
+  "label": "Filament extruder id",
+  "tooltip": "Filament extruder id",
+  "type": "coInts"
+ },
+ "filament_extruder_variant": {
+  "label": "Filament's extruder variant",
+  "tooltip": "Filament's extruder variant",
+  "type": "coStrings"
+ },
+ "filament_flow_ratio": {
+  "label": "Flow ratio",
+  "max": 2.0,
+  "mode": "comAdvanced",
+  "tooltip": "The material may have volumetric change after switching between molten state and crystalline state. ",
+  "type": "coFloats"
+ },
+ "filament_flush_temp": {
+  "label": "Flush temperature",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "temperature when flushing filament. 0 indicates the upper bound of the recommended nozzle temperature range",
+  "type": "coInts"
+ },
+ "filament_flush_temp_fast": {
+  "label": "Flush temperature",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Flush temperature used in fast purge mode.",
+  "type": "coInts"
+ },
+ "filament_flush_volumetric_speed": {
+  "label": "Flush volumetric speed",
+  "max": 200.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s",
+  "tooltip": "Volumetric speed when flushing filament. 0 indicates the max volumetric speed",
+  "type": "coFloats"
+ },
+ "filament_ids": {
+  "type": "coStrings"
+ },
+ "filament_is_mixed": {
+  "label": "Is mixed filament",
+  "mode": "comDevelop",
+  "tooltip": "Whether this filament slot is a mixed filament composed of multiple physical filaments",
+  "type": "coBools"
+ },
+ "filament_is_support": {
+  "label": "Support material",
+  "mode": "comDevelop",
+  "tooltip": "Support material is commonly used to print support and support interface",
+  "type": "coBools"
+ },
+ "filament_map": {
+  "label": "Filament map to extruder",
+  "mode": "comDevelop",
+  "tooltip": "Filament map to extruder",
+  "type": "coInts"
+ },
+ "filament_map_2": {
+  "label": "Filament map plus for multi nozzle",
+  "mode": "comDevelop",
+  "tooltip": "Filament map to the index identified by extruder and nozzle_volume_type",
+  "type": "coInts"
+ },
+ "filament_map_mode": {
+  "enum": [
+   "Auto For Flush",
+   "Auto For Match",
+   "Manual",
+   "Nozzle Manual",
+   "Default"
+  ],
+  "enum_labels": [
+   "Auto For Flush",
+   "Auto For Match",
+   "Manual",
+   "Default",
+   "Nozzle Manual"
+  ],
+  "label": "filament mapping mode",
+  "mode": "comAdvanced",
+  "type": "coEnum"
+ },
+ "filament_max_volumetric_speed": {
+  "label": "Max volumetric speed",
+  "max": 200.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s",
+  "tooltip": "This setting stands for how much volume of filament can be melted and extruded per second. ",
+  "type": "coFloats"
+ },
+ "filament_metal_stickiness": {
+  "enum": [
+   "None",
+   "Low",
+   "Medium",
+   "High"
+  ],
+  "enum_labels": [
+   "None",
+   "Low",
+   "Medium",
+   "High"
+  ],
+  "label": "Metal stickiness",
+  "mode": "comAdvanced",
+  "tooltip": "Indicates how strongly the filament tends to stick to the metal nozzle and leave residue. ",
+  "type": "coEnums"
+ },
+ "filament_minimal_purge_on_wipe_tower": {
+  "label": "Minimal purge on wipe tower",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm\u00c2\u00b3",
+  "tooltip": "After a tool change, the exact position of the newly loaded filament inside ",
+  "type": "coFloats"
+ },
+ "filament_mixed_components": {
+  "label": "Mixed filament components",
+  "mode": "comDevelop",
+  "tooltip": "Comma-separated 1-based indices of component filaments, e.g. \"1,3\"",
+  "type": "coStrings"
+ },
+ "filament_mixed_gradient": {
+  "label": "Mixed filament gradient",
+  "mode": "comDevelop",
+  "tooltip": "Enable Z-direction gradient mode for mixed filament sub-layers. ",
+  "type": "coBools"
+ },
+ "filament_mixed_gradient_curve": {
+  "label": "Mixed filament gradient curve",
+  "mode": "comDevelop",
+  "tooltip": "Optional Photoshop-style custom curve mapping Z progress to the first ",
+  "type": "coStrings"
+ },
+ "filament_mixed_gradient_per_part": {
+  "label": "Mixed filament per-part gradient",
+  "mode": "comDevelop",
+  "tooltip": "When gradient mode is enabled, apply the gradient to each part of an ",
+  "type": "coBools"
+ },
+ "filament_mixed_gradient_range": {
+  "label": "Mixed filament gradient range",
+  "mode": "comDevelop",
+  "tooltip": "Start and end ratios for the first component in gradient mode. ",
+  "type": "coStrings"
+ },
+ "filament_mixed_sublayer_ratios": {
+  "label": "Mixed filament sublayer ratios",
+  "mode": "comDevelop",
+  "tooltip": "Comma-separated ratio values summing to 1.0, e.g. \"0.7,0.3\"",
+  "type": "coStrings"
+ },
+ "filament_multi_colour": {
+  "type": "coStrings"
+ },
+ "filament_notes": {
+  "label": "Filament notes",
+  "mode": "comAdvanced",
+  "tooltip": "You can put your notes regarding the filament here.",
+  "type": "coString"
+ },
+ "filament_nozzle_map": {
+  "mode": "comDevelop",
+  "type": "coInts"
+ },
+ "filament_pre_cooling_temperature": {
+  "enum": [
+   "-1"
+  ],
+  "enum_labels": [
+   "None"
+  ],
+  "label": "Extruder change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "To prevent oozing, the nozzle temperature will be cooled during ramming. Therefore, the ramming time must be greater than the cooldown time. 0 means disabled.",
+  "type": "coInts"
+ },
+ "filament_pre_cooling_temperature_nc": {
+  "label": "Hotend change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "To prevent oozing, the nozzle temperature will be cooled during ramming. Note: only a cooldown command and fan activation are triggered, reaching the target temperature is not guaranteed. 0 means disabled.",
+  "type": "coInts"
+ },
+ "filament_preheat_temperature_delta": {
+  "label": "Preheat temperature delta",
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Temperature delta applied during pre-heating before tool change.",
+  "type": "coFloats"
+ },
+ "filament_prime_volume": {
+  "label": "Filament change",
+  "min": 1.0,
+  "mode": "comSimple",
+  "sidetext": "mm\u00c2\u00b3",
+  "tooltip": "The volume of material to prime extruder on tower.",
+  "type": "coFloats"
+ },
+ "filament_prime_volume_nc": {
+  "label": "Hotend change",
+  "min": 1.0,
+  "mode": "comSimple",
+  "sidetext": "mm\u00c2\u00b3",
+  "tooltip": "The volume of material required to prime the extruder for a hotend change on the tower.",
+  "type": "coFloats"
+ },
+ "filament_printable": {
+  "label": "Filament printable",
+  "mode": "comDevelop",
+  "tooltip": "The filament is printable in extruder",
+  "type": "coInts"
+ },
+ "filament_ramming_travel_time": {
+  "label": "Extruder change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "To prevent oozing, the nozzle will perform a reverse travel movement for a certain period after ",
+  "type": "coFloats"
+ },
+ "filament_ramming_travel_time_nc": {
+  "label": "Hotend change",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "To prevent oozing, the nozzle will perform a reverse travel movement for a certain period after ",
+  "type": "coFloats"
+ },
+ "filament_ramming_volumetric_speed": {
+  "label": "Extruder change",
+  "max": 200.0,
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s",
+  "tooltip": "The maximum volumetric speed for ramming before extruder change, where -1 means using the maximum volumetric speed.",
+  "type": "coFloats"
+ },
+ "filament_ramming_volumetric_speed_nc": {
+  "label": "Hotend change",
+  "max": 200.0,
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s",
+  "tooltip": "The maximum volumetric speed for ramming before a hotend change, where -1 means using the maximum volumetric speed.",
+  "type": "coFloats"
+ },
+ "filament_retract_length_nc": {
+  "label": "length when change hotend",
+  "max": 18.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "When this retraction value is modified, it will be used as the amount of filament retracted ",
+  "type": "coFloats"
+ },
+ "filament_scarf_gap": {
+  "label": "Scarf slope gap",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/%",
+  "tooltip": "In order to reduce the visiblity of the seam in closed loop, the inner wall and outer wall are shortened by a specified amount.",
+  "type": "coFloatsOrPercents"
+ },
+ "filament_scarf_height": {
+  "label": "Scarf start height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/%",
+  "tooltip": "This amount can be specified in millimeters or as a percentage of the current layer height.",
+  "type": "coFloatsOrPercents"
+ },
+ "filament_scarf_length": {
+  "label": "Scarf length",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Length of the scarf. Setting this parameter to zero effectively disables the scarf.",
+  "type": "coFloats"
+ },
+ "filament_scarf_seam_type": {
+  "enum": [
+   "none",
+   "external",
+   "all"
+  ],
+  "enum_labels": [
+   "None",
+   "Contour",
+   "Contour and hole"
+  ],
+  "label": "Scarf seam type",
+  "mode": "comAdvanced",
+  "tooltip": "Set scarf seam type for this filament. This setting could minimize seam visibiliy.",
+  "type": "coEnums"
+ },
+ "filament_self_index": {
+  "label": "Filament self index",
+  "tooltip": "Filament self index",
+  "type": "coInts"
+ },
+ "filament_settings_id": {
+  "type": "coStrings"
+ },
+ "filament_shrink": {
+  "label": "Shrinkage",
+  "min": 10.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Enter the shrinkage percentage that the filament will get after cooling (94% if you measure 94mm instead of 100mm).",
+  "type": "coPercents"
+ },
+ "filament_soluble": {
+  "label": "Soluble material",
+  "mode": "comDevelop",
+  "tooltip": "Soluble material is commonly used to print support and support interface",
+  "type": "coBools"
+ },
+ "filament_start_gcode": {
+  "label": "Start G-code",
+  "mode": "comAdvanced",
+  "tooltip": "Start G-code when start the printing of this filament",
+  "type": "coStrings"
+ },
+ "filament_tower_interface_pre_extrusion_dist": {
+  "label": "Interface layer pre-extrusion distance",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Pre-extrusion distance for prime tower interface layer (where different materials meet).",
+  "type": "coFloats"
+ },
+ "filament_tower_interface_pre_extrusion_length": {
+  "label": "Interface layer pre-extrusion length",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Pre-extrusion length for prime tower interface layer (where different materials meet).",
+  "type": "coFloats"
+ },
+ "filament_tower_interface_print_temp": {
+  "label": "Interface layer print temperature",
+  "min": -1.0,
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Print temperature for prime tower interface layer (where different materials meet). If set to -1, use max recommended nozzle temperature.",
+  "type": "coInts"
+ },
+ "filament_tower_interface_purge_volume": {
+  "label": "Interface layer purge length",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Purge length for prime tower interface layer (where different materials meet).",
+  "type": "coFloats"
+ },
+ "filament_tower_ironing_area": {
+  "label": "Tower ironing area",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm\u00c2\u00b2",
+  "tooltip": "Ironing area for prime tower interface layer (where different materials meet).",
+  "type": "coFloats"
+ },
+ "filament_type": {
+  "enum": [
+   "PLA",
+   "ABS",
+   "ASA",
+   "ASA-CF",
+   "PETG",
+   "PCTG",
+   "TPU",
+   "TPU-AMS",
+   "PC",
+   "PA",
+   "PA-CF",
+   "PA-GF",
+   "PA6-CF",
+   "PLA-CF",
+   "PET-CF",
+   "PETG-CF",
+   "PVA",
+   "HIPS",
+   "PLA-AERO",
+   "PPS",
+   "PPS-CF",
+   "PPA-CF",
+   "PPA-GF",
+   "ABS-GF",
+   "ASA-AERO",
+   "PE",
+   "PP",
+   "EVA",
+   "PHA",
+   "BVOH",
+   "PE-CF",
+   "PP-CF",
+   "PP-GF"
+  ],
+  "label": "Type",
+  "mode": "comSimple",
+  "tooltip": "The material type of filament",
+  "type": "coStrings"
+ },
+ "filament_velocity_adaptation_factor": {
+  "label": "Velocity Adaptation Factor",
+  "min": 0.0,
+  "tooltip": "This parameter reflects the speed at which a material transitions from one state to another. ",
+  "type": "coFloats"
+ },
+ "filament_vendor": {
+  "label": "Vendor",
+  "mode": "comAdvanced",
+  "tooltip": "Vendor of filament. For show only",
+  "type": "coStrings"
+ },
+ "filament_volume_map": {
+  "mode": "comDevelop",
+  "type": "coInts"
+ },
+ "filename_format": {
+  "label": "Filename format",
+  "mode": "comDevelop",
+  "tooltip": "User can self-define the project file name when export",
+  "type": "coString"
+ },
+ "fill_multiline": {
+  "category": "Strength",
+  "label": "Fill multiline",
+  "max": 5.0,
+  "min": 1.0,
+  "tooltip": "Using multiple lines for the infill pattern, if supported by infill pattern.",
+  "type": "coInt"
+ },
+ "filter_out_gap_fill": {
+  "label": "Filter out tiny gaps",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Filter out gaps smaller than the threshold specified. Gaps smaller than this threshold will be ignored",
+  "type": "coFloat"
+ },
+ "first_layer_print_sequence": {
+  "label": "First layer print sequence",
+  "max": 16.0,
+  "min": 0.0,
+  "type": "coInts"
+ },
+ "first_layer_sequence_choice": {
+  "category": "Quality",
+  "enum": [
+   "Auto",
+   "Customize"
+  ],
+  "enum_labels": [
+   "Auto",
+   "Customize"
+  ],
+  "label": "First layer filament sequence",
+  "mode": "comSimple",
+  "type": "coEnum"
+ },
+ "first_x_layer_fan_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "sidetext": "%",
+  "tooltip": "Special auxiliary cooling fan speed, effective only for the first x layers",
+  "type": "coFloats"
+ },
+ "first_x_layer_part_fan_speed": {
+  "label": "Fan speed",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "%",
+  "tooltip": "Part cooling fan speed for the first few layers. ",
+  "type": "coInts"
+ },
+ "flush_into_infill": {
+  "category": "Flush options",
+  "label": "Flush into objects' infill",
+  "tooltip": "Purging after filament change will be done inside objects' infills. ",
+  "type": "coBool"
+ },
+ "flush_into_objects": {
+  "category": "Flush options",
+  "label": "Flush into this object",
+  "tooltip": "This object will be used to purge the nozzle after a filament change to save filament and decrease the print time. ",
+  "type": "coBool"
+ },
+ "flush_into_support": {
+  "category": "Flush options",
+  "label": "Flush into objects' support",
+  "tooltip": "Purging after filament change will be done inside objects' support. ",
+  "type": "coBool"
+ },
+ "flush_multiplier": {
+  "label": "Flush multiplier",
+  "sidetext": "",
+  "tooltip": "The actual flushing volumes is equal to the flush multiplier multiplied by the flushing volumes in the table.",
+  "type": "coFloats"
+ },
+ "flush_multiplier_fast": {
+  "label": "Flush multiplier (Fast mode)",
+  "sidetext": "",
+  "tooltip": "The flush multiplier used in fast purge mode.",
+  "type": "coFloats"
+ },
+ "flush_volumes_matrix": {
+  "label": "Purging volumes",
+  "tooltip": "This matrix describes volumes (in cubic milimetres) required to purge the",
+  "type": "coFloats"
+ },
+ "flush_volumes_vector": {
+  "tooltip": "This vector saves required volumes to change from/to each tool used on the ",
+  "type": "coFloats"
+ },
+ "full_fan_speed_layer": {
+  "label": "Full fan speed at layer",
+  "max": 100000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "tooltip": "Fan speed will be ramped up linearly from zero at layer \"close_fan_the_first_x_layers\" ",
+  "type": "coInts"
+ },
+ "fuzzy_skin": {
+  "category": "Others",
+  "enum": [
+   "none",
+   "external",
+   "all",
+   "allwalls",
+   "disabled_fuzzy"
+  ],
+  "enum_labels": [
+   "None(allow paint)",
+   "Contour",
+   "Contour and hole",
+   "All walls",
+   "Disabled"
+  ],
+  "label": "Fuzzy Skin",
+  "mode": "comSimple",
+  "tooltip": "Randomly jitter while printing the wall, so that the surface has a rough look. This setting controls ",
+  "type": "coEnum"
+ },
+ "fuzzy_skin_first_layer": {
+  "category": "Others",
+  "label": "Apply fuzzy skin to first layer",
+  "mode": "comSimple",
+  "tooltip": "Whether to apply fuzzy skin on the first layer.",
+  "type": "coBool"
+ },
+ "fuzzy_skin_mode": {
+  "category": "Others",
+  "enum": [
+   "displacement",
+   "extrusion",
+   "combined"
+  ],
+  "enum_labels": [
+   "Displacement",
+   "Extrusion",
+   "Combined"
+  ],
+  "label": "Fuzzy skin generator mode",
+  "mode": "comSimple",
+  "tooltip": "Displacement: Pattern is formed by shifting the nozzle sideways from the original path.\n",
+  "type": "coEnum"
+ },
+ "fuzzy_skin_noise_type": {
+  "category": "Others",
+  "enum": [
+   "classic",
+   "perlin",
+   "billow",
+   "ridgedmulti",
+   "voronoi"
+  ],
+  "enum_labels": [
+   "Classic",
+   "Perlin",
+   "Billow",
+   "Ridged Multifractal",
+   "Voronoi"
+  ],
+  "label": "Fuzzy skin noise type",
+  "mode": "comSimple",
+  "tooltip": "Noise type to use for fuzzy skin generation:\n",
+  "type": "coEnum"
+ },
+ "fuzzy_skin_octaves": {
+  "category": "Others",
+  "label": "Fuzzy skin noise octaves",
+  "max": 10.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "tooltip": "The number of octaves of coherent noise to use. Higher values increase the detail of the noise, but also increase computation time.",
+  "type": "coInt"
+ },
+ "fuzzy_skin_persistence": {
+  "category": "Others",
+  "label": "Fuzzy skin noise persistence",
+  "max": 1.0,
+  "min": 0.01,
+  "mode": "comAdvanced",
+  "tooltip": "The decay rate for higher octaves of the coherent noise. Lower values will result in smoother noise.",
+  "type": "coFloat"
+ },
+ "fuzzy_skin_point_distance": {
+  "category": "Others",
+  "label": "Fuzzy skin point distance",
+  "max": 5.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "The average distance between the random points introduced on each line segment",
+  "type": "coFloat"
+ },
+ "fuzzy_skin_scale": {
+  "category": "Others",
+  "label": "Fuzzy skin feature size",
+  "max": 500.0,
+  "min": 0.1,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The base size of the coherent noise features, in mm. Higher values will result in larger features.",
+  "type": "coFloat"
+ },
+ "fuzzy_skin_thickness": {
+  "category": "Others",
+  "label": "Fuzzy skin thickness",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "The width within which to jitter. It's adversed to be below outer wall line width",
+  "type": "coFloat"
+ },
+ "gamma_correction": {
+  "full_label": " ",
+  "label": " ",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "gap_infill_speed": {
+  "category": "Speed",
+  "label": "Gap infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of gap infill. Gap usually has irregular line width and should be printed more slowly",
+  "type": "coFloats"
+ },
+ "gcode_add_line_number": {
+  "label": "Add line number",
+  "mode": "comDevelop",
+  "tooltip": "Enable this to add line number(Nx) at the beginning of each G-Code line",
+  "type": "coBool"
+ },
+ "gcode_flavor": {
+  "enum": [
+   "marlin",
+   "klipper",
+   "reprap",
+   "reprapfirmware",
+   "repetier",
+   "teacup",
+   "makerware",
+   "marlin2",
+   "sailfish",
+   "mach3",
+   "machinekit",
+   "smoothie",
+   "no-extrusion"
+  ],
+  "enum_labels": [
+   "Marlin(legacy)",
+   "Klipper",
+   "RepRap/Sprinter",
+   "RepRapFirmware",
+   "Repetier",
+   "Teacup",
+   "MakerWare (MakerBot)",
+   "Marlin 2",
+   "Sailfish (MakerBot)",
+   "Mach3/LinuxCNC",
+   "Machinekit",
+   "Smoothie",
+   "No extrusion"
+  ],
+  "label": "G-code flavor",
+  "mode": "comAdvanced",
+  "tooltip": "What kind of gcode the printer is compatible with",
+  "type": "coEnum"
+ },
+ "gcodeviewer": {
+  "type": "coBool"
+ },
+ "grab_length": {
+  "label": "Grab length",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "type": "coFloats"
+ },
+ "group_algo_with_time": {
+  "type": "coBool"
+ },
+ "has_filament_switcher": {
+  "label": "Has filament switcher",
+  "tooltip": "Whether a filament switcher is connected to the printer",
+  "type": "coBool"
+ },
+ "has_scarf_joint_seam": {
+  "category": "Machine limits",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "type": "coBool"
+ },
+ "head_wrap_detect_zone": {
+  "label": "Head wrap detect zone",
+  "mode": "comDevelop",
+  "type": "coPoints"
+ },
+ "help": {
+  "label": "Help",
+  "tooltip": "Show command help.",
+  "type": "coBool"
+ },
+ "help_fff": {
+  "label": "Help (FFF options)",
+  "tooltip": "Show the full list of print/G-code configuration options.",
+  "type": "coBool"
+ },
+ "help_sla": {
+  "label": "Help (SLA options)",
+  "tooltip": "Show the full list of SLA print configuration options.",
+  "type": "coBool"
+ },
+ "hole_coef_1": {
+  "label": "Hole Coef 1",
+  "tooltip": "hole_coef_1",
+  "type": "coFloats"
+ },
+ "hole_coef_2": {
+  "label": "Hole Coef 2",
+  "tooltip": "hole_coef_2",
+  "type": "coFloats"
+ },
+ "hole_coef_3": {
+  "label": "Hole Coef 3",
+  "sidetext": "mm",
+  "tooltip": "hole_coef_3",
+  "type": "coFloats"
+ },
+ "hole_limit_max": {
+  "label": "Hole limit max",
+  "sidetext": "mm",
+  "tooltip": "hole_limit_max",
+  "type": "coFloats"
+ },
+ "hole_limit_min": {
+  "label": "Hole limit min",
+  "sidetext": "mm",
+  "tooltip": "hole_limit_min",
+  "type": "coFloats"
+ },
+ "hollowing_closing_distance": {
+  "category": " ",
+  "label": " ",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "hollowing_enable": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "hollowing_min_thickness": {
+  "category": " ",
+  "label": " ",
+  "max": 10.0,
+  "min": 1.0,
+  "mode": "comSimple",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "hollowing_quality": {
+  "category": " ",
+  "label": " ",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "host_type": {
+  "enum": [
+   "prusalink",
+   "octoprint",
+   "duet",
+   "flashair",
+   "astrobox",
+   "repetier",
+   "mks"
+  ],
+  "enum_labels": [
+   "PrusaLink",
+   "OctoPrint",
+   "Duet",
+   "FlashAir",
+   "AstroBox",
+   "Repetier",
+   "MKS"
+  ],
+  "label": "Host Type",
+  "mode": "comAdvanced",
+  "tooltip": "Slic3r can upload G-code files to a printer host. This field must contain ",
+  "type": "coEnum"
+ },
+ "hot_plate_temp": {
+  "full_label": "Bed temperature",
+  "label": "Other layers",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature for layers except the initial one. ",
+  "type": "coInts"
+ },
+ "hot_plate_temp_initial_layer": {
+  "full_label": "Initial layer bed temperature",
+  "label": "Initial layer",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature of the initial layer. ",
+  "type": "coInts"
+ },
+ "hotend_cooling_rate": {
+  "type": "coFloats"
+ },
+ "hotend_heating_rate": {
+  "type": "coFloats"
+ },
+ "ignore_nonexistent_config": {
+  "label": "Ignore non-existent config files",
+  "tooltip": "Do not fail if a file supplied to --load does not exist.",
+  "type": "coBool"
+ },
+ "impact_strength_z": {
+  "label": "Impact Strength Z",
+  "mode": "comDevelop",
+  "type": "coFloats"
+ },
+ "independent_support_layer_height": {
+  "category": "Support",
+  "label": "Independent support layer height",
+  "mode": "comAdvanced",
+  "tooltip": "Support layer uses layer height independent with object layer. This is to support customizing z-gap and save print time.",
+  "type": "coBool"
+ },
+ "infill_combination": {
+  "category": "Strength",
+  "label": "Infill combination",
+  "mode": "comAdvanced",
+  "tooltip": "Automatically Combine sparse infill of several layers to print together to reduce time. Wall is still printed ",
+  "type": "coBool"
+ },
+ "infill_direction": {
+  "category": "Strength",
+  "label": "Infill direction",
+  "max": 360.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Angle for sparse infill pattern, which controls the start or main direction of line",
+  "type": "coFloat"
+ },
+ "infill_instead_top_bottom_surfaces": {
+  "category": "Strength",
+  "label": "Use infill instead of top and bottom surfaces",
+  "tooltip": "Using infill instead of top and bottom surfaces.",
+  "type": "coBool"
+ },
+ "infill_jerk": {
+  "label": "Infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of infill",
+  "type": "coFloat"
+ },
+ "infill_lock_depth": {
+  "category": "Strength",
+  "label": "Infill lock depth",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The parameter sets the overlapping depth between the interior and skin.",
+  "type": "coFloat"
+ },
+ "infill_rotate_step": {
+  "category": "Strength",
+  "label": "Infill rotate step",
+  "max": 360.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "This parameter adds a slight rotation to each layer of infill to create a cross texture.",
+  "type": "coFloat"
+ },
+ "infill_shift_step": {
+  "category": "Strength",
+  "label": "Infill shift step",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "This parameter adds a slight displacement to each layer of infill to create a cross texture.",
+  "type": "coFloat"
+ },
+ "infill_wall_overlap": {
+  "category": "Strength",
+  "label": "Infill/Wall overlap",
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Infill area is enlarged slightly to overlap with wall for better bonding. The percentage value is relative to line width of sparse infill",
+  "type": "coPercent"
+ },
+ "info": {
+  "label": "Output Model Info",
+  "tooltip": "Output the model's information.",
+  "type": "coBool"
+ },
+ "inherits": {
+  "label": "Inherits profile",
+  "tooltip": "Name of parent profile",
+  "type": "coString"
+ },
+ "inherits_group": {
+  "type": "coStrings"
+ },
+ "initial_exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "initial_layer_acceleration": {
+  "label": "Initial layer",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Acceleration of initial layer. Using a lower value can improve build plate adhensive",
+  "type": "coFloats"
+ },
+ "initial_layer_flow_ratio": {
+  "category": "Quality",
+  "label": "Initial layer flow ratio",
+  "max": 2.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "This factor affects the amount of material for the initial layer",
+  "type": "coFloat"
+ },
+ "initial_layer_height": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "initial_layer_infill_speed": {
+  "label": "Initial layer infill",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of solid infill part of initial layer",
+  "type": "coFloats"
+ },
+ "initial_layer_jerk": {
+  "label": "First layer",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of first layer",
+  "type": "coFloat"
+ },
+ "initial_layer_line_width": {
+  "category": "Quality",
+  "label": "Initial layer",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of initial layer",
+  "type": "coFloat"
+ },
+ "initial_layer_print_height": {
+  "category": "Quality",
+  "label": "Initial layer height",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": "Height of initial layer. Making initial layer height thick slightly can improve build plate adhension",
+  "type": "coFloat"
+ },
+ "initial_layer_speed": {
+  "label": "Initial layer",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of initial layer except the solid infill part",
+  "type": "coFloats"
+ },
+ "initial_layer_travel_acceleration": {
+  "label": "Initial layer travel",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "The acceleration of travel of initial layer",
+  "type": "coFloats"
+ },
+ "inner_wall_acceleration": {
+  "label": "Inner wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Acceleration of inner walls. 0 means using normal printing acceleration",
+  "type": "coFloats"
+ },
+ "inner_wall_jerk": {
+  "label": "Inner wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of inner walls",
+  "type": "coFloat"
+ },
+ "inner_wall_line_width": {
+  "category": "Quality",
+  "label": "Inner wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of inner wall",
+  "type": "coFloat"
+ },
+ "inner_wall_speed": {
+  "category": "Speed",
+  "label": "Inner wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of inner wall",
+  "type": "coFloats"
+ },
+ "interface_shells": {
+  "category": "Quality",
+  "label": "Interface shells",
+  "mode": "comDevelop",
+  "tooltip": "Force the generation of solid shells between adjacent materials/volumes. ",
+  "type": "coBool"
+ },
+ "interlocking_beam": {
+  "category": "Advanced",
+  "label": "Use beam interlocking",
+  "mode": "comAdvanced",
+  "tooltip": "Generate interlocking beam structure at the locations where different filaments touch. This improves the adhesion between filaments, especially models printed in different materials.",
+  "type": "coBool"
+ },
+ "interlocking_beam_layer_count": {
+  "category": "Advanced",
+  "label": "Interlocking beam layers",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "tooltip": "The height of the beams of the interlocking structure, measured in number of layers. Less layers is stronger, but more prone to defects.",
+  "type": "coInt"
+ },
+ "interlocking_beam_width": {
+  "category": "Advanced",
+  "label": "Interlocking beam width",
+  "min": 0.01,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The width of the interlocking structure beams.",
+  "type": "coFloat"
+ },
+ "interlocking_boundary_avoidance": {
+  "category": "Advanced",
+  "label": "Interlocking boundary avoidance",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "The distance from the outside of a model where interlocking structures will not be generated, measured in cells.",
+  "type": "coInt"
+ },
+ "interlocking_depth": {
+  "category": "Advanced",
+  "label": "Interlocking depth",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "tooltip": "The distance from the boundary between filaments to generate interlocking structure, measured in cells. Too few cells will result in poor adhesion.",
+  "type": "coInt"
+ },
+ "interlocking_orientation": {
+  "category": "Advanced",
+  "label": "Interlocking direction",
+  "max": 360.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Orientation of interlock beams.",
+  "type": "coFloat"
+ },
+ "internal_bridge_support_thickness": {
+  "category": "Strength",
+  "label": "Internal bridge support thickness",
+  "max": 2.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "When sparse infill density is low, the internal solid infill or internal bridge may have no archor at the end of line. ",
+  "type": "coFloat"
+ },
+ "internal_solid_infill_line_width": {
+  "category": "Quality",
+  "label": "Internal solid infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of internal solid infill",
+  "type": "coFloat"
+ },
+ "internal_solid_infill_pattern": {
+  "category": "Strength",
+  "label": "Internal solid infill pattern",
+  "tooltip": "Line pattern of internal solid infill. if the detect narrow internal solid infill be enabled, the concentric pattern will be used for the small area.",
+  "type": "coEnum"
+ },
+ "internal_solid_infill_speed": {
+  "category": "Speed",
+  "label": "Internal solid infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of internal solid infill, not the top and bottom surface",
+  "type": "coFloats"
+ },
+ "ironing_direction": {
+  "category": "Quality",
+  "label": "ironing direction",
+  "max": 360.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Angle for ironing, which controls the relative angle between the top surface and ironing",
+  "type": "coFloat"
+ },
+ "ironing_fan_speed": {
+  "label": "Ironing fan speed",
+  "max": 100.0,
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "This part cooling fan speed is applied when ironing. Setting this parameter to a lower than regular speed ",
+  "type": "coInts"
+ },
+ "ironing_flow": {
+  "category": "Quality",
+  "label": "Ironing flow",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "The amount of material to extrude during ironing. Relative to flow of normal layer height. ",
+  "type": "coPercent"
+ },
+ "ironing_inset": {
+  "category": "Quality",
+  "label": "Ironing inset",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The distance to keep the from the edges of ironing line. 0 means not apply.",
+  "type": "coFloat"
+ },
+ "ironing_pattern": {
+  "category": "Quality",
+  "enum": [
+   "concentric",
+   "zig-zag"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear"
+  ],
+  "label": "Ironing Pattern",
+  "mode": "comAdvanced",
+  "type": "coEnum"
+ },
+ "ironing_spacing": {
+  "category": "Quality",
+  "label": "Ironing line spacing",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The distance between the lines of ironing",
+  "type": "coFloat"
+ },
+ "ironing_speed": {
+  "category": "Quality",
+  "label": "Ironing speed",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Print speed of ironing lines",
+  "type": "coFloat"
+ },
+ "ironing_type": {
+  "category": "Quality",
+  "enum": [
+   "no ironing",
+   "top",
+   "topmost",
+   "solid"
+  ],
+  "enum_labels": [
+   "No ironing",
+   "Top surfaces",
+   "Topmost surface",
+   "All solid layer"
+  ],
+  "label": "Ironing Type",
+  "mode": "comAdvanced",
+  "tooltip": "Ironing is using small flow to print on same height of surface again to make flat surface more smooth. ",
+  "type": "coEnum"
+ },
+ "is_infill_first": {
+  "category": "Quality",
+  "label": "Print infill first",
+  "mode": "comAdvanced",
+  "tooltip": "Order of wall/infill. false means print wall first. ",
+  "type": "coBool"
+ },
+ "layer_change_gcode": {
+  "label": "Layer change G-code",
+  "mode": "comAdvanced",
+  "tooltip": "This gcode part is inserted at every layer change after lift z",
+  "type": "coString"
+ },
+ "layer_height": {
+  "category": "Quality",
+  "label": "Layer height",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": "Slicing height for each layer. Smaller layer height means more accurate and more printing time",
+  "type": "coFloat"
+ },
+ "line_width": {
+  "category": "Quality",
+  "label": "Default",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Default line width if some line width is set to be zero",
+  "type": "coFloat"
+ },
+ "load": {
+  "label": "Load config file",
+  "tooltip": "Load configuration from the specified file. It can be used more than once to load options from multiple files.",
+  "type": "coStrings"
+ },
+ "load_assemble_list": {
+  "label": "Load assemble list",
+  "tooltip": "Load assemble object list from config file",
+  "type": "coString"
+ },
+ "load_custom_gcodes": {
+  "label": "Load custom gcode",
+  "tooltip": "Load custom gcode from json",
+  "type": "coString"
+ },
+ "load_defaultfila": {
+  "label": "Load default filaments",
+  "tooltip": "Load first filament as default for those not loaded",
+  "type": "coBool"
+ },
+ "load_filament_ids": {
+  "label": "Load filament ids",
+  "tooltip": "Load filament ids for each object",
+  "type": "coInts"
+ },
+ "load_filaments": {
+  "label": "Load Filament Settings",
+  "tooltip": "Load filament settings from the specified file list",
+  "type": "coStrings"
+ },
+ "load_settings": {
+  "label": "Load General Settings",
+  "tooltip": "Load process/machine settings from the specified file",
+  "type": "coStrings"
+ },
+ "load_slicedata": {
+  "label": "Load slicing data",
+  "tooltip": "Load cached slicing data from directory",
+  "type": "coStrings"
+ },
+ "locked_skeleton_infill_pattern": {
+  "category": "Strength",
+  "enum": [
+   "concentric",
+   "zig-zag",
+   "grid",
+   "line",
+   "cubic",
+   "triangles",
+   "tri-hexagon",
+   "gyroid",
+   "honeycomb",
+   "alignedrectilinear",
+   "3dhoneycomb",
+   "hilbertcurve",
+   "archimedeanchords",
+   "octagramspiral",
+   "crosshatch",
+   "zigzag",
+   "crosszag"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear",
+   "Grid",
+   "Line",
+   "Cubic",
+   "Triangles",
+   "Tri-hexagon",
+   "Gyroid",
+   "Honeycomb",
+   "Aligned Rectilinear",
+   "3D Honeycomb",
+   "Hilbert Curve",
+   "Archimedean Chords",
+   "Octagram Spiral",
+   "Cross Hatch",
+   "Zig Zag",
+   "Cross Zag"
+  ],
+  "label": "Skeleton infill pattern",
+  "tooltip": "Line pattern for skeleton",
+  "type": "coEnum"
+ },
+ "locked_skin_infill_pattern": {
+  "category": "Strength",
+  "enum": [
+   "concentric",
+   "zig-zag",
+   "grid",
+   "line",
+   "cubic",
+   "triangles",
+   "tri-hexagon",
+   "gyroid",
+   "honeycomb",
+   "alignedrectilinear",
+   "3dhoneycomb",
+   "hilbertcurve",
+   "archimedeanchords",
+   "octagramspiral",
+   "crosshatch",
+   "zigzag",
+   "crosszag"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear",
+   "Grid",
+   "Line",
+   "Cubic",
+   "Triangles",
+   "Tri-hexagon",
+   "Gyroid",
+   "Honeycomb",
+   "Aligned Rectilinear",
+   "3D Honeycomb",
+   "Hilbert Curve",
+   "Archimedean Chords",
+   "Octagram Spiral",
+   "Cross Hatch",
+   "Zig Zag",
+   "Cross Zag"
+  ],
+  "label": "Skin infill pattern",
+  "tooltip": "Line pattern for skin",
+  "type": "coEnum"
+ },
+ "long_retractions_when_cut": {
+  "label": "Long retraction when cut(experimental)",
+  "mode": "comDevelop",
+  "tooltip": "Experimental feature.Retracting and cutting off the filament at a longer distance during changes to minimize purge.",
+  "type": "coBools"
+ },
+ "long_retractions_when_ec": {
+  "label": "Long retraction when extruder change",
+  "mode": "comAdvanced",
+  "type": "coBools"
+ },
+ "machine_bed_mass_Y": {
+  "category": "Machine limits",
+  "full_label": "Bed mass of the Y axis",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "g",
+  "tooltip": "The machine bed mass load of Y axis",
+  "type": "coFloat"
+ },
+ "machine_end_gcode": {
+  "label": "End G-code",
+  "mode": "comAdvanced",
+  "tooltip": "End G-code when finish the whole printing",
+  "type": "coString"
+ },
+ "machine_hotend_change_time": {
+  "label": "Hotend change time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Time to change hotend.",
+  "type": "coFloat"
+ },
+ "machine_load_filament_time": {
+  "label": "Filament load time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Time to load new filament when switch filament. For statistics only",
+  "type": "coFloat"
+ },
+ "machine_max_acceleration_extruding": {
+  "category": "Machine limits",
+  "full_label": "Maximum acceleration for extruding",
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Maximum acceleration for extruding (M204 P)",
+  "type": "coFloats"
+ },
+ "machine_max_acceleration_retracting": {
+  "category": "Machine limits",
+  "full_label": "Maximum acceleration for retracting",
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Maximum acceleration for retracting (M204 R)",
+  "type": "coFloats"
+ },
+ "machine_max_acceleration_travel": {
+  "category": "Machine limits",
+  "full_label": "Maximum acceleration for travel",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "readonly": true,
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Maximum acceleration for travel (M204 T)",
+  "type": "coFloats"
+ },
+ "machine_max_force_Y": {
+  "category": "Machine limits",
+  "full_label": "Maximum force of the Y axis",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "N",
+  "tooltip": "The allowed maximum output force of Y axis",
+  "type": "coFloat"
+ },
+ "machine_max_printed_mass": {
+  "category": "Machine limits",
+  "full_label": "The allowed max printed mass",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "g",
+  "tooltip": "The allowed max printed mass on a plate",
+  "type": "coFloat"
+ },
+ "machine_min_extruding_rate": {
+  "category": "Machine limits",
+  "full_label": "Minimum speed for extruding",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm/s",
+  "tooltip": "Minimum speed for extruding (M205 S)",
+  "type": "coFloats"
+ },
+ "machine_min_travel_rate": {
+  "category": "Machine limits",
+  "full_label": "Minimum travel speed",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm/s",
+  "tooltip": "Minimum travel speed (M205 T)",
+  "type": "coFloats"
+ },
+ "machine_pause_gcode": {
+  "label": "Pause G-code",
+  "mode": "comAdvanced",
+  "tooltip": "This G-code will be used as a code for the pause print. User can insert pause G-code in gcode viewer",
+  "type": "coString"
+ },
+ "machine_prepare_compensation_time": {
+  "mode": "comDevelop",
+  "type": "coFloat"
+ },
+ "machine_start_gcode": {
+  "label": "Start G-code",
+  "mode": "comAdvanced",
+  "tooltip": "Start G-code when start the whole printing",
+  "type": "coString"
+ },
+ "machine_switch_extruder_time": {
+  "label": "Extruder switch time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Time to switch extruder. For statistics only",
+  "type": "coFloat"
+ },
+ "machine_unload_filament_time": {
+  "label": "Filament unload time",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Time to unload old filament when switch filament. For statistics only",
+  "type": "coFloat"
+ },
+ "makerlab_name": {
+  "label": "MakerLab name",
+  "tooltip": "MakerLab name to generate this 3mf",
+  "type": "coString"
+ },
+ "makerlab_version": {
+  "label": "MakerLab version",
+  "tooltip": "MakerLab version to generate this 3mf",
+  "type": "coString"
+ },
+ "master_extruder_id": {
+  "label": "Master extruder id",
+  "tooltip": "Default extruder id to place filament",
+  "type": "coInt"
+ },
+ "material_colour": {
+  "label": " ",
+  "tooltip": " ",
+  "type": "coString"
+ },
+ "material_correction": {
+  "full_label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloats"
+ },
+ "material_correction_x": {
+  "full_label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "material_correction_y": {
+  "full_label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "material_correction_z": {
+  "full_label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "material_density": {
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "material_print_speed": {
+  "enum": [
+   "slow",
+   "fast"
+  ],
+  "enum_labels": [
+   " ",
+   " "
+  ],
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coEnum"
+ },
+ "material_type": {
+  "enum": [
+   "Tough",
+   "Flexible",
+   "Casting",
+   "Dental",
+   "Heat-resistant"
+  ],
+  "label": " ",
+  "tooltip": " ",
+  "type": "coString"
+ },
+ "material_vendor": {
+  "type": "coString"
+ },
+ "max_bridge_length": {
+  "category": "Support",
+  "label": "Max bridge length",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Max length of bridges that don't need support. Set it to 0 if you want all bridges to be supported, and set it to a very large value if you don't want any bridges to be supported.",
+  "type": "coFloat"
+ },
+ "max_exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "max_initial_exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "max_layer_height": {
+  "label": "Max",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The largest printable layer height for extruder. Used to limit ",
+  "type": "coFloats"
+ },
+ "max_travel_detour_distance": {
+  "category": "Quality",
+  "label": "Avoid crossing wall - Max detour length",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm or %",
+  "tooltip": "Maximum detour distance for avoiding crossing wall. ",
+  "type": "coFloatOrPercent"
+ },
+ "max_volumetric_extrusion_rate_slope_negative": {
+  "label": "Max volumetric slope negative",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s\u00c2\u00b2",
+  "tooltip": "This experimental setting is used to limit the speed of change in extrusion rate. ",
+  "type": "coFloat"
+ },
+ "max_volumetric_extrusion_rate_slope_positive": {
+  "label": "Max volumetric slope positive",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b3/s\u00c2\u00b2",
+  "tooltip": "This experimental setting is used to limit the speed of change in extrusion rate. ",
+  "type": "coFloat"
+ },
+ "metadata_name": {
+  "label": "metadata name list",
+  "tooltip": "matadata name list added into 3mf",
+  "type": "coStrings"
+ },
+ "metadata_value": {
+  "label": "metadata value list",
+  "tooltip": "matadata value list added into 3mf",
+  "type": "coStrings"
+ },
+ "min_bead_width": {
+  "category": "Quality",
+  "label": "Minimum wall width",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Width of the wall that will replace thin features (according to the Minimum feature size) ",
+  "type": "coPercent"
+ },
+ "min_exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "min_feature_size": {
+  "category": "Quality",
+  "label": "Minimum feature size",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Minimum thickness of thin features. Model features that are thinner than this value will ",
+  "type": "coPercent"
+ },
+ "min_initial_exposure_time": {
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "min_layer_height": {
+  "label": "Min",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The lowest printable layer height for extruder. Used to limit ",
+  "type": "coFloats"
+ },
+ "min_save": {
+  "label": "Minimum save",
+  "tooltip": "export 3mf with minimum size.",
+  "type": "coBool"
+ },
+ "minimum_sparse_infill_area": {
+  "category": "Strength",
+  "label": "Minimum sparse infill threshold",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm\u00c2\u00b2",
+  "tooltip": "Sparse infill area which is smaller than threshold value is replaced by internal solid infill",
+  "type": "coFloat"
+ },
+ "mmu_segmented_region_interlocking_depth": {
+  "category": "Advanced",
+  "label": "Interlocking depth of a segmented region",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Interlocking depth of a segmented region. It will be ignored if ",
+  "type": "coFloat"
+ },
+ "mmu_segmented_region_max_width": {
+  "category": "Advanced",
+  "label": "Maximum width of a segmented region",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Maximum width of a segmented region. Zero disables this feature.",
+  "type": "coFloat"
+ },
+ "monotonic_travel_into_wall": {
+  "category": "Strength",
+  "label": "Monotonic line travel extend",
+  "max": 200.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "%",
+  "tooltip": "Enable this option to extend the travel distance between lines, improving the adhesion between the monotonic line infill and the walls.(percent to line width)",
+  "type": "coPercent"
+ },
+ "mstpp": {
+  "label": "mstpp",
+  "tooltip": "max slicing time per plate in seconds.",
+  "type": "coInt"
+ },
+ "mtcpp": {
+  "label": "mtcpp",
+  "tooltip": "max triangle count per plate for slicing.",
+  "type": "coInt"
+ },
+ "no_check": {
+  "label": "No check",
+  "tooltip": "Do not run any validity checks, such as gcode path conflicts check.",
+  "type": "coBool"
+ },
+ "no_slow_down_for_cooling_on_outwalls": {
+  "label": "Don't slow down outer walls",
+  "mode": "comAdvanced",
+  "tooltip": "If enabled, this setting will ensure external perimeters are not slowed down to meet the minimum layer time. ",
+  "type": "coBools"
+ },
+ "normative_check": {
+  "label": "Normative check",
+  "tooltip": "Check the normative items.",
+  "type": "coBool"
+ },
+ "nozzle_diameter": {
+  "label": "Nozzle diameter",
+  "max": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Diameter of nozzle",
+  "type": "coFloats"
+ },
+ "nozzle_flush_dataset": {
+  "type": "coInts"
+ },
+ "nozzle_height": {
+  "label": "Nozzle height",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "The height of nozzle tip.",
+  "type": "coFloat"
+ },
+ "nozzle_temperature": {
+  "full_label": "Nozzle temperature",
+  "label": "Other layers",
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Nozzle temperature for layers after the initial one",
+  "type": "coInts"
+ },
+ "nozzle_temperature_initial_layer": {
+  "full_label": "Initial layer nozzle temperature",
+  "label": "Initial layer",
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Nozzle temperature to print initial layer when using this filament",
+  "type": "coInts"
+ },
+ "nozzle_temperature_range_high": {
+  "label": "Max",
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "",
+  "type": "coInts"
+ },
+ "nozzle_temperature_range_low": {
+  "label": "Min",
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "",
+  "type": "coInts"
+ },
+ "nozzle_type": {
+  "enum": [
+   "undefine",
+   "hardened_steel",
+   "stainless_steel",
+   "tungsten_carbide",
+   "brass"
+  ],
+  "enum_labels": [
+   "Undefine",
+   "Hardened steel",
+   "Stainless steel",
+   "Tungsten carbide",
+   "Brass"
+  ],
+  "label": "Nozzle type",
+  "mode": "comDevelop",
+  "tooltip": "The metallic material of nozzle. This determines the abrasive resistance of nozzle, and ",
+  "type": "coEnums"
+ },
+ "nozzle_volume": {
+  "label": "Nozzle volume",
+  "mode": "comAdvanced",
+  "readonly": true,
+  "sidetext": "mm\u00c2\u00b3",
+  "tooltip": "Volume of nozzle between the cutter and the end of nozzle",
+  "type": "coFloats"
+ },
+ "nozzle_volume_type": {
+  "label": "Nozzle Volume Type",
+  "mode": "comSimple",
+  "type": "coEnums"
+ },
+ "only_one_wall_first_layer": {
+  "category": "Quality",
+  "label": "Only one wall on first layer",
+  "tooltip": "Use only one wall on the first layer of model",
+  "type": "coBool"
+ },
+ "ooze_prevention": {
+  "label": "Enable",
+  "mode": "comDevelop",
+  "tooltip": "This option will drop the temperature of the inactive extruders to prevent oozing. ",
+  "type": "coBool"
+ },
+ "orient": {
+  "label": "Orient Options",
+  "tooltip": "Orient options: 0-disable, 1-enable, others-auto",
+  "type": "coInt"
+ },
+ "other_layers_print_sequence": {
+  "label": "Other layers print sequence",
+  "max": 16.0,
+  "min": 0.0,
+  "type": "coInts"
+ },
+ "other_layers_print_sequence_nums": {
+  "label": "The number of other layers print sequence",
+  "type": "coInt"
+ },
+ "other_layers_sequence_choice": {
+  "category": "Quality",
+  "enum": [
+   "Auto",
+   "Customize"
+  ],
+  "enum_labels": [
+   "Auto",
+   "Customize"
+  ],
+  "label": "Other layers filament sequence",
+  "mode": "comSimple",
+  "type": "coEnum"
+ },
+ "outer_wall_acceleration": {
+  "label": "Outer wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Acceleration of outer wall. Using a lower value can improve quality",
+  "type": "coFloats"
+ },
+ "outer_wall_jerk": {
+  "label": "Outer wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of outer walls",
+  "type": "coFloat"
+ },
+ "outer_wall_line_width": {
+  "category": "Quality",
+  "label": "Outer wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of outer wall",
+  "type": "coFloat"
+ },
+ "outer_wall_speed": {
+  "category": "Speed",
+  "label": "Outer wall",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of outer wall which is outermost and visible. ",
+  "type": "coFloats"
+ },
+ "output": {
+  "label": "Output File",
+  "tooltip": "The file where the output will be written (if not specified, it will be based on the input file).",
+  "type": "coString"
+ },
+ "outputdir": {
+  "label": "Output directory",
+  "tooltip": "Output directory for the exported files.",
+  "type": "coString"
+ },
+ "overhang_1_4_speed": {
+  "category": "Speed",
+  "full_label": "10%",
+  "label": "10%",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed for line of wall which has degree of overhang between 10% and 25% line width. ",
+  "type": "coFloats"
+ },
+ "overhang_2_4_speed": {
+  "category": "Speed",
+  "full_label": "25%",
+  "label": "25%",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed for line of wall which has degree of overhang between 25% and 50% line width. ",
+  "type": "coFloats"
+ },
+ "overhang_3_4_speed": {
+  "category": "Speed",
+  "full_label": "50%",
+  "label": "50%",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed for line of wall which has degree of overhang between 50% and 75% line width. 0 means using original wall speed",
+  "type": "coFloats"
+ },
+ "overhang_4_4_speed": {
+  "category": "Speed",
+  "full_label": "75%",
+  "label": "75%",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed for line of wall which has degree of overhang between 75% and 100% line width. 0 means using original wall speed",
+  "type": "coFloats"
+ },
+ "overhang_fan_speed": {
+  "label": "Fan speed for overhang",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Force part cooling fan to be at this speed when printing bridge or overhang wall which has large overhang degree. ",
+  "type": "coInts"
+ },
+ "overhang_fan_threshold": {
+  "label": "Cooling overhang threshold",
+  "mode": "comAdvanced",
+  "sidetext": "",
+  "tooltip": "Force cooling fan to be specific speed when overhang degree of printed part exceeds this value. ",
+  "type": "coEnums"
+ },
+ "overhang_threshold_participating_cooling": {
+  "label": "Overhang threshold for participating cooling",
+  "mode": "comAdvanced",
+  "sidetext": "",
+  "tooltip": "Decide which overhang part join the cooling function to slow down the speed.",
+  "type": "coEnums"
+ },
+ "overhang_totally_speed": {
+  "category": "Speed",
+  "full_label": "100%",
+  "label": "100%",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of 100%% overhang wall which has 0 overlap with the lower layer.",
+  "type": "coFloats"
+ },
+ "override_filament_scarf_seam_setting": {
+  "category": "Quality",
+  "label": "Override filament scarf seam setting",
+  "mode": "comAdvanced",
+  "tooltip": "Overrider filament scarf seam setting and could control settings by modifier.",
+  "type": "coBool"
+ },
+ "override_process_overhang_speed": {
+  "label": "Override overhang speed",
+  "mode": "comAdvanced",
+  "tooltip": "Override the overhang speed in process page",
+  "type": "coBools"
+ },
+ "pad_around_object": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "pad_around_object_everywhere": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "pad_brim_size": {
+  "category": " ",
+  "label": " ",
+  "max": 30.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_enable": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "pad_max_merge_distance": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_object_connector_penetration": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_object_connector_stride": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_object_connector_width": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_object_gap": {
+  "category": " ",
+  "label": " ",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_wall_height": {
+  "category": " ",
+  "label": " ",
+  "max": 30.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_wall_slope": {
+  "category": " ",
+  "label": " ",
+  "max": 90.0,
+  "min": 45.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "pad_wall_thickness": {
+  "category": " ",
+  "label": " ",
+  "max": 30.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "physical_extruder_map": {
+  "label": "Map the logical extruder to physical extruder",
+  "mode": "comDevelop",
+  "tooltip": "Map the logical extruder to physical extruder",
+  "type": "coInts"
+ },
+ "pipe": {
+  "label": "Send progress to pipe",
+  "tooltip": "Send progress to pipe.",
+  "type": "coString"
+ },
+ "post_process": {
+  "label": "Post-processing Scripts",
+  "mode": "comAdvanced",
+  "tooltip": "If you want to process the output G-code through custom scripts, ",
+  "type": "coStrings"
+ },
+ "pre_start_fan_time": {
+  "label": "Pre start fan time",
+  "max": 5.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "s",
+  "tooltip": "Force fan start early(0-5 second) when encountering overhangs. ",
+  "type": "coFloats"
+ },
+ "precise_outer_wall": {
+  "category": "Quality",
+  "label": "Precise wall",
+  "mode": "comDevelop",
+  "tooltip": "Improve shell precision by adjusting outer wall spacing. This also improves layer consistency.",
+  "type": "coBool"
+ },
+ "precise_z_height": {
+  "label": "Precise Z height",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this to get precise z height of object after slicing. ",
+  "type": "coBool"
+ },
+ "preset_name": {
+  "type": "coString"
+ },
+ "preset_names": {
+  "label": "Printer preset names",
+  "mode": "comDevelop",
+  "tooltip": "Names of presets related to the physical printer",
+  "type": "coStrings"
+ },
+ "pressure_advance": {
+  "label": "Pressure advance",
+  "max": 2.0,
+  "mode": "comAdvanced",
+  "tooltip": "Pressure advance(Klipper) AKA Linear advance factor(Marlin). Useless for Bambu Printer",
+  "type": "coFloats"
+ },
+ "prime_tower_brim_width": {
+  "enum": [
+   "-1"
+  ],
+  "enum_labels": [
+   "Auto"
+  ],
+  "label": "Brim width",
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Brim width of prime tower, negative number means auto calculated width based on the height of prime tower.",
+  "type": "coFloat"
+ },
+ "prime_tower_enable_framework": {
+  "label": "Internal ribs",
+  "mode": "comAdvanced",
+  "tooltip": "Enable internal ribs to increase the stability of the prime tower.",
+  "type": "coBool"
+ },
+ "prime_tower_extra_rib_length": {
+  "label": "Extra rib length",
+  "max": 300.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Positive values can increase the size of the rib wall, while negative values can reduce the size.",
+  "type": "coFloat"
+ },
+ "prime_tower_fillet_wall": {
+  "label": "Fillet wall",
+  "mode": "comAdvanced",
+  "tooltip": "The wall of prime tower will fillet",
+  "type": "coBool"
+ },
+ "prime_tower_flat_ironing": {
+  "mode": "comAdvanced",
+  "type": "coBool"
+ },
+ "prime_tower_infill_gap": {
+  "label": "Infill gap",
+  "min": 100.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Infill gap",
+  "type": "coPercent"
+ },
+ "prime_tower_lift_height": {
+  "type": "coFloat"
+ },
+ "prime_tower_lift_speed": {
+  "type": "coFloat"
+ },
+ "prime_tower_max_speed": {
+  "label": "Max speed",
+  "min": 10.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "The maximum printing speed on the prime tower excluding ramming.",
+  "type": "coFloat"
+ },
+ "prime_tower_rib_wall": {
+  "label": "Rib wall",
+  "mode": "comSimple",
+  "tooltip": "The wall of prime tower will add four ribs and make its ",
+  "type": "coBool"
+ },
+ "prime_tower_rib_width": {
+  "label": "Rib width",
+  "max": 300.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Rib width is always less than half the prime tower side length.",
+  "type": "coFloat"
+ },
+ "prime_tower_skip_points": {
+  "label": "Skip points",
+  "mode": "comAdvanced",
+  "tooltip": "The wall of prime tower will skip the start points of wipe path",
+  "type": "coBool"
+ },
+ "prime_tower_width": {
+  "label": "Width",
+  "min": 2.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "Width of prime tower",
+  "type": "coFloat"
+ },
+ "prime_volume": {
+  "label": "Prime volume",
+  "min": 1.0,
+  "mode": "comSimple",
+  "sidetext": "mm\u00c2\u00b3",
+  "tooltip": "The volume of material to prime extruder on tower.",
+  "type": "coFloat"
+ },
+ "prime_volume_mode": {
+  "enum": [
+   "Default",
+   "Saving",
+   "Fast"
+  ],
+  "enum_labels": [
+   "Default",
+   "Saving",
+   "Fast"
+  ],
+  "type": "coEnum"
+ },
+ "print_compatible_printers": {
+  "type": "coStrings"
+ },
+ "print_extruder_id": {
+  "label": "Print extruder id",
+  "tooltip": "Print extruder id",
+  "type": "coInts"
+ },
+ "print_extruder_variant": {
+  "label": "Print's extruder variant",
+  "tooltip": "Print's extruder variant",
+  "type": "coStrings"
+ },
+ "print_flow_ratio": {
+  "category": "Quality",
+  "label": "Object flow ratio",
+  "max": 2.0,
+  "min": 0.01,
+  "mode": "comDevelop",
+  "tooltip": "The flow ratio set by object, the meaning is the same as flow ratio.",
+  "type": "coFloat"
+ },
+ "print_host": {
+  "label": "Hostname, IP or URL",
+  "mode": "comAdvanced",
+  "tooltip": "Slic3r can upload G-code files to a printer host. This field should contain ",
+  "type": "coString"
+ },
+ "print_host_webui": {
+  "label": "Device UI",
+  "mode": "comAdvanced",
+  "tooltip": "Specify the URL of your device user interface if it's not same as print_host",
+  "type": "coString"
+ },
+ "print_in_clockwise": {
+  "label": "Print loops in clockwise",
+  "mode": "comDevelop",
+  "tooltip": "Print in clockwise when enabled, or counterclockwise when not enabled, not work for spiral vase mode",
+  "type": "coBool"
+ },
+ "print_sequence": {
+  "enum": [
+   "by layer",
+   "by object"
+  ],
+  "enum_labels": [
+   "By layer",
+   "By object"
+  ],
+  "label": "Print sequence",
+  "mode": "comSimple",
+  "tooltip": "Print sequence, layer by layer or object by object",
+  "type": "coEnum"
+ },
+ "print_settings_id": {
+  "type": "coString"
+ },
+ "printable_area": {
+  "label": "Printable area",
+  "mode": "comAdvanced",
+  "type": "coPoints"
+ },
+ "printable_height": {
+  "label": "Printable height",
+  "max": 1000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "Maximum printable height which is limited by mechanism of printer",
+  "type": "coFloat"
+ },
+ "printer_extruder_id": {
+  "label": "Printer extruder id",
+  "tooltip": "Printer extruder id",
+  "type": "coInts"
+ },
+ "printer_extruder_variant": {
+  "label": "Printer's extruder variant",
+  "tooltip": "Printer's extruder variant",
+  "type": "coStrings"
+ },
+ "printer_model": {
+  "label": "Printer type",
+  "tooltip": "Type of the printer",
+  "type": "coString"
+ },
+ "printer_notes": {
+  "label": "Printer notes",
+  "mode": "comAdvanced",
+  "tooltip": "You can put your notes regarding the printer here.",
+  "type": "coString"
+ },
+ "printer_settings_id": {
+  "type": "coString"
+ },
+ "printer_structure": {
+  "enum": [
+   "undefine",
+   "corexy",
+   "i3",
+   "hbot",
+   "delta"
+  ],
+  "enum_labels": [
+   "Undefine",
+   "CoreXY",
+   "I3",
+   "Hbot",
+   "Delta"
+  ],
+  "label": "Printer structure",
+  "mode": "comDevelop",
+  "tooltip": "The physical arrangement and components of a printing device",
+  "type": "coEnum"
+ },
+ "printer_technology": {
+  "enum": [
+   "FFF",
+   "SLA"
+  ],
+  "label": "Printer technology",
+  "tooltip": "Printer technology",
+  "type": "coEnum"
+ },
+ "printer_variant": {
+  "label": "Printer variant",
+  "tooltip": "Name of the printer variant. For example, the printer variants may be differentiated by a nozzle diameter.",
+  "type": "coString"
+ },
+ "printhost_apikey": {
+  "label": "API Key / Password",
+  "mode": "comAdvanced",
+  "tooltip": "Slic3r can upload G-code files to a printer host. This field should contain ",
+  "type": "coString"
+ },
+ "printhost_authorization_type": {
+  "enum": [
+   "key",
+   "user"
+  ],
+  "enum_labels": [
+   "API key",
+   "HTTP digest"
+  ],
+  "label": "Authorization Type",
+  "mode": "comAdvanced",
+  "tooltip": "",
+  "type": "coEnum"
+ },
+ "printhost_cafile": {
+  "label": "HTTPS CA File",
+  "mode": "comAdvanced",
+  "tooltip": "Custom CA certificate file can be specified for HTTPS OctoPrint connections, in crt/pem format. ",
+  "type": "coString"
+ },
+ "printhost_password": {
+  "label": "Password",
+  "mode": "comAdvanced",
+  "tooltip": "",
+  "type": "coString"
+ },
+ "printhost_port": {
+  "label": "Printer",
+  "mode": "comAdvanced",
+  "tooltip": "Name of the printer",
+  "type": "coString"
+ },
+ "printhost_ssl_ignore_revoke": {
+  "label": "Ignore HTTPS certificate revocation checks",
+  "mode": "comAdvanced",
+  "tooltip": "Ignore HTTPS certificate revocation checks in case of missing or offline distribution points. ",
+  "type": "coBool"
+ },
+ "printhost_user": {
+  "label": "User",
+  "mode": "comAdvanced",
+  "tooltip": "",
+  "type": "coString"
+ },
+ "printing_by_object_gcode": {
+  "label": "Between Object Gcode",
+  "mode": "comAdvanced",
+  "tooltip": "Insert Gcode between objects. This parameter will only come into effect when you print your models object by object",
+  "type": "coString"
+ },
+ "process_notes": {
+  "label": "Process notes",
+  "mode": "comAdvanced",
+  "tooltip": "You can put your notes regarding the process here.",
+  "type": "coString"
+ },
+ "raft_contact_distance": {
+  "category": "Support",
+  "label": "Raft contact Z distance",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Z gap between object and raft. Ignored for soluble interface",
+  "type": "coFloat"
+ },
+ "raft_expansion": {
+  "category": "Support",
+  "label": "Raft expansion",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Expand all raft layers in XY plane",
+  "type": "coFloat"
+ },
+ "raft_first_layer_density": {
+  "category": "Support",
+  "label": "Initial layer density",
+  "max": 100.0,
+  "min": 10.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Density of the first raft or support layer",
+  "type": "coPercent"
+ },
+ "raft_first_layer_expansion": {
+  "category": "Support",
+  "label": "Initial layer expansion",
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Expand the first raft or support layer to improve bed plate adhesion, -1 means auto",
+  "type": "coFloat"
+ },
+ "raft_layers": {
+  "category": "Support",
+  "label": "Raft layers",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "layers",
+  "tooltip": "Object will be raised by this number of support layers. ",
+  "type": "coInt"
+ },
+ "reduce_crossing_wall": {
+  "category": "Quality",
+  "label": "Avoid crossing wall",
+  "mode": "comAdvanced",
+  "tooltip": "Detour and avoid traveling across wall which may cause blob on surface (when travel length greater than Travel distance threshold)",
+  "type": "coBool"
+ },
+ "reduce_fan_stop_start_freq": {
+  "label": "Keep fan always on",
+  "tooltip": "If enable this setting, part cooling fan will never be stopped and will run at least ",
+  "type": "coBools"
+ },
+ "reduce_infill_retraction_mode": {
+  "enum": [
+   "Disabled",
+   "Auto",
+   "Enabled"
+  ],
+  "enum_labels": [
+   "Disabled",
+   "Auto",
+   "Enabled"
+  ],
+  "label": "Reduce infill retraction",
+  "mode": "comAdvanced",
+  "tooltip": "Controls whether retraction is skipped when traveling within the infill area. ",
+  "type": "coEnum"
+ },
+ "relative_correction": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloats"
+ },
+ "relative_correction_x": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "relative_correction_y": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "relative_correction_z": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "repair": {
+  "label": "Repair",
+  "tooltip": "Repair the model's meshes if it is non-manifold mesh",
+  "type": "coBool"
+ },
+ "repetitions": {
+  "label": "Repetition count",
+  "tooltip": "Repetition count of the whole model",
+  "type": "coInt"
+ },
+ "required_nozzle_HRC": {
+  "label": "Required nozzle HRC",
+  "max": 500.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "Minimum HRC of nozzle required to print the filament. Zero means no checking of nozzle's HRC.",
+  "type": "coInts"
+ },
+ "resolution": {
+  "label": "Resolution",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "G-code path is generated after simplifying the contour of model to avoid too many points and gcode lines ",
+  "type": "coFloat"
+ },
+ "retract_before_wipe": {
+  "label": "Retract amount before wipe",
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "The length of fast retraction before wipe, relative to retraction length",
+  "type": "coPercents"
+ },
+ "retract_length_toolchange": {
+  "full_label": "Retraction Length (Toolchange)",
+  "label": "Length",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "When retraction is triggered before changing tool, filament is pulled back ",
+  "type": "coFloats"
+ },
+ "retract_lift_above": {
+  "label": "Z hop lower boundary",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Z hop will only come into effect when Z is above this value and is below the parameter: \"Z hop upper boundary\"",
+  "type": "coFloats"
+ },
+ "retract_lift_below": {
+  "label": "Z hop upper boundary",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "If this value is positive, Z hop will only come into effect when Z is above the parameter: \"Z hop lower boundary\" and is below this value",
+  "type": "coFloats"
+ },
+ "retract_restart_extra": {
+  "label": "Extra length on restart",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "When the retraction is compensated after the travel move, the extruder will push ",
+  "type": "coFloats"
+ },
+ "retract_restart_extra_toolchange": {
+  "label": "Extra length on restart",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "When the retraction is compensated after changing tool, the extruder will push ",
+  "type": "coFloats"
+ },
+ "retract_when_changing_layer": {
+  "label": "Retract when change layer",
+  "mode": "comAdvanced",
+  "tooltip": "Force a retraction when changes layer",
+  "type": "coBools"
+ },
+ "retraction_distances_when_cut": {
+  "label": "Retraction distance when cut",
+  "max": 18.0,
+  "min": 10.0,
+  "mode": "comDevelop",
+  "tooltip": "Experimental feature.Retraction length before cutting off during filament change",
+  "type": "coFloats"
+ },
+ "retraction_distances_when_ec": {
+  "label": "Retraction distance when extruder change",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "type": "coFloats"
+ },
+ "retraction_length": {
+  "full_label": "Retraction Length",
+  "label": "Length",
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "Some amount of material in extruder is pulled back to avoid ooze during long travel. ",
+  "type": "coFloats"
+ },
+ "retraction_minimum_travel": {
+  "label": "Travel distance threshold",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Only trigger retraction when the travel distance is longer than this threshold",
+  "type": "coFloats"
+ },
+ "retraction_speed": {
+  "full_label": "Retraction Speed",
+  "label": "Retraction Speed",
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of retractions",
+  "type": "coFloats"
+ },
+ "role_base_wipe_speed": {
+  "category": "Quality",
+  "label": "Role-based wipe speed",
+  "mode": "comAdvanced",
+  "tooltip": "The wipe speed is determined by speed of current extrusion role. ",
+  "type": "coBool"
+ },
+ "rotate": {
+  "label": "Rotate",
+  "tooltip": "Rotation angle around the Z axis in degrees.",
+  "type": "coFloat"
+ },
+ "rotate_x": {
+  "label": "Rotate around X",
+  "tooltip": "Rotation angle around the X axis in degrees.",
+  "type": "coFloat"
+ },
+ "rotate_y": {
+  "label": "Rotate around Y",
+  "tooltip": "Rotation angle around the Y axis in degrees.",
+  "type": "coFloat"
+ },
+ "scale": {
+  "label": "Scale",
+  "tooltip": "Scale the model by a float factor",
+  "type": "coFloat"
+ },
+ "scan_first_layer": {
+  "label": "Scan first layer",
+  "mode": "comDevelop",
+  "tooltip": "Enable this to enable the camera on printer to check the quality of first layer",
+  "type": "coBool"
+ },
+ "scarf_angle_threshold": {
+  "category": "Quality",
+  "label": "Scarf application angle threshold",
+  "max": 180.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "This option sets the threshold angle for applying a conditional scarf joint seam.\nIf the seam angle within the perimeter loop ",
+  "type": "coInt"
+ },
+ "seam_gap": {
+  "category": "Quality",
+  "label": "Seam gap",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "%",
+  "tooltip": "In order to reduce the visibility of the seam in a closed loop extrusion, the loop is interrupted and shortened by a specified amount.\n",
+  "type": "coPercent"
+ },
+ "seam_placement_away_from_overhangs": {
+  "category": "Quality",
+  "label": "Seam placement away from overhangs(experimental)",
+  "mode": "comAdvanced",
+  "tooltip": "Ensure seam placement away from overhangs for alignment and backing modes.",
+  "type": "coBool"
+ },
+ "seam_position": {
+  "category": "Quality",
+  "enum": [
+   "nearest",
+   "aligned",
+   "back",
+   "random"
+  ],
+  "enum_labels": [
+   "Nearest",
+   "Aligned",
+   "Back",
+   "Random"
+  ],
+  "label": "Seam position",
+  "mode": "comSimple",
+  "tooltip": "The start position to print each part of outer wall",
+  "type": "coEnum"
+ },
+ "seam_slope_conditional": {
+  "category": "Quality",
+  "label": "Smart scarf seam application",
+  "mode": "comAdvanced",
+  "tooltip": "Apply scarf joints only to smooth perimeters where traditional seams do not conceal the seams at sharp corners effectively.",
+  "type": "coBool"
+ },
+ "seam_slope_entire_loop": {
+  "category": "Quality",
+  "label": "Scarf around entire wall",
+  "mode": "comAdvanced",
+  "tooltip": "The scarf extends to the entire length of the wall.",
+  "type": "coBool"
+ },
+ "seam_slope_gap": {
+  "category": "Quality",
+  "label": "Scarf slope gap",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/%",
+  "tooltip": "In order to reduce the visiblity of the seam in closed loop, the inner wall and outer wall are shortened by a specified amount.",
+  "type": "coFloatOrPercent"
+ },
+ "seam_slope_inner_walls": {
+  "category": "Quality",
+  "label": "Scarf joint for inner walls",
+  "mode": "comAdvanced",
+  "tooltip": "Use scarf joint for inner walls as well.",
+  "type": "coBool"
+ },
+ "seam_slope_min_length": {
+  "category": "Quality",
+  "label": "Scarf length",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Length of the scarf. Setting this parameter to zero effectively disables the scarf.",
+  "type": "coFloat"
+ },
+ "seam_slope_start_height": {
+  "category": "Quality",
+  "label": "Scarf start height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/%",
+  "tooltip": "This amount can be specified in millimeters or as a percentage of the current layer height.",
+  "type": "coFloatOrPercent"
+ },
+ "seam_slope_steps": {
+  "category": "Quality",
+  "label": "Scarf steps",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "tooltip": "Minimum number of segments of each scarf.",
+  "type": "coInt"
+ },
+ "seam_slope_type": {
+  "category": "Quality",
+  "enum": [
+   "none",
+   "external",
+   "all"
+  ],
+  "enum_labels": [
+   "None",
+   "Contour",
+   "Contour and hole"
+  ],
+  "label": "Scarf seam type",
+  "mode": "comAdvanced",
+  "tooltip": "Set scarf seam type for this filament. This setting could minimize seam visibiliy.",
+  "type": "coEnum"
+ },
+ "silent_mode": {
+  "label": "Supports silent mode",
+  "mode": "comDevelop",
+  "tooltip": "Whether the machine supports silent mode in which machine use lower acceleration to print",
+  "type": "coBool"
+ },
+ "single_extruder_multi_material": {
+  "label": "Single Extruder Multi Material",
+  "mode": "comDevelop",
+  "tooltip": "Use single nozzle to print multi filament",
+  "type": "coBool"
+ },
+ "single_instance": {
+  "label": "Single instance mode",
+  "tooltip": "If enabled, the command line arguments are sent to an existing instance of GUI BambuStudio, ",
+  "type": "coBool"
+ },
+ "skeleton_infill_density": {
+  "category": "Strength",
+  "label": "Skeleton infill density",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "The remaining part of the model contour after removing a certain depth from the surface is called the skeleton. This parameter is used to adjust the density of this section.",
+  "type": "coPercent"
+ },
+ "skeleton_infill_line_width": {
+  "category": "Strength",
+  "label": "Skeleton line width",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Adjust the line width of the selected skeleton paths.",
+  "type": "coFloat"
+ },
+ "skin_infill_density": {
+  "category": "Strength",
+  "label": "Skin infill density",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "The portion of the model's outer surface within a certain depth range is called the skin. This parameter is used to adjust the density of this section.",
+  "type": "coPercent"
+ },
+ "skin_infill_depth": {
+  "category": "Strength",
+  "label": "Skin infill depth",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The parameter sets the depth of skin.",
+  "type": "coFloat"
+ },
+ "skin_infill_line_width": {
+  "category": "Strength",
+  "label": "Skin line width",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Adjust the line width of the selected skin paths.",
+  "type": "coFloat"
+ },
+ "skip_modified_gcodes": {
+  "label": "Skip modified gcodes in 3mf",
+  "tooltip": "Skip the modified gcodes in 3mf from Printer or filament Presets",
+  "type": "coBool"
+ },
+ "skip_objects": {
+  "label": "Skip Objects",
+  "tooltip": "Skip some objects in this print",
+  "type": "coInts"
+ },
+ "skip_useless_pick": {
+  "label": "Skip generating useless pick/top images into 3mf",
+  "tooltip": "Skip generating useless pick/top images into 3mf",
+  "type": "coBool"
+ },
+ "skirt_distance": {
+  "label": "Skirt distance",
+  "max": 55.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Distance from skirt to brim or object",
+  "type": "coFloat"
+ },
+ "skirt_height": {
+  "label": "Skirt height",
+  "max": 10000.0,
+  "mode": "comSimple",
+  "sidetext": "layers",
+  "tooltip": "How many layers of skirt. Usually only one layer",
+  "type": "coInt"
+ },
+ "skirt_loops": {
+  "full_label": "Skirt loops",
+  "label": "Skirt loops",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "tooltip": "Number of loops for the skirt. Zero means disabling skirt",
+  "type": "coInt"
+ },
+ "skirt_per_object": {
+  "label": "Skirt per object",
+  "mode": "comDevelop",
+  "tooltip": "Generate independent skirt around each object in sequential printing mode. When disabled, a single skirt is drawn around all objects.",
+  "type": "coBool"
+ },
+ "sla_material_settings_id": {
+  "type": "coString"
+ },
+ "sla_print_settings_id": {
+  "type": "coString"
+ },
+ "slice": {
+  "label": "Slice",
+  "tooltip": "Slice the plates: 0-all plates, i-plate i, others-invalid",
+  "type": "coInt"
+ },
+ "slice_closing_radius": {
+  "category": "Quality",
+  "label": "Slice gap closing radius",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Cracks smaller than 2x gap closing radius are being filled during the triangle mesh slicing. ",
+  "type": "coFloat"
+ },
+ "slicing_mode": {
+  "category": "Other",
+  "enum": [
+   "regular",
+   "even_odd",
+   "close_holes"
+  ],
+  "enum_labels": [
+   "Regular",
+   "Even-odd",
+   "Close holes"
+  ],
+  "label": "Slicing Mode",
+  "mode": "comAdvanced",
+  "tooltip": "Use \"Even-odd\" for 3DLabPrint airplane models. Use \"Close holes\" to close all holes in the model.",
+  "type": "coEnum"
+ },
+ "slow_down_for_layer_cooling": {
+  "label": "Slow printing down for better layer cooling",
+  "tooltip": "Enable this option to slow printing speed down to make the final layer time not shorter than ",
+  "type": "coBools"
+ },
+ "slow_down_layer_time": {
+  "label": "Layer time",
+  "max": 1000.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "s",
+  "tooltip": "The printing speed in exported gcode will be slowed down, when the estimated layer time is shorter than this value, to ",
+  "type": "coInts"
+ },
+ "slow_down_min_speed": {
+  "label": "Min print speed",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "The minimum printing speed when slow down for cooling",
+  "type": "coFloats"
+ },
+ "slow_tilt_time": {
+  "full_label": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "slowdown_end_acc": {
+  "category": "Speed",
+  "label": "Acceleration at ending height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "type": "coFloats"
+ },
+ "slowdown_end_height": {
+  "category": "Speed",
+  "label": "Ending height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The height finishes slowing down, ",
+  "type": "coFloats"
+ },
+ "slowdown_end_speed": {
+  "category": "Speed",
+  "label": "Speed at ending height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "type": "coFloats"
+ },
+ "slowdown_start_acc": {
+  "category": "Speed",
+  "label": "Acceleration at starting height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "type": "coFloats"
+ },
+ "slowdown_start_height": {
+  "category": "Speed",
+  "label": "Starting height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The height starts to slow down",
+  "type": "coFloats"
+ },
+ "slowdown_start_speed": {
+  "category": "Speed",
+  "label": "Speed at starting height",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "type": "coFloats"
+ },
+ "small_perimeter_speed": {
+  "category": "Speed",
+  "label": "Small perimeters",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s or %",
+  "tooltip": "This setting will affect the speed of perimeters having radius <= small perimeter threshold",
+  "type": "coFloatsOrPercents"
+ },
+ "small_perimeter_threshold": {
+  "category": "Speed",
+  "label": "Small perimeter threshold",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "This sets the threshold for small perimeter length. Default threshold is 0mm",
+  "type": "coFloats"
+ },
+ "smooth_coefficient": {
+  "category": "Quality",
+  "label": "Smooth coefficient",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "The smaller the number, the longer the speed transition path. 0 means not apply.",
+  "type": "coFloat"
+ },
+ "smooth_speed_discontinuity_area": {
+  "category": "Quality",
+  "label": "Smooth speed discontinuity area",
+  "mode": "comAdvanced",
+  "tooltip": "Add the speed transition between discontinuity area.",
+  "type": "coBool"
+ },
+ "solid_infill_filament": {
+  "category": "Extruders",
+  "label": "Solid infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "Filament to print solid infill",
+  "type": "coInt"
+ },
+ "spaghetti_detector": {
+  "label": "Enable spaghetti detector",
+  "mode": "comSimple",
+  "tooltip": "Enable the camera on printer to check spaghetti",
+  "type": "coBool"
+ },
+ "sparse_infill_acceleration": {
+  "label": "Sparse infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2 or %",
+  "tooltip": "Acceleration of sparse infill. If the value is expressed as a percentage (e.g. 100%), it will be calculated based on the default acceleration.",
+  "type": "coFloatsOrPercents"
+ },
+ "sparse_infill_anchor": {
+  "category": "Strength",
+  "enum": [
+   "0",
+   "1",
+   "2",
+   "5",
+   "10",
+   "1000"
+  ],
+  "enum_labels": [
+   "0 (no open anchors)",
+   "1 mm",
+   "2 mm",
+   "5 mm",
+   "10 mm",
+   "1000 (unlimited)"
+  ],
+  "label": "Length of sparse infill anchor",
+  "mode": "comAdvanced",
+  "sidetext": "mm or %",
+  "tooltip": "Connect a sparse infill line to an internal perimeter with a short segment of an additional perimeter. ",
+  "type": "coFloatOrPercent"
+ },
+ "sparse_infill_anchor_max": {
+  "enum": [
+   "0",
+   "1",
+   "2",
+   "5",
+   "10",
+   "1000"
+  ],
+  "enum_labels": [
+   "0 (not anchored)",
+   "1 mm",
+   "2 mm",
+   "5 mm",
+   "10 mm",
+   "1000 (unlimited)"
+  ],
+  "label": "Maximum length of sparse infill anchor",
+  "tooltip": "Connect a sparse infill line to an internal perimeter with a short segment of an additional perimeter. ",
+  "type": "coFloatOrPercent"
+ },
+ "sparse_infill_density": {
+  "category": "Strength",
+  "label": "Sparse infill density",
+  "max": 100.0,
+  "min": 0.0,
+  "sidetext": "%",
+  "tooltip": "Density of internal sparse infill, 100% means solid throughout",
+  "type": "coPercent"
+ },
+ "sparse_infill_filament": {
+  "category": "Extruders",
+  "label": "Sparse infill filament",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "Filament to print internal sparse infill.",
+  "type": "coInt"
+ },
+ "sparse_infill_lattice_angle_1": {
+  "category": "Strength",
+  "label": "Lattice angle 1",
+  "max": 75.0,
+  "min": -75.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "The angle of the first set of 2D lattice elements in the Z direction. Zero is vertical.",
+  "type": "coFloat"
+ },
+ "sparse_infill_lattice_angle_2": {
+  "category": "Strength",
+  "label": "Lattice angle 2",
+  "max": 75.0,
+  "min": -75.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "The angle of the second set of 2D lattice elements in the Z direction. Zero is vertical.",
+  "type": "coFloat"
+ },
+ "sparse_infill_line_width": {
+  "category": "Quality",
+  "label": "Sparse infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of internal sparse infill",
+  "type": "coFloat"
+ },
+ "sparse_infill_pattern": {
+  "category": "Strength",
+  "enum": [
+   "concentric",
+   "zig-zag",
+   "grid",
+   "line",
+   "cubic",
+   "triangles",
+   "tri-hexagon",
+   "gyroid",
+   "honeycomb",
+   "adaptivecubic",
+   "alignedrectilinear",
+   "3dhoneycomb",
+   "hilbertcurve",
+   "archimedeanchords",
+   "octagramspiral",
+   "supportcubic",
+   "lightning",
+   "crosshatch",
+   "zigzag",
+   "crosszag",
+   "lockedzag",
+   "2dlattice"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear",
+   "Grid",
+   "Line",
+   "Cubic",
+   "Triangles",
+   "Tri-hexagon",
+   "Gyroid",
+   "Honeycomb",
+   "Adaptive Cubic",
+   "Aligned Rectilinear",
+   "3D Honeycomb",
+   "Hilbert Curve",
+   "Archimedean Chords",
+   "Octagram Spiral",
+   "Support Cubic",
+   "Lightning",
+   "Cross Hatch",
+   "Zig Zag",
+   "Cross Zag",
+   "Locked Zag",
+   "2D Lattice"
+  ],
+  "label": "Sparse infill pattern",
+  "tooltip": "Line pattern for internal sparse infill",
+  "type": "coEnum"
+ },
+ "sparse_infill_speed": {
+  "category": "Speed",
+  "label": "Sparse infill",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of internal sparse infill",
+  "type": "coFloats"
+ },
+ "spiral_mode": {
+  "label": "Spiral vase",
+  "mode": "comSimple",
+  "tooltip": "Spiralize smooths out the z moves of the outer contour. ",
+  "type": "coBool"
+ },
+ "spiral_mode_max_xy_smoothing": {
+  "label": "Max XY Smoothing",
+  "max": 1000.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm or %",
+  "tooltip": "Maximum distance to move points in XY to try to achieve a smooth spiral",
+  "type": "coFloatOrPercent"
+ },
+ "spiral_mode_smooth": {
+  "label": "Smooth Spiral",
+  "mode": "comSimple",
+  "tooltip": "Smooth Spiral smoothes out X and Y moves as well",
+  "type": "coBool"
+ },
+ "split": {
+  "label": "Split",
+  "tooltip": "Detect unconnected parts in the given model(s) and split them into separate objects.",
+  "type": "coBool"
+ },
+ "standby_temperature_delta": {
+  "label": "Temperature variation",
+  "mode": "comDevelop",
+  "sidetext": "\u00e2\u0088\u0086\u00c2\u00b0C",
+  "tooltip": "Temperature difference to be applied when an extruder is not active. ",
+  "type": "coInt"
+ },
+ "start_end_points": {
+  "label": "Start end points",
+  "mode": "comDevelop",
+  "readonly": true,
+  "tooltip": "The start and end points which are from cutter area to garbage can.",
+  "type": "coPoints"
+ },
+ "supertack_plate_temp": {
+  "full_label": "Bed temperature",
+  "label": "Other layers",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature for layers except the initial one. ",
+  "type": "coInts"
+ },
+ "supertack_plate_temp_initial_layer": {
+  "full_label": "Initial layer bed temperature",
+  "label": "Initial layer",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature of the initial layer. ",
+  "type": "coInts"
+ },
+ "support_air_filtration": {
+  "label": "Air filtration enhancement",
+  "mode": "comAdvanced",
+  "tooltip": "Enable this if printer support air filtration enhancement.",
+  "type": "coBool"
+ },
+ "support_angle": {
+  "category": "Support",
+  "label": "Pattern angle",
+  "max": 359.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Use this setting to rotate the support pattern on the horizontal plane.",
+  "type": "coFloat"
+ },
+ "support_base_diameter": {
+  "category": " ",
+  "label": " ",
+  "max": 30.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_base_height": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_base_pattern": {
+  "category": "Support",
+  "enum": [
+   "default",
+   "rectilinear",
+   "rectilinear-grid",
+   "honeycomb",
+   "lightning",
+   "hollow"
+  ],
+  "enum_labels": [
+   "Default",
+   "Rectilinear",
+   "Rectilinear grid",
+   "Honeycomb",
+   "Lightning",
+   "Hollow"
+  ],
+  "label": "Base pattern",
+  "mode": "comAdvanced",
+  "tooltip": "Line pattern of support",
+  "type": "coEnum"
+ },
+ "support_base_pattern_spacing": {
+  "category": "Support",
+  "label": "Base pattern spacing",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Spacing between support lines",
+  "type": "coFloat"
+ },
+ "support_base_safety_distance": {
+  "category": " ",
+  "label": " ",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_bottom_interface_spacing": {
+  "category": "Support",
+  "label": "Bottom interface spacing",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Spacing of bottom interface lines. Zero means solid interface",
+  "type": "coFloat"
+ },
+ "support_bottom_z_distance": {
+  "category": "Support",
+  "label": "Bottom Z distance",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The z gap between the bottom support interface and object",
+  "type": "coFloat"
+ },
+ "support_buildplate_only": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "support_chamber_temp_control": {
+  "label": "Support control chamber temperature",
+  "mode": "comDevelop",
+  "tooltip": "This option is enabled if machine support controlling chamber temperature",
+  "type": "coBool"
+ },
+ "support_cooling_filter": {
+  "mode": "comAdvanced",
+  "type": "coBool"
+ },
+ "support_critical_angle": {
+  "category": " ",
+  "label": " ",
+  "max": 90.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_critical_regions_only": {
+  "category": "Support",
+  "label": "Support critical regions only",
+  "mode": "comAdvanced",
+  "tooltip": "Only create support for critical regions including sharp tail, cantilever, etc.",
+  "type": "coBool"
+ },
+ "support_expansion": {
+  "category": "Support",
+  "label": "Normal Support expansion",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Expand (+) or shrink (-) the horizontal span of normal support",
+  "type": "coFloat"
+ },
+ "support_fast_purge_mode": {
+  "label": "Support fast purge mode",
+  "mode": "comDevelop",
+  "tooltip": "Whether this printer supports fast purge mode with optimized temperature and multiplier.",
+  "type": "coBool"
+ },
+ "support_filament": {
+  "category": "Support",
+  "label": "Support/raft base",
+  "min": 0.0,
+  "mode": "comSimple",
+  "tooltip": "Filament to print support base and raft. \"Default\" means no specific filament for support and current filament is used",
+  "type": "coInt"
+ },
+ "support_head_front_diameter": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_head_penetration": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_head_width": {
+  "category": " ",
+  "label": " ",
+  "max": 20.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_interface_bottom_layers": {
+  "category": "Support",
+  "enum": [
+   "-1"
+  ],
+  "enum_labels": [
+   "Same as top"
+  ],
+  "label": "Bottom interface layers",
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "sidetext": "layers",
+  "tooltip": "Number of bottom interface layers",
+  "type": "coInt"
+ },
+ "support_interface_filament": {
+  "category": "Support",
+  "label": "Support/raft interface",
+  "min": 0.0,
+  "mode": "comSimple",
+  "tooltip": "Filament to print support interface. \"Default\" means no specific filament for support interface and current filament is used",
+  "type": "coInt"
+ },
+ "support_interface_loop_pattern": {
+  "category": "Support",
+  "label": "Interface use loop pattern",
+  "mode": "comAdvanced",
+  "tooltip": "Cover the top contact layer of the supports with loops. Disabled by default.",
+  "type": "coBool"
+ },
+ "support_interface_not_for_body": {
+  "category": "Support",
+  "label": "Avoid interface filament for base",
+  "mode": "comSimple",
+  "tooltip": "Avoid using support interface filament to print support base if possible.",
+  "type": "coBool"
+ },
+ "support_interface_pattern": {
+  "category": "Support",
+  "enum": [
+   "auto",
+   "rectilinear",
+   "concentric",
+   "rectilinear_interlaced",
+   "grid"
+  ],
+  "enum_labels": [
+   "Default",
+   "Rectilinear",
+   "Concentric",
+   "Rectilinear Interlaced",
+   "Grid"
+  ],
+  "label": "Interface pattern",
+  "mode": "comAdvanced",
+  "tooltip": "Line pattern of support interface. ",
+  "type": "coEnum"
+ },
+ "support_interface_spacing": {
+  "category": "Support",
+  "label": "Top interface spacing",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Spacing of interface lines. Zero means solid interface.",
+  "type": "coFloat"
+ },
+ "support_interface_speed": {
+  "category": "Speed",
+  "label": "Support interface",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of support interface",
+  "type": "coFloats"
+ },
+ "support_interface_top_layers": {
+  "category": "Support",
+  "enum": [
+   "0",
+   "1",
+   "2",
+   "3"
+  ],
+  "enum_labels": [
+   "0",
+   "1",
+   "2",
+   "3"
+  ],
+  "label": "Top interface layers",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "layers",
+  "tooltip": "Number of top interface layers",
+  "type": "coInt"
+ },
+ "support_ironing_direction": {
+  "category": "Support",
+  "label": "Support ironing direction",
+  "max": 360.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Angle for ironing, which controls the relative angle between the top surface and ironing",
+  "type": "coFloat"
+ },
+ "support_ironing_flow": {
+  "category": "Support",
+  "label": "Support ironing flow",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "%",
+  "tooltip": "The amount of material to extrude during ironing. Relative to flow of normal layer height. ",
+  "type": "coPercent"
+ },
+ "support_ironing_inset": {
+  "category": "Support",
+  "label": "Support ironing inset",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "The distance to keep the from the edges of ironing line. 0 means not apply.",
+  "type": "coFloat"
+ },
+ "support_ironing_pattern": {
+  "category": "Support",
+  "enum": [
+   "concentric",
+   "zig-zag"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear"
+  ],
+  "label": "Support ironing pattern",
+  "mode": "comDevelop",
+  "type": "coEnum"
+ },
+ "support_ironing_spacing": {
+  "category": "Support",
+  "label": "Support ironing line spacing",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "The distance between the lines of ironing",
+  "type": "coFloat"
+ },
+ "support_ironing_speed": {
+  "category": "Support",
+  "label": "Support ironing speed",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm/s",
+  "tooltip": "Print speed of ironing lines",
+  "type": "coFloat"
+ },
+ "support_line_width": {
+  "category": "Quality",
+  "label": "Support",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width of support",
+  "type": "coFloat"
+ },
+ "support_max_bridge_length": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_max_bridges_on_pillar": {
+  "label": " ",
+  "max": 50.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coInt"
+ },
+ "support_max_pillar_link_distance": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_object_elevation": {
+  "category": " ",
+  "label": " ",
+  "max": 150.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_object_first_layer_gap": {
+  "category": "Support",
+  "label": "Support/object first layer gap",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "XY separation between an object and its support at the first layer.",
+  "type": "coFloat"
+ },
+ "support_object_skip_flush": {
+  "type": "coBool"
+ },
+ "support_object_xy_distance": {
+  "category": "Support",
+  "label": "Support/object xy distance",
+  "max": 10.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "XY separation between an object and its support",
+  "type": "coFloat"
+ },
+ "support_on_build_plate_only": {
+  "category": "Support",
+  "label": "On build plate only",
+  "mode": "comSimple",
+  "tooltip": "Don't create support on model surface, only on build plate",
+  "type": "coBool"
+ },
+ "support_pillar_connection_mode": {
+  "enum": [
+   "zigzag",
+   "cross",
+   "dynamic"
+  ],
+  "enum_labels": [
+   " ",
+   " ",
+   " "
+  ],
+  "label": " ",
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coEnum"
+ },
+ "support_pillar_diameter": {
+  "category": " ",
+  "label": " ",
+  "max": 15.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_pillar_widening_factor": {
+  "category": " ",
+  "label": " ",
+  "max": 1.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_points_density_relative": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coInt"
+ },
+ "support_points_minimal_distance": {
+  "category": " ",
+  "label": " ",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": " ",
+  "type": "coFloat"
+ },
+ "support_remove_small_overhang": {
+  "category": "Support",
+  "label": "Remove small overhangs",
+  "mode": "comAdvanced",
+  "tooltip": "Remove small overhangs that possibly need no supports.",
+  "type": "coBool"
+ },
+ "support_small_pillar_diameter_percent": {
+  "category": " ",
+  "label": " ",
+  "max": 100.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": " ",
+  "tooltip": " ",
+  "type": "coPercent"
+ },
+ "support_speed": {
+  "category": "Speed",
+  "label": "Support",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of support",
+  "type": "coFloats"
+ },
+ "support_style": {
+  "category": "Support",
+  "enum": [
+   "default",
+   "grid",
+   "snug",
+   "tree_slim",
+   "tree_strong",
+   "tree_hybrid",
+   "tree_organic"
+  ],
+  "enum_labels": [
+   "Default",
+   "Grid",
+   "Snug",
+   "Tree Slim",
+   "Tree Strong",
+   "Tree Hybrid",
+   "Tree Organic"
+  ],
+  "label": "Style",
+  "mode": "comAdvanced",
+  "tooltip": "Style and shape of the support. For normal support, projecting the supports into a regular grid ",
+  "type": "coEnum"
+ },
+ "support_threshold_angle": {
+  "category": "Support",
+  "label": "Threshold angle",
+  "max": 90.0,
+  "min": 1.0,
+  "mode": "comSimple",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Support will be generated for overhangs whose slope angle is below the threshold.",
+  "type": "coInt"
+ },
+ "support_top_z_distance": {
+  "category": "Support",
+  "enum": [
+   "0",
+   "0.1",
+   "0.2"
+  ],
+  "enum_labels": [
+   "0 (soluble)",
+   "0.1 (semi-detachable)",
+   "0.2 (detachable)"
+  ],
+  "label": "Top Z distance",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "The z gap between the top support interface and object",
+  "type": "coFloat"
+ },
+ "support_type": {
+  "category": "Support",
+  "enum": [
+   "normal(auto)",
+   "tree(auto)",
+   "normal(manual)",
+   "tree(manual)"
+  ],
+  "enum_labels": [
+   "normal(auto)",
+   "tree(auto)",
+   "normal(manual)",
+   "tree(manual)"
+  ],
+  "label": "Type",
+  "mode": "comSimple",
+  "tooltip": "normal(auto) and tree(auto) is used to generate support automatically. ",
+  "type": "coEnum"
+ },
+ "supports_enable": {
+  "category": " ",
+  "label": " ",
+  "mode": "comSimple",
+  "tooltip": " ",
+  "type": "coBool"
+ },
+ "sw_renderer": {
+  "label": "Render with a software renderer",
+  "min": 0.0,
+  "tooltip": "Render with a software renderer. The bundled MESA software renderer is loaded instead of the default OpenGL driver.",
+  "type": "coBool"
+ },
+ "symmetric_infill_y_axis": {
+  "category": "Strength",
+  "label": "Symmetric infill y axis",
+  "mode": "comAdvanced",
+  "tooltip": "If the model has two parts that are symmetric about the y-axis,",
+  "type": "coBool"
+ },
+ "temperature_vitrification": {
+  "label": "Softening temperature",
+  "mode": "comSimple",
+  "tooltip": "The material softens at this temperature, so when the bed temperature is equal to or greater than it, it's highly recommended to open the front door and/or remove the upper glass to avoid cloggings.",
+  "type": "coInts"
+ },
+ "template_custom_gcode": {
+  "label": "Custom G-code",
+  "mode": "comAdvanced",
+  "tooltip": "This G-code will be used as a custom code",
+  "type": "coString"
+ },
+ "textured_plate_temp": {
+  "full_label": "Bed temperature",
+  "label": "Other layers",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature for layers except the initial one. ",
+  "type": "coInts"
+ },
+ "textured_plate_temp_initial_layer": {
+  "full_label": "Initial layer bed temperature",
+  "label": "Initial layer",
+  "max": 120.0,
+  "min": 0.0,
+  "sidetext": "\u00c2\u00b0C",
+  "tooltip": "Bed temperature of the initial layer. ",
+  "type": "coInts"
+ },
+ "thick_bridges": {
+  "category": "Quality",
+  "label": "Thick bridges",
+  "mode": "comAdvanced",
+  "tooltip": "If enabled, bridges are more reliable, can bridge longer distances, but may look worse. ",
+  "type": "coBool"
+ },
+ "thumbnail_size": {
+  "label": "Thumbnail size",
+  "mode": "comDevelop",
+  "tooltip": "Decides the size of thumbnail stored in gcode files",
+  "type": "coPoints"
+ },
+ "time_lapse_gcode": {
+  "label": "Time lapse G-code",
+  "mode": "comAdvanced",
+  "type": "coString"
+ },
+ "timelapse_type": {
+  "label": "Timelapse",
+  "mode": "comSimple",
+  "tooltip": "If smooth or traditional mode is selected, a timelapse video will be generated for each print. ",
+  "type": "coEnum"
+ },
+ "top_area_threshold": {
+  "label": "Top area threshold",
+  "max": 500.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "%",
+  "tooltip": "The min width of top areas in percentage of perimeter line width.",
+  "type": "coPercent"
+ },
+ "top_color_penetration_layers": {
+  "category": "Strength",
+  "label": "Top paint penetration layers",
+  "min": 1.0,
+  "tooltip": "This is  the number of layers of top paint penetration.",
+  "type": "coInt"
+ },
+ "top_one_wall_type": {
+  "category": "Quality",
+  "enum": [
+   "not apply",
+   "all top",
+   "topmost"
+  ],
+  "enum_labels": [
+   "Not apply",
+   "Top surfaces",
+   "Topmost surface"
+  ],
+  "label": "Only one wall on top surfaces",
+  "tooltip": "Use only one wall on flat top surface, to give more space to the top infill pattern. Could be applied on topmost surface or all top surface.",
+  "type": "coEnum"
+ },
+ "top_shell_layers": {
+  "category": "Strength",
+  "full_label": "Top solid layers",
+  "label": "Top shell layers",
+  "min": 0.0,
+  "tooltip": "This is the number of solid layers of top shell, including the top ",
+  "type": "coInt"
+ },
+ "top_shell_thickness": {
+  "category": "Strength",
+  "full_label": "Top shell thickness",
+  "label": "Top shell thickness",
+  "min": 0.0,
+  "sidetext": "mm",
+  "tooltip": "The number of top solid layers is increased when slicing if the thickness calculated by top shell layers is ",
+  "type": "coFloat"
+ },
+ "top_solid_infill_flow_ratio": {
+  "category": "Quality",
+  "label": "Top surface flow ratio",
+  "max": 2.0,
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "This factor affects the amount of material for top solid infill. ",
+  "type": "coFloats"
+ },
+ "top_surface_acceleration": {
+  "label": "Top surface",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Acceleration of top surface infill. Using a lower value may improve top surface quality",
+  "type": "coFloats"
+ },
+ "top_surface_density": {
+  "category": "Strength",
+  "label": "Top surface density",
+  "max": 100.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Density of top surface infill, 100% means a fully solid filled top layer.",
+  "type": "coPercent"
+ },
+ "top_surface_jerk": {
+  "label": "Top surface",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of top surface",
+  "type": "coFloat"
+ },
+ "top_surface_line_width": {
+  "category": "Quality",
+  "label": "Top surface",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Line width for top surfaces",
+  "type": "coFloat"
+ },
+ "top_surface_pattern": {
+  "category": "Strength",
+  "enum": [
+   "concentric",
+   "zig-zag",
+   "monotonic",
+   "monotonicline",
+   "alignedrectilinear",
+   "hilbertcurve",
+   "archimedeanchords",
+   "octagramspiral"
+  ],
+  "enum_labels": [
+   "Concentric",
+   "Rectilinear",
+   "Monotonic",
+   "Monotonic line",
+   "Aligned Rectilinear",
+   "Hilbert Curve",
+   "Archimedean Chords",
+   "Octagram Spiral"
+  ],
+  "label": "Top surface pattern",
+  "tooltip": "Line pattern of top surface infill",
+  "type": "coEnum"
+ },
+ "top_surface_speed": {
+  "category": "Speed",
+  "label": "Top surface",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of top surface infill which is solid",
+  "type": "coFloats"
+ },
+ "top_z_overrides_xy_distance": {
+  "category": "Support",
+  "label": "Z overrides X/Y",
+  "mode": "comAdvanced",
+  "tooltip": "When top z distance overrides support/object xy distance, give priority to ensuring that supports are generated beneath overhangs, ",
+  "type": "coBool"
+ },
+ "travel_acceleration": {
+  "label": "Travel",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "The acceleration of travel except initial layer",
+  "type": "coFloats"
+ },
+ "travel_jerk": {
+  "label": "Travel",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Jerk of travel",
+  "type": "coFloat"
+ },
+ "travel_short_distance_acceleration": {
+  "label": "Short travel",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm/s\u00c2\u00b2",
+  "tooltip": "Acceleration used for short travel moves near external perimeters. ",
+  "type": "coFloats"
+ },
+ "travel_speed": {
+  "label": "Travel",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of travel which is faster and without extrusion",
+  "type": "coFloats"
+ },
+ "travel_speed_z": {
+  "label": "Z travel",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "sidetext": "mm/s",
+  "tooltip": "Speed of vertical travel along z axis. ",
+  "type": "coFloats"
+ },
+ "tree_support_branch_angle": {
+  "category": "Support",
+  "label": "Branch angle",
+  "max": 60.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "This setting determines the maximum overhang angle that t he branches of tree support allowed to make.",
+  "type": "coFloat"
+ },
+ "tree_support_branch_diameter": {
+  "category": "Support",
+  "label": "Branch diameter",
+  "max": 10.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "This setting determines the initial diameter of support nodes.",
+  "type": "coFloat"
+ },
+ "tree_support_branch_diameter_angle": {
+  "category": "Support",
+  "label": "Branch diameter angle",
+  "max": 15.0,
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "The angle of the branches' diameter as they gradually become thicker towards the bottom. ",
+  "type": "coFloat"
+ },
+ "tree_support_branch_distance": {
+  "category": "Support",
+  "label": "Branch distance",
+  "max": 10.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "This setting determines the distance between neighboring tree support nodes.",
+  "type": "coFloat"
+ },
+ "tree_support_wall_count": {
+  "category": "Support",
+  "label": "Support wall loops",
+  "max": 2.0,
+  "min": -1.0,
+  "mode": "comAdvanced",
+  "tooltip": "This setting specifies the count of support walls in the range of [-1,2]. -1 means auto, ",
+  "type": "coInt"
+ },
+ "uptodate": {
+  "label": "UpToDate",
+  "tooltip": "Update the configs values of 3mf to latest.",
+  "type": "coBool"
+ },
+ "uptodate_filaments": {
+  "label": "load uptodate filament settings when using uptodate",
+  "tooltip": "load uptodate filament settings from the specified file when using uptodate",
+  "type": "coStrings"
+ },
+ "uptodate_settings": {
+  "label": "load uptodate process/machine settings when using uptodate",
+  "tooltip": "load uptodate process/machine settings from the specified file when using uptodate",
+  "type": "coStrings"
+ },
+ "upward_compatible_machine": {
+  "label": "upward compatible machine",
+  "mode": "comDevelop",
+  "type": "coStrings"
+ },
+ "use_firmware_retraction": {
+  "label": "Use firmware retraction",
+  "mode": "comAdvanced",
+  "tooltip": "Convert the retraction moves to G10 and G11 gcode",
+  "type": "coBool"
+ },
+ "use_relative_e_distances": {
+  "label": "Use relative E distances",
+  "mode": "comAdvanced",
+  "tooltip": "If your firmware requires relative E values, check this, ",
+  "type": "coBool"
+ },
+ "vertical_shell_speed": {
+  "category": "Speed",
+  "label": "Vertical shell speed",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm/s or %",
+  "tooltip": "Speed for vertical shells with overhang regions. If expressed as percentage (for example: 80%) it will be calculated on",
+  "type": "coFloatsOrPercents"
+ },
+ "volumetric_speed_coefficients": {
+  "label": "Max volumetric speed multinomial coefficients",
+  "type": "coStrings"
+ },
+ "wall_distribution_count": {
+  "category": "Quality",
+  "label": "Wall distribution count",
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "tooltip": "The number of walls, counted from the center, over which the variation needs to be ",
+  "type": "coInt"
+ },
+ "wall_filament": {
+  "category": "Extruders",
+  "label": "Walls",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "tooltip": "Filament to print walls",
+  "type": "coInt"
+ },
+ "wall_generator": {
+  "category": "Quality",
+  "enum": [
+   "classic",
+   "arachne"
+  ],
+  "enum_labels": [
+   "Classic",
+   "Arachne"
+  ],
+  "label": "Wall generator",
+  "mode": "comAdvanced",
+  "tooltip": "Classic wall generator produces walls with constant extrusion width and for ",
+  "type": "coEnum"
+ },
+ "wall_loops": {
+  "category": "Strength",
+  "label": "Wall loops",
+  "max": 1000.0,
+  "min": 0.0,
+  "tooltip": "Number of walls of every layer",
+  "type": "coInt"
+ },
+ "wall_sequence": {
+  "category": "Quality",
+  "enum": [
+   "inner wall/outer wall",
+   "outer wall/inner wall",
+   "inner-outer-inner wall"
+  ],
+  "enum_labels": [
+   "inner/outer",
+   "outer/inner",
+   "inner wall/outer wall/inner wall"
+  ],
+  "label": "Order of walls",
+  "mode": "comAdvanced",
+  "tooltip": "Print sequence of inner wall and outer wall. ",
+  "type": "coEnum"
+ },
+ "wall_transition_angle": {
+  "category": "Quality",
+  "label": "Wall transitioning threshold angle",
+  "max": 59.0,
+  "min": 1.0,
+  "mode": "comAdvanced",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "When to create transitions between even and odd numbers of walls. A wedge shape with",
+  "type": "coFloat"
+ },
+ "wall_transition_filter_deviation": {
+  "category": "Quality",
+  "label": "Wall transitioning filter margin",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "Prevent transitioning back and forth between one extra wall and one less. This ",
+  "type": "coPercent"
+ },
+ "wall_transition_length": {
+  "category": "Quality",
+  "label": "Wall transition length",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "%",
+  "tooltip": "When transitioning between different numbers of walls as the part becomes ",
+  "type": "coPercent"
+ },
+ "wipe": {
+  "label": "Wipe while retracting",
+  "mode": "comAdvanced",
+  "tooltip": "Move nozzle along the last extrusion path when retracting to clean leaked material on nozzle. ",
+  "type": "coBools"
+ },
+ "wipe_distance": {
+  "label": "Wipe Distance",
+  "min": 0.0,
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Describe how long the nozzle will move along the last path when retracting",
+  "type": "coFloats"
+ },
+ "wipe_speed": {
+  "category": "Quality",
+  "label": "Wipe speed",
+  "min": 0.01,
+  "mode": "comDevelop",
+  "sidetext": "%",
+  "tooltip": "The wipe speed is determined by the speed setting specified in this configuration.",
+  "type": "coPercent"
+ },
+ "wipe_tower_bridging": {
+  "label": "Maximal bridging distance",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Maximal distance between supports on sparse infill sections.",
+  "type": "coFloat"
+ },
+ "wipe_tower_no_sparse_layers": {
+  "label": "No sparse layers (experimental)",
+  "mode": "comDevelop",
+  "tooltip": "If enabled, the wipe tower will not be printed on layers with no toolchanges. ",
+  "type": "coBool"
+ },
+ "wipe_tower_rotation_angle": {
+  "label": "Wipe tower rotation angle",
+  "mode": "comDevelop",
+  "sidetext": "\u00c2\u00b0",
+  "tooltip": "Wipe tower rotation angle with respect to x-axis.",
+  "type": "coFloat"
+ },
+ "wipe_tower_x": {
+  "label": "Position X",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "X coordinate of the left front corner of a wipe tower",
+  "type": "coFloats"
+ },
+ "wipe_tower_y": {
+  "label": "Position Y",
+  "mode": "comDevelop",
+  "sidetext": "mm",
+  "tooltip": "Y coordinate of the left front corner of a wipe tower",
+  "type": "coFloats"
+ },
+ "wrapping_detection_gcode": {
+  "label": "Clumping detection G-code",
+  "mode": "comAdvanced",
+  "type": "coString"
+ },
+ "wrapping_detection_layers": {
+  "label": "Clumping detection layers",
+  "min": 0.0,
+  "mode": "comDevelop",
+  "tooltip": "Clumping detection layers.",
+  "type": "coInt"
+ },
+ "wrapping_exclude_area": {
+  "label": "Probing exclude area of clumping",
+  "mode": "comAdvanced",
+  "tooltip": "Probing exclude area of clumping.",
+  "type": "coPoints"
+ },
+ "xy_contour_compensation": {
+  "category": "Quality",
+  "label": "X-Y contour compensation",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Contour of object will be grown or shrunk in XY plane by the configured value. ",
+  "type": "coFloat"
+ },
+ "xy_hole_compensation": {
+  "category": "Quality",
+  "label": "X-Y hole compensation",
+  "mode": "comAdvanced",
+  "sidetext": "mm",
+  "tooltip": "Holes of object will be grown or shrunk in XY plane by the configured value. ",
+  "type": "coFloat"
+ },
+ "z_direction_outwall_speed_continuous": {
+  "category": "Quality",
+  "label": "Smoothing wall speed along Z(experimental)",
+  "mode": "comAdvanced",
+  "tooltip": "Smoothing outwall speed in z direction to get better surface quality. Print time will increases. This does not work on spiral vase mode.",
+  "type": "coBool"
+ },
+ "z_hop": {
+  "label": "Z hop when retract",
+  "max": 5.0,
+  "min": 0.0,
+  "mode": "comSimple",
+  "sidetext": "mm",
+  "tooltip": "Whenever the retraction is done, the nozzle is lifted a little to create clearance between nozzle and the print. ",
+  "type": "coFloats"
+ },
+ "z_hop_types": {
+  "enum": [
+   "Auto Lift",
+   "Normal Lift",
+   "Slope Lift",
+   "Spiral Lift"
+  ],
+  "enum_labels": [
+   "Auto",
+   "Normal",
+   "Slope",
+   "Spiral"
+  ],
+  "label": "Z Hop Type",
+  "mode": "comAdvanced",
+  "tooltip": "",
+  "type": "coEnums"
+ }
+}

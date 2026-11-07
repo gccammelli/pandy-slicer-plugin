@@ -24,6 +24,15 @@ sudo -n docker run --rm -u "$(id -u):$(id -g)" -v "$ROOT:/repo" -w /repo pandy-s
   # arm64 has no fontconfig (system font lookup, used by the GUI's text tool): an empty archive stands in for it,
   # so its functions become traps.
   if [ $ARCH = aarch64 ]; then mkdir -p \$B/stub-libs; [ -f \$B/stub-libs/libfontconfig.a ] || aarch64-linux-gnu-ar rc \$B/stub-libs/libfontconfig.a; fi
+  # arm64: glibc 2.39's hypot, cbrt and pow compiled as x86-64 compiles them (engine/x86-libm/README.md).
+  if [ $ARCH = aarch64 ] && [ ! -f /repo/build/glibc/libpandy-x86libm.a ]; then
+    mkdir -p /repo/build/glibc && cd /repo/build/glibc
+    [ -f glibc-2.39.tar.xz ] || curl -sL -o glibc-2.39.tar.xz https://ftp.gnu.org/gnu/glibc/glibc-2.39.tar.xz
+    echo 'f77bd47cf8170c57365ae7bf86696c118adb3b120d3259c64c502d3dc1e2d926  glibc-2.39.tar.xz' | sha256sum -c -
+    [ -d glibc-2.39 ] || tar xf glibc-2.39.tar.xz
+    GLIBC_SRC=/repo/build/glibc/glibc-2.39 bash /repo/engine/x86-libm/build.sh
+    cd /repo
+  fi
   if [ ! -f \$B/build.ninja ]; then
     cmake -S third_party/bambustudio -B \$B -G Ninja -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DCMAKE_PREFIX_PATH=/repo/build/$ARCH/deps/destdir/usr/local -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 \

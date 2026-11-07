@@ -96,4 +96,6 @@ message(STATUS "Pandy engine GUI libraries: ${_gui_libs}")
 if (PANDY_STATIC_EXE)
     target_link_options(pandy-engine PRIVATE -static -Wl,--wrap=readlink -Wl,--wrap=__clone3 -Wl,-e,pandy_start)
     target_link_directories(pandy-engine PRIVATE ${PANDY_STUB_LIBDIR})
+    # hypot, cbrt and pow as x86-64 computes them (engine/x86-libm), ahead of arm64's libm.
+    target_link_options(pandy-engine PRIVATE -Wl,--whole-archive ${CMAKE_SOURCE_DIR}/../../build/glibc/libpandy-x86libm.a -Wl,--no-whole-archive)
 endif ()

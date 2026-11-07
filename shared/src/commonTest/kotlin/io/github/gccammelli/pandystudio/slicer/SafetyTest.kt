@@ -37,4 +37,11 @@ class SafetyTest {
 
     @Test fun objectNamesAreEscaped() =
         assertEquals("a&amp;b&lt;c&gt;&quot;d&apos; e", io.github.gccammelli.pandystudio.io.ThreeMf.escapeXml("a&b<c>\"d'\ne"))
+
+    @Test fun printTimeIsReadFromBambuHeaders() {
+        val a = io.github.gccammelli.pandystudio.gcode.GcodeParser.parse("; model printing time: 1h 33m 18s; total estimated time: 1h 41m 21s\n")
+        assertEquals(6081, a.stats.estimatedSeconds)
+        val b = io.github.gccammelli.pandystudio.gcode.GcodeParser.parse("; estimated printing time (normal mode) = 1h 37m 48s\n")
+        assertEquals(5868, b.stats.estimatedSeconds)
+    }
 }

@@ -20,14 +20,16 @@ data class SliceJob(
     val filaments: List<String>,
     val processOverrides: Map<String, Setting> = emptyMap(),
     val filamentOverrides: Map<String, Setting> = emptyMap(),
+    /** The printer preset's include templates (PresetLibrary.includes): its start and end G-code. */
+    val printerIncludes: Map<String, Setting> = emptyMap(),
 ) {
     /** File name -> contents, written into an empty job directory. */
     fun files(): Map<String, ByteArray> {
         val out = linkedMapOf<String, ByteArray>("model.3mf" to model3mf)
-        out["machine.json"] = json(buildJsonObject {
+        out["machine.json"] = json(JsonObject(buildJsonObject {
             put("type", "machine"); put("name", "case printer"); put("from", "User"); put("inherits", printer)
             put("printer_settings_id", "case printer")
-        })
+        } + printerIncludes.mapValues { it.value.json }))
         out["process.json"] = json(JsonObject(buildJsonObject {
             put("type", "process"); put("name", "case process"); put("from", "User"); put("inherits", process)
             put("print_settings_id", "case process"); put("compatible_printers", JsonArray(listOf(JsonPrimitive(printer))))

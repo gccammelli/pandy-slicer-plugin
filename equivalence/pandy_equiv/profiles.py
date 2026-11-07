@@ -21,6 +21,16 @@ class Presets:
                 if isinstance(d, dict) and "name" in d:
                     self.by_name[d["name"]] = d
 
+    def includes(self, name: str) -> dict:
+        """The keys a machine preset gets from its "include" templates (start/end/filament-change/layer-change
+        G-code), through its inheritance chain. Bambu Studio's CLI does not merge them into a user preset that
+        inherits the system one, so a job's printer preset carries them itself (as Pandy Slicer's server does)."""
+        d = self.by_name[name]
+        out = self.includes(d["inherits"]) if d.get("inherits") else {}
+        for inc in d.get("include", []):
+            out.update({k: v for k, v in self.resolve(inc).items()})
+        return out
+
     def resolve(self, name: str) -> dict:
         d = self.by_name[name]
         out = self.resolve(d["inherits"]) if d.get("inherits") else {}
@@ -47,8 +57,9 @@ def printers(p: Presets) -> dict:
 
 def write(resources: Path, out: Path):
     p = Presets(resources)
-    data = {"printers": printers(p), "process": {}, "filament": {}}
+    data = {"printers": printers(p), "process": {}, "filament": {}, "machine_includes": {}}
     for printer, process, filament in data["printers"].values():
         data["process"][process] = p.resolve(process)
         data["filament"][filament] = p.resolve(filament)
+        data["machine_includes"][printer] = p.includes(printer)
     out.write_text(json.dumps(data, indent=1, sort_keys=True))

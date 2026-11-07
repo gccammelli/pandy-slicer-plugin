@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity(), Platform {
         val log = ArrayList<String>()
         val r = engineRunner.slice(job) { line -> synchronized(log) { log += line }; onLog(line) }
         return withContext(Dispatchers.IO) {
-            try { SliceRun(r.outcome, r.exitCode, r.output?.readBytes(), r.millis, synchronized(log) { log.toList() }, null) }
+            try { SliceRun(r.outcome, if (r.ok) 0 else r.exitCode, r.output?.takeIf { r.ok }?.readBytes(), r.millis, synchronized(log) { log.toList() }, null) }
             finally { r.dir.deleteRecursively() }
         }
     }

@@ -50,8 +50,11 @@ object GcodeParser {
                     low.startsWith("layer_height:")->raw.substringAfter(':').trim().toFloatOrNull()?.let { current.height=it }
                     low.startsWith("line_width:")->raw.substringAfter(':').trim().toFloatOrNull()?.takeIf { it>=0f }?.let { width=it }
                     low.startsWith("feature:")->feature=featureFrom(raw.substringAfter(':').trim())
-                    low.startsWith("total estimated time:")->estimated=parseDuration(raw.substringAfter(':'))
-                    low.startsWith("model printing time:")->if(estimated==null)estimated=parseDuration(raw.substringAfter(':'))
+                    // Bambu writes "; model printing time: 1h 33m 18s; total estimated time: 1h 41m 21s" on one line, or
+                    // "; estimated printing time (normal mode) = 1h 37m 48s".
+                    low.contains("total estimated time:")->estimated=parseDuration(raw.substring(low.indexOf("total estimated time:")+21).substringBefore(';'))
+                    low.startsWith("estimated printing time")->if(estimated==null)estimated=parseDuration(raw.substringAfter('=').substringBefore(';'))
+                    low.startsWith("model printing time:")->if(estimated==null)estimated=parseDuration(raw.substringAfter(':').substringBefore(';'))
                     low.startsWith("total filament length [mm]")->filamentLength=valueAfterColon(raw)
                     low.startsWith("total filament weight [g]")->filamentGrams=valueAfterColon(raw)
                     low.startsWith("total layer number:")->layerCount=valueAfterColon(raw)?.toInt()

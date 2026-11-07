@@ -65,6 +65,19 @@ class PresetLibrary(private val source: ProfileSource, vendor: String = "BBL") {
         Preset(name, own["type"]?.jsonPrimitive?.content ?: "", values).also { resolved[name] = it }
     }
 
+    /**
+     * The keys a printer preset gets from its "include" templates (start, end, filament-change and layer-change
+     * G-code), through its inheritance chain. Bambu Studio's CLI does not merge them into a user preset that inherits
+     * the system one, so the job's printer preset carries them (SliceJob, and equivalence/pandy_equiv/profiles.py).
+     */
+    fun includes(name: String): Map<String, Setting> {
+        val own = rawOf(name) ?: return emptyMap()
+        val out = linkedMapOf<String, Setting>()
+        own["inherits"]?.jsonPrimitive?.content?.takeIf { it.isNotEmpty() }?.let { out.putAll(includes(it)) }
+        (own["include"] as? JsonArray)?.forEach { i -> preset(i.jsonPrimitive.content)?.values?.let(out::putAll) }
+        return out
+    }
+
     private fun instantiable(list: String) = index[list].orEmpty().filter { rawOf(it)?.get("instantiation")?.jsonPrimitive?.content == "true" }
 
     /** Bambu Lab printers, grouped by model, nozzles sorted by size. */

@@ -163,7 +163,8 @@ class Device(Runner):
             self.adb("push", str(f), f"{job}/{f.name}")
         cmd = " ".join(shlex.quote(a) for a in args)
         t0 = time.time()
-        p = self.adb("shell", f"cd {job} && HOME={job}/home LC_ALL=C TMPDIR={job} taskset 1 {self.remote}/bin/pandy-engine {cmd} --outputdir {job}/out; echo PANDY_RC=$?",
+        # PANDY_ENGINE_HOME as the app sets it: the engine finds resources/ there (engine/android-location.c).
+        p = self.adb("shell", f"cd {job} && HOME={job}/home LC_ALL=C TMPDIR={job} PANDY_ENGINE_HOME={self.remote} GLIBC_TUNABLES=glibc.pthread.rseq=0 taskset 1 {self.remote}/bin/pandy-engine {cmd} --outputdir {job}/out; echo PANDY_RC=$?",
                      timeout=timeout)
         seconds = time.time() - t0
         rc = int(p.stdout.rsplit("PANDY_RC=", 1)[1].strip()) if "PANDY_RC=" in p.stdout else -1

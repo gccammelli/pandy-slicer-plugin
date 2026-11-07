@@ -32,8 +32,13 @@ def plate(*names, centre=(128.0, 128.0), spacing=40.0):
 FEATURE_PLATE = plate("overhangs", "bridge", "tube", "thin", spacing=45.0)
 
 
+# Bumped whenever materialise() changes what the slicer gets for the same case, so cached reference results of the
+# old inputs are never compared with new ones. 2: printer presets carry their include templates (start G-code).
+INPUT_FORMAT = 2
+
+
 def case_id(case: dict) -> str:
-    body = json.dumps({k: v for k, v in case.items() if k not in ("id", "note")}, sort_keys=True)
+    body = json.dumps({"format": INPUT_FORMAT, **{k: v for k, v in case.items() if k not in ("id", "note")}}, sort_keys=True)
     return hashlib.sha256(body.encode()).hexdigest()[:16]
 
 
@@ -145,8 +150,9 @@ def materialise(case: dict, d: Path) -> list:
         mesh = models.MODELS[o["model"]]()
         objs.append((f"{o['model']}_{i + 1}", mesh, models.centred(mesh, o["x"], o["y"])))
     models.write_3mf(d / "model.3mf", objs)
+    includes = json.loads(PROFILES.read_text())["machine_includes"].get(case["printer"], {})
     machine = {"type": "machine", "name": "case printer", "from": "User", "inherits": case["printer"],
-               "printer_settings_id": "case printer"}
+               "printer_settings_id": "case printer", **includes}
     process = {"type": "process", "name": "case process", "from": "User", "inherits": case["process"],
                "print_settings_id": "case process", "compatible_printers": [case["printer"]], **case["process_overrides"]}
     (d / "machine.json").write_text(json.dumps(machine, indent=1))

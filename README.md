@@ -25,8 +25,7 @@ runner.
 
 ## Install
 
-Pandy Studio is sideloaded. It targets Android API 28 so it can run the engine from its own files, which Google Play
-does not allow.
+Pandy Studio is sideloaded (arm64 phones, Android 8 or newer).
 
 ## Build
 

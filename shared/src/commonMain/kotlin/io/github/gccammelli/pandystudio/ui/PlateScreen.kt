@@ -249,7 +249,7 @@ private fun PreviewPanel(studio: Studio, done: SliceState.Done) {
     Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Stat("Print time", st.estimatedSeconds?.let(::duration) ?: "–")
-            Stat("Filament", st.filamentGrams?.let { "${it.fmt()} g" } ?: "–")
+            Stat("Filament", st.filamentGrams?.takeIf { it > 0f }?.let { "${it.fmt()} g" } ?: "–")
             Stat("Length", st.filamentLengthMm?.let { "${(it / 1000f).fmt(2)} m" } ?: "–")
             Stat("Layers", "${done.gcode.layers.size}")
         }

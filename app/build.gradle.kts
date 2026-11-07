@@ -16,9 +16,7 @@ android {
     defaultConfig {
         applicationId = "io.github.gccammelli.pandystudio" + if (providers.gradleProperty("pandy.testbed").isPresent) ".testbed" else ""
         minSdk = 26
-        // 28: the engine runs as an executable from the app's own files (AndroidEngine), which later targets forbid.
-        // Pandy Studio is distributed outside Google Play, which would require a newer target.
-        targetSdk = 28
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
         ndk { abiFilters += "arm64-v8a" }

@@ -150,7 +150,8 @@ class Studio(private val platform: Platform, private val scope: CoroutineScope) 
     fun job(): SliceJob? {
         val p = printer ?: return null; val pr = process ?: return null
         if (filaments.isEmpty() || scene.objects.isEmpty()) return null
-        return SliceJob(ThreeMf.writePlain(scene.sceneObjects()), p.name, pr.name, filaments.map { it.first.name }, overrides.toMap())
+        return SliceJob(ThreeMf.writePlain(scene.sceneObjects()), p.name, pr.name, filaments.map { it.first.name }, overrides.toMap(),
+            printerIncludes = library?.includes(p.name).orEmpty())
     }
 
     /** Whether there is something to slice (cheap: does not build the job). */
@@ -170,7 +171,7 @@ class Studio(private val platform: Platform, private val scope: CoroutineScope) 
             }
             ensureActive()
             if (!run.ok) {
-                state = SliceState.Failed(run.outcome?.message?.takeIf { it.isNotBlank() && it != "Success." } ?: "The slicer stopped (code ${run.exitCode}).")
+                state = SliceState.Failed(run.outcome?.message?.takeIf { it.isNotBlank() && it != "Success." } ?: ("The slicer stopped (code ${run.exitCode})." + run.log.takeLast(3).joinToString("\n", "\n")))
                 return@launch
             }
             state = SliceState.Running("Loading preview", 1f)

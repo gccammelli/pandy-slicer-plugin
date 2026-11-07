@@ -12,10 +12,10 @@ import java.util.zip.ZipInputStream
 /**
  * Runs the engine (Bambu Studio's CLI, built for arm64; engine/README.md) on the phone.
  *
- * The executable ships in the APK as lib/arm64-v8a/libpandy_engine.so and its resources (Bambu's profiles) as
- * assets/engine-resources.zip. Both are copied once per version into the app's files in the layout the CLI expects:
- * it finds its resources from its own real path (bin/pandy-engine -> ../resources), so it must run from a copy there
- * rather than from the read-only library folder (the app targets API 28, which still lets it run that copy). Each slice runs in a fresh directory with a fresh HOME, LC_ALL=C and one CPU,
+ * The executable ships in the APK as lib/arm64-v8a/libpandy_engine.so and runs from there (the only place Android
+ * lets an app run files from). Its resources (Bambu's profiles) ship as assets/engine-resources.zip, unpacked once
+ * per version into the app's files. The CLI looks for resources/ next to itself; PANDY_ENGINE_HOME points it at the
+ * unpacked copy instead (engine/android-location.c), where bin/pandy-engine is an empty placeholder. Each slice runs in a fresh directory with a fresh HOME, LC_ALL=C and one CPU,
  * which is exactly how the equivalence tests run the official Bambu Studio and the engine.
  */
 class AndroidEngine(private val context: Context) {
@@ -44,14 +44,7 @@ class AndroidEngine(private val context: Context) {
             done.writeText(version)
             File(context.filesDir, "engine").listFiles()?.filter { it.name != version }?.forEach { it.deleteRecursively() }
         }
-        // Copied again whenever the installed executable changes (an app update), compared by hash.
-        val bin = File(root, "bin/pandy-engine")
-        val stamp = File(root, "bin/.sha256")
-        if (!bin.exists() || stamp.takeIf { it.exists() }?.readText() != engineSha256) {
-            exe.copyTo(bin, overwrite = true)
-            bin.setExecutable(true, true)
-            stamp.writeText(engineSha256)
-        }
+        File(root, "bin/pandy-engine").apply { if (!exists()) createNewFile() }
         return root
     }
 
@@ -66,14 +59,21 @@ class AndroidEngine(private val context: Context) {
         val out = File(dir, "out").apply { mkdirs() }
         File(dir, "home").mkdirs()
         job.files().forEach { (name, bytes) -> File(dir, name).writeBytes(bytes) }
-        val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), File(home, "bin/pandy-engine").path) +
+        val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), exe.path) +
             job.arguments() + listOf("--outputdir", out.path)
         val pb = ProcessBuilder(cmd).directory(dir).redirectErrorStream(true)
-        pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("TMPDIR", dir.path); put("PATH", "/system/bin") }
+        pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("PANDY_ENGINE_HOME", home.path)
+            // glibc registers rseq at start-up, before any handler exists; Android's sandbox may not allow it.
+            put("GLIBC_TUNABLES", "glibc.pthread.rseq=0"); put("TMPDIR", dir.path); put("PATH", "/system/bin") }
         val started = System.currentTimeMillis()
         val p = pb.start()
         // The log is read on its own thread, so cancelling kills the slicer at once even when it prints nothing.
-        val reader = Thread { runCatching { p.inputStream.bufferedReader().forEachLine(onLog) } }.apply { isDaemon = true; start() }
+        // The last slice's log is kept in the app's cache (last-slice.log), for diagnosing a failed slice.
+        val logFile = File(context.cacheDir, "last-slice.log").bufferedWriter()
+        val reader = Thread {
+            runCatching { p.inputStream.bufferedReader().forEachLine { logFile.write(it); logFile.newLine(); onLog(it) } }
+            runCatching { logFile.close() }
+        }.apply { isDaemon = true; start() }
         try {
             while (!p.waitFor(100, java.util.concurrent.TimeUnit.MILLISECONDS)) currentCoroutineContext().ensureActive()
             reader.join(2000)
@@ -93,5 +93,21 @@ class AndroidEngine(private val context: Context) {
 
 /** One engine run: its exit code, what it reported, the sliced file (when it sliced) and the job directory. */
 data class EngineRun(val exitCode: Int, val outcome: SliceOutcome?, val output: File?, val dir: File, val millis: Long) {
-    val ok get() = exitCode == 0 && outcome?.ok == true && output != null
+    /**
+     * Sliced and complete. The slicer writes result.json only after the 3MF is finished; Android's sandbox can still
+     * stop it later, while it exits (signal 31). Such a run counts only when the file opens and every plate's G-code
+     * matches the MD5 the slicer stored next to it.
+     */
+    val ok get() = outcome?.ok == true && output != null && (exitCode == 0 || (exitCode == 128 + 31 && verified(output)))
+
+    private fun verified(f: File): Boolean = runCatching {
+        java.util.zip.ZipFile(f).use { z ->
+            val plates = z.entries().asSequence().map { it.name }.filter { Regex("Metadata/plate_\\d+\\.gcode").matches(it) }.toList()
+            plates.isNotEmpty() && plates.all { name ->
+                val md5 = java.security.MessageDigest.getInstance("MD5").digest(z.getInputStream(z.getEntry(name)).readBytes())
+                    .joinToString("") { "%02X".format(it) }
+                z.getEntry("$name.md5")?.let { e -> z.getInputStream(e).bufferedReader().readText().trim().equals(md5, ignoreCase = true) } == true
+            }
+        }
+    }.getOrDefault(false)
 }

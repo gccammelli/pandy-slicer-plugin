@@ -10,10 +10,11 @@ JOBS=${JOBS:-10}
 TARGETS="dep_Boost dep_TBB dep_Cereal dep_NLopt dep_libnoise dep_OpenVDB dep_OpenCV dep_CGAL dep_Qhull dep_OCCT dep_Assimp dep_GMP dep_MPFR dep_PNG dep_ZLIB dep_EXPAT dep_FREETYPE dep_OpenSSL dep_CURL dep_wxWidgets"
 # OpenGL is only looked up by GUI recipes the arm64 build never links; the x86-64 entries satisfy the lookup.
 TOOLCHAIN=""
-[ "$ARCH" = aarch64 ] && TARGETS=${TARGETS/dep_OpenSSL dep_CURL /} && TOOLCHAIN="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so"
+[ "$ARCH" = aarch64 ] && TARGETS=${TARGETS/dep_OpenSSL dep_CURL /} && TOOLCHAIN="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DPKG_CONFIG_EXECUTABLE=/repo/engine/tools/pkg-config-arm64 -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so"
 sudo -n docker run --rm -u "$(id -u):$(id -g)" -e CMAKE_BUILD_PARALLEL_LEVEL="$JOBS" \
   -v "$ROOT:/repo" -w /repo pandy-studio-build bash -c "
     set -e
+    [ $ARCH = aarch64 ] && export PKG_CONFIG=/repo/engine/tools/pkg-config-arm64
     export CC=$ARCH-linux-gnu-gcc-13 CXX=$ARCH-linux-gnu-g++-13
     cmake -S third_party/bambustudio/deps -B build/$ARCH/deps -G Ninja -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DDESTDIR=/repo/build/$ARCH/deps/destdir -DDEP_DOWNLOAD_DIR=/repo/build/downloads \

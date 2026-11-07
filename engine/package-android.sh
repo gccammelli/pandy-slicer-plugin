@@ -13,14 +13,19 @@ OUT=$ROOT/build/android-engine
 # models for the GUI, tooltips, translations and shaders. (The equivalence tests run with this same set.)
 DESKTOP_ONLY="web hms images model tooltip i18n shaders"
 rm -rf "$PKG" "$OUT"; mkdir -p "$PKG/bin" "$PKG/resources" "$OUT/jniLibs/arm64-v8a" "$OUT/assets"
-cp "$ROOT/build/aarch64/engine/pandy-engine" "$PKG/bin/pandy-engine"
+if [ -f "$ROOT/build/aarch64/engine/pandy-engine" ]; then cp "$ROOT/build/aarch64/engine/pandy-engine" "$PKG/bin/pandy-engine"
+else
+  # UI work before the engine is built: ALLOW_NO_ENGINE=1 packages a stand-in that refuses to slice.
+  [ "${ALLOW_NO_ENGINE:-}" = 1 ] || { echo "No arm64 engine: run engine/build-engine.sh aarch64"; exit 1; }
+  printf '#!/system/bin/sh\necho "engine not built"; exit 1\n' > "$PKG/bin/pandy-engine"
+fi
 for d in "$ROOT"/build/reference/resources/*; do
   n=$(basename "$d"); case " $DESKTOP_ONLY " in *" $n "*) continue ;; esac
   cp -al "$d" "$PKG/resources/$n"
 done
 cp "$PKG/bin/pandy-engine" "$OUT/jniLibs/arm64-v8a/libpandy_engine.so"
-STAGE=$(mktemp -d); mkdir -p "$STAGE/pandy"
-cp -al "$PKG/resources" "$STAGE/resources"
+STAGE=$ROOT/build/android-stage; rm -rf "$STAGE"; mkdir -p "$STAGE/pandy"
+cp -rL "$PKG/resources" "$STAGE/resources"   # a copy: the zip dates set below must not touch shared files
 cp "$ROOT/equivalence/schema.json" "$ROOT/equivalence/layout.json" "$STAGE/pandy/"
 (cd "$STAGE" && TZ=UTC find resources pandy -exec touch -d 1980-01-02T00:00:00 {} + 2>/dev/null; zip -qrX -9 "$OUT/assets/engine-resources.zip" resources pandy)
 python3 -c "import sys; sys.path.insert(0, '$ROOT/equivalence'); from pandy_equiv.runners import package_identity; i = package_identity('$PKG'); print(i['resources_sha256'])" > "$OUT/assets/engine-resources.sha256"

@@ -1,0 +1,6 @@
+#!/bin/sh
+# pkg-config for the arm64 build: the GTK .pc files are x86-64's (see docker/Dockerfile). Their flags are right for
+# arm64 except two: the x86-64 multiarch include directory (its libc headers clash with arm64's), dropped, and glib's
+# glibconfig.h directory, pointed at the arm64 copy.
+/usr/bin/pkg-config "$@" | sed -e 's#-I/usr/include/x86_64-linux-gnu\( \|$\)##g' \
+  -e 's#-I/usr/lib/x86_64-linux-gnu/glib-2.0/include#-I/opt/arm64-glib/usr/lib/aarch64-linux-gnu/glib-2.0/include#g'

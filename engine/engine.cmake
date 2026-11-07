@@ -36,7 +36,7 @@ endfunction()
 # header (slic3r/pchheader.hpp); the same settings are used here.
 # Further GUI sources whose objects the plate code constructs (textures, models: inert without a display) are listed
 # here as they turn out to be reached; each addition is found by the trap it replaces.
-set(PANDY_GUI_SOURCES PartPlate.cpp GLTexture.cpp GLModel.cpp)
+set(PANDY_GUI_SOURCES PartPlate.cpp GLTexture.cpp GLModel.cpp OpenGLManager.cpp BitmapCache.cpp 3DScene.cpp GLShader.cpp Plater.cpp)
 list(TRANSFORM PANDY_GUI_SOURCES PREPEND ${PANDY_UPSTREAM_SRC}/slic3r/GUI/)
 add_library(pandy_gui_subset OBJECT ${PANDY_GUI_SOURCES})
 pandy_mirror(pandy_gui_subset libslic3r_gui)

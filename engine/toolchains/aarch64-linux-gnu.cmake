@@ -17,3 +17,17 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
 set(PANDY_ARM64_GLIB "-I/opt/arm64-glib/usr/lib/aarch64-linux-gnu/glib-2.0/include")
 set(CMAKE_C_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
 set(CMAKE_CXX_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
+
+# Desktop libraries that GUI recipes look up (wxWidgets' GTK port, OpenGL) but the static arm64 engine never links:
+# the lookups are satisfied with the x86-64 files so configuration succeeds; nothing is linked against them.
+foreach (_lib X11:libX11 Xxf86vm:libXxf86vm Xext:libXext Xtst:libXtst SM:libSM ICE:libICE)
+    string(REPLACE ":" ";" _p ${_lib})
+    list(GET _p 0 _name)
+    list(GET _p 1 _file)
+    set(X11_${_name}_LIB /usr/lib/x86_64-linux-gnu/${_file}.so CACHE FILEPATH "")
+endforeach ()
+set(OPENGL_opengl_LIBRARY /usr/lib/x86_64-linux-gnu/libOpenGL.so CACHE FILEPATH "")
+set(OPENGL_glx_LIBRARY /usr/lib/x86_64-linux-gnu/libGLX.so CACHE FILEPATH "")
+set(OPENGL_gl_LIBRARY /usr/lib/x86_64-linux-gnu/libGL.so CACHE FILEPATH "")
+set(OPENGL_egl_LIBRARY /usr/lib/x86_64-linux-gnu/libEGL.so CACHE FILEPATH "")
+set(OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so CACHE FILEPATH "")

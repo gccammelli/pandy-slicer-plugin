@@ -10,7 +10,13 @@ import subprocess
 import sys
 
 log, out = sys.argv[1], sys.argv[2]
-names = sorted(set(re.findall(r"undefined reference to `([A-Za-z0-9_]+)'", open(log, errors="replace").read())))
+names = set(re.findall(r"undefined reference to `([A-Za-z0-9_]+)'", open(log, errors="replace").read()))
+# Relinking reports symbols the previous link did not get to: keep the traps generated before.
+try:
+    names |= set(re.findall(r"^(?:void|__attribute__\(\(aligned\(64\)\)\) char) ([A-Za-z0-9_]+)", open(out).read(), re.M))
+except FileNotFoundError:
+    pass
+names = sorted(names)
 demangled = subprocess.run(["c++filt"], input="\n".join(names), capture_output=True, text=True).stdout.splitlines() if names else []
 DATA_PREFIXES = ("_ZTV", "_ZTI", "_ZTS", "_ZTT", "_ZGV")
 

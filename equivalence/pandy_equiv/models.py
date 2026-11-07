@@ -169,7 +169,9 @@ def write_3mf(path: Path, objects):
         verts = "".join(f'<vertex x="{x:.6f}" y="{y:.6f}" z="{z:.6f}"/>' for x, y, z in mesh.v)
         tris = "".join(f'<triangle v1="{a}" v2="{b}" v3="{c}"/>' for a, b, c in mesh.t)
         res.append(f'<object id="{i}" name="{name}" type="model"><mesh><vertices>{verts}</vertices><triangles>{tris}</triangles></mesh></object>')
-        build.append(f'<item objectid="{i}" transform="1 0 0 0 1 0 0 0 1 {px:.6f} {py:.6f} {pz:.6f}" printable="1"/>')
+        # All twelve numbers in fixed notation, as the app writes any placement (rotations included).
+        t = [1, 0, 0, 0, 1, 0, 0, 0, 1, px, py, pz]
+        build.append(f'<item objectid="{i}" transform="{" ".join(f"{v:.6f}" for v in t)}" printable="1"/>')
     model = ('<?xml version="1.0" encoding="UTF-8"?>\n<model unit="millimeter" xml:lang="en-US" '
              'xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">'
              f'<resources>{"".join(res)}</resources><build>{"".join(build)}</build></model>')

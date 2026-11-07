@@ -8,6 +8,9 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 actual object Zip {
+    /** Largest total size of a ZIP's contents the app unpacks into memory. */
+    const val MAX_EXPANDED = 1L shl 30
+
     actual fun read(bytes: ByteArray): Map<String, ByteArray> {
         val validSignature = bytes.size >= 4 && bytes[0] == 0x50.toByte() && bytes[1] == 0x4b.toByte() &&
             ((bytes[2] == 0x03.toByte() && bytes[3] == 0x04.toByte()) || (bytes[2] == 0x05.toByte() && bytes[3] == 0x06.toByte()) || (bytes[2] == 0x07.toByte() && bytes[3] == 0x08.toByte()))
@@ -15,9 +18,21 @@ actual object Zip {
         val entries=LinkedHashMap<String,ByteArray>()
         try {
             ZipInputStream(ByteArrayInputStream(bytes)).use { input ->
-                while(true) { val entry=input.nextEntry ?: break; entries[entry.name]=input.readBytes();input.closeEntry() }
+                var total = 0L
+                while (true) {
+                    val entry = input.nextEntry ?: break
+                    // A small archive can expand to gigabytes (a ZIP bomb): stop well before the phone runs out of memory.
+                    val out = ByteArrayOutputStream(); val buf = ByteArray(1 shl 16)
+                    while (true) {
+                        val n = input.read(buf); if (n < 0) break
+                        total += n
+                        require(total <= MAX_EXPANDED) { "The file expands to more than ${MAX_EXPANDED shr 20} MB" }
+                        out.write(buf, 0, n)
+                    }
+                    entries[entry.name] = out.toByteArray(); input.closeEntry()
+                }
             }
-        } catch(e: Exception) { throw IllegalArgumentException("Malformed ZIP archive: ${e.message ?: "invalid data"}",e) }
+        } catch(e: IllegalArgumentException) { throw e } catch(e: Exception) { throw IllegalArgumentException("Malformed ZIP archive: ${e.message ?: "invalid data"}",e) }
         return entries
     }
 

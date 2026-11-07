@@ -31,14 +31,14 @@ data class SliceJob(
         out["process.json"] = json(JsonObject(buildJsonObject {
             put("type", "process"); put("name", "case process"); put("from", "User"); put("inherits", process)
             put("print_settings_id", "case process"); put("compatible_printers", JsonArray(listOf(JsonPrimitive(printer))))
-        } + processOverrides.mapValues { it.value.json }))
+        } + processOverrides.filterKeys { it !in BLOCKED_OPTIONS }.mapValues { it.value.json }))
         filaments.forEachIndexed { i, f ->
             val name = "case filament ${i + 1}"
             out["filament${i + 1}.json"] = json(JsonObject(buildJsonObject {
                 put("type", "filament"); put("name", name); put("from", "User"); put("inherits", f)
                 put("filament_settings_id", JsonArray(listOf(JsonPrimitive(name))))
                 put("compatible_printers", JsonArray(listOf(JsonPrimitive(printer))))
-            } + filamentOverrides.mapValues { it.value.json }))
+            } + filamentOverrides.filterKeys { it !in BLOCKED_OPTIONS }.mapValues { it.value.json }))
         }
         return out
     }
@@ -61,6 +61,12 @@ data class SliceJob(
         private fun json(o: JsonObject) = pretty.encodeToString(JsonObject.serializer(), o).encodeToByteArray()
     }
 }
+
+/**
+ * Options the app never lets a user set: they make the slicer run programs (post-processing scripts) or name files.
+ * Neither the settings screen nor a job carries them, so the G-code is always the slicer's own.
+ */
+val BLOCKED_OPTIONS = setOf("post_process", "filename_format", "gcode_substitutions")
 
 /** A setting value as Bambu presets store it: a string, or a list of strings (one per filament or extruder). */
 sealed class Setting {

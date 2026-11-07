@@ -24,6 +24,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : ComponentActivity(), Platform {
+    companion object { const val MAX_MODEL = 512L shl 20 }
     private val engineRunner by lazy { AndroidEngine(applicationContext) }
     private var picked: CompletableDeferred<List<Uri>>? = null
     private var saved: CompletableDeferred<Uri?>? = null
@@ -66,11 +67,18 @@ class MainActivity : ComponentActivity(), Platform {
             picked = CompletableDeferred(); pick.launch(arrayOf("*/*")); picked!!.await()
         }
         return withContext(Dispatchers.IO) {
-            uris.map { u -> nameOf(u) to (contentResolver.openInputStream(u)?.use { it.readBytes() } ?: ByteArray(0)) }
-                .filter { (n, _) -> n.lowercase().let { it.endsWith(".stl") || it.endsWith(".3mf") } }
+            uris.map { u -> nameOf(u) to u }.filter { (n, _) -> n.lowercase().let { it.endsWith(".stl") || it.endsWith(".3mf") } }
+                .map { (n, u) -> n to readCapped(u) }
                 .also { if (it.isEmpty() && uris.isNotEmpty()) error("Pandy Studio opens STL and 3MF files.") }
         }
     }
+
+    /** Reads a picked file, refusing ones too big to load on a phone. */
+    private fun readCapped(u: Uri): ByteArray = contentResolver.openInputStream(u)?.use { s ->
+        val out = java.io.ByteArrayOutputStream(); val buf = ByteArray(1 shl 16); var total = 0L
+        while (true) { val n = s.read(buf); if (n < 0) break; total += n; require(total <= MAX_MODEL) { "That file is over ${MAX_MODEL shr 20} MB." }; out.write(buf, 0, n) }
+        out.toByteArray()
+    } ?: ByteArray(0)
 
     private fun nameOf(u: Uri): String = contentResolver.query(u, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
         if (c.moveToFirst()) c.getString(0) else null
@@ -89,13 +97,15 @@ class MainActivity : ComponentActivity(), Platform {
     override suspend fun slice(job: SliceJob, onLog: (String) -> Unit): SliceRun {
         val log = ArrayList<String>()
         val r = engineRunner.slice(job) { line -> synchronized(log) { log += line }; onLog(line) }
-        val bytes = r.output?.readBytes()
-        r.dir.deleteRecursively()
-        return SliceRun(r.outcome, r.exitCode, bytes, r.millis, log, null)
+        return withContext(Dispatchers.IO) {
+            try { SliceRun(r.outcome, r.exitCode, r.output?.readBytes(), r.millis, synchronized(log) { log.toList() }, null) }
+            finally { r.dir.deleteRecursively() }
+        }
     }
 
     private fun stage(run: SliceRun, name: String): Uri {
-        val dir = File(cacheDir, "sliced").apply { mkdirs() }
+        // One staged file at a time: earlier ones are removed so sliced files don't pile up in the cache.
+        val dir = File(cacheDir, "sliced").apply { mkdirs(); listFiles()?.forEach { it.delete() } }
         val f = File(dir, name.replace(Regex("[^A-Za-z0-9._ -]"), "_")).apply { writeBytes(run.sliced!!) }
         return FileProvider.getUriForFile(this, "$packageName.files", f)
     }

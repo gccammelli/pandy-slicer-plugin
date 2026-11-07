@@ -64,7 +64,7 @@ private class PlateView(context: Context, val scene: Scene) : GLSurfaceView(cont
                 if (hypot(e.x - downX, e.y - downY) > 12f) moved = true
                 if (e.pointerCount >= 2) {
                     val s = span(e); val m = mid(e)
-                    if (lastSpan > 0) camera.distance = (camera.distance * lastSpan / s).coerceIn(40f, 3000f)
+                    if (lastSpan > 0 && s > 1f) camera.distance = (camera.distance * lastSpan / s).coerceIn(40f, 3000f)
                     val k = camera.distance / height * 0.9f
                     val yaw = Math.toRadians(camera.yaw.toDouble())
                     val dx = (m.first - lastMid.first) * k; val dy = (m.second - lastMid.second) * k

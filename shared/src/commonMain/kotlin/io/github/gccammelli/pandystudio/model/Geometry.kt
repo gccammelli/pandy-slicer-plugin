@@ -78,7 +78,7 @@ class Mat4(val m: FloatArray) {
         fun fromThreeMf(value: String): Mat4 {
             val parts = value.trim().split(Regex("\\s+"))
             require(parts.size == 12) { "3MF transform must contain 12 numbers" }
-            val v = parts.map { it.toFloatOrNull() ?: throw IllegalArgumentException("Invalid 3MF transform number: $it") }
+            val v = parts.map { p -> p.toFloatOrNull()?.takeIf { it.isFinite() } ?: throw IllegalArgumentException("Invalid 3MF transform number: $p") }
             return Mat4(floatArrayOf(v[0],v[1],v[2],0f, v[3],v[4],v[5],0f, v[6],v[7],v[8],0f, v[9],v[10],v[11],1f))
         }
     }

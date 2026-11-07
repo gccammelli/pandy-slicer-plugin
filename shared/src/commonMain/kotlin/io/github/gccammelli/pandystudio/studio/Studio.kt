@@ -23,6 +23,7 @@ import io.github.gccammelli.pandystudio.slicer.SliceRun
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -104,6 +105,7 @@ class Studio(private val platform: Platform, private val scope: CoroutineScope) 
     fun value(key: String): Setting? = overrides[key] ?: process?.get(key)
 
     fun set(key: String, value: Setting) {
+        if (key in io.github.gccammelli.pandystudio.slicer.BLOCKED_OPTIONS) return
         if (process?.get(key) == value) overrides.remove(key) else overrides[key] = value
         invalidate()
     }
@@ -151,14 +153,22 @@ class Studio(private val platform: Platform, private val scope: CoroutineScope) 
         return SliceJob(ThreeMf.writePlain(scene.sceneObjects()), p.name, pr.name, filaments.map { it.first.name }, overrides.toMap())
     }
 
+    /** Whether there is something to slice (cheap: does not build the job). */
+    val canSlice get() = printer != null && process != null && filaments.isNotEmpty() && scene.objects.isNotEmpty()
+
     fun slice() {
         val job = job() ?: return
         sliceJob?.cancel()
         state = SliceState.Running("Preparing", null)
         sliceJob = scope.launch {
-            val run = runCatching {
+            val run = try {
                 platform.slice(job) { line -> progressOf(line)?.let { (status, p) -> state = SliceState.Running(status, p) } }
-            }.getOrElse { state = SliceState.Failed(it.message ?: it.toString()); return@launch }
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                state = SliceState.Failed(e.message ?: e.toString()); return@launch
+            }
+            ensureActive()
             if (!run.ok) {
                 state = SliceState.Failed(run.outcome?.message?.takeIf { it.isNotBlank() && it != "Success." } ?: "The slicer stopped (code ${run.exitCode}).")
                 return@launch

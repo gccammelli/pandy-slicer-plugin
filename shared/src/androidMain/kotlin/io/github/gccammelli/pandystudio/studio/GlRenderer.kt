@@ -194,7 +194,11 @@ class GlRenderer(private val camera: OrbitCamera) : GLSurfaceView.Renderer {
     }
 
     private fun program(vs: String, fs: String): Int {
-        fun shader(type: Int, src: String) = glCreateShader(type).also { glShaderSource(it, src); glCompileShader(it) }
+        fun shader(type: Int, src: String) = glCreateShader(type).also {
+            glShaderSource(it, src); glCompileShader(it)
+            val ok = IntArray(1); glGetShaderiv(it, GL_COMPILE_STATUS, ok, 0)
+            if (ok[0] == 0) android.util.Log.e("PandyStudio", "Shader failed: " + glGetShaderInfoLog(it))
+        }
         return glCreateProgram().also { p ->
             glAttachShader(p, shader(GL_VERTEX_SHADER, vs)); glAttachShader(p, shader(GL_FRAGMENT_SHADER, fs))
             glBindAttribLocation(p, 0, "aPos"); glBindAttribLocation(p, 1, "aAttr"); glLinkProgram(p)

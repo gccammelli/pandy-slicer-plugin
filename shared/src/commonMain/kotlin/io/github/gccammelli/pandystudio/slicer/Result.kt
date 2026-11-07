@@ -32,9 +32,9 @@ object Safety {
         val out = mutableListOf<String>()
         val firstLayer = gcode.indexOf("; CHANGE_LAYER").let { if (it < 0) gcode.length else it }
         val head = gcode.substring(0, firstLayer)
-        val lines = head.lineSequence().map { it.trimStart() }
-        val homes = lines.any { it.startsWith("G28") }
-        val levels = head.lineSequence().map { it.trimStart() }.any { it.startsWith("G29") || it.startsWith("M1002") }
+        val commands = head.lineSequence().map { it.substringBefore(';').trim().substringBefore(' ') }.toList()
+        val homes = "G28" in commands
+        val levels = "G29" in commands || "M1002" in commands
         if (!homes || !levels) out += "The sliced file lacks the printer's start sequence (homing, bed levelling, purge line)."
         for (line in gcode.lineSequence()) {
             val code = line.substringBefore(';').trim()

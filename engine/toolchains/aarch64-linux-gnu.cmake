@@ -14,7 +14,9 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
 # glibconfig.h is the one architecture-specific GTK header (see docker/Dockerfile); it must win over the x86-64 one.
 # x86-64 has no fused multiply-add in its baseline instruction set, so the official build never fuses a*b+c; GCC on
 # ARM fuses by default, which rounds differently. Off, so every floating-point operation rounds as on x86-64.
-set(PANDY_ARM64_GLIB "-I/opt/arm64-glib/usr/lib/aarch64-linux-gnu/glib-2.0/include")
+# OpenSSL's headers (arm64 package, see docker/Dockerfile) are searched last (-idirafter): the official build finds
+# them in /usr/include, and they must not shadow anything.
+set(PANDY_ARM64_GLIB "-I/opt/arm64-glib/usr/lib/aarch64-linux-gnu/glib-2.0/include -idirafter /opt/arm64-glib/usr/include/aarch64-linux-gnu -idirafter /opt/arm64-glib/usr/include")
 set(CMAKE_C_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
 set(CMAKE_CXX_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
 

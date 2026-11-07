@@ -37,17 +37,20 @@ class AndroidEngine(private val context: Context) {
             ZipInputStream(context.assets.open("engine-resources.zip").buffered()).use { z ->
                 generateSequence { z.nextEntry }.forEach { e ->
                     val f = File(root, e.name).canonicalFile
-                    require(f.path.startsWith(root.canonicalPath)) { "Bad resource path ${e.name}" }
+                    require(f.path.startsWith(root.canonicalPath + File.separator)) { "Bad resource path ${e.name}" }
                     if (e.isDirectory) f.mkdirs() else { f.parentFile?.mkdirs(); f.outputStream().use { z.copyTo(it) } }
                 }
             }
             done.writeText(version)
             File(context.filesDir, "engine").listFiles()?.filter { it.name != version }?.forEach { it.deleteRecursively() }
         }
+        // Copied again whenever the installed executable changes (an app update), compared by hash.
         val bin = File(root, "bin/pandy-engine")
-        if (!bin.exists() || bin.length() != exe.length()) {
+        val stamp = File(root, "bin/.sha256")
+        if (!bin.exists() || stamp.takeIf { it.exists() }?.readText() != engineSha256) {
             exe.copyTo(bin, overwrite = true)
             bin.setExecutable(true, true)
+            stamp.writeText(engineSha256)
         }
         return root
     }
@@ -69,11 +72,12 @@ class AndroidEngine(private val context: Context) {
         pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("TMPDIR", dir.path); put("PATH", "/system/bin") }
         val started = System.currentTimeMillis()
         val p = pb.start()
+        // The log is read on its own thread, so cancelling kills the slicer at once even when it prints nothing.
+        val reader = Thread { runCatching { p.inputStream.bufferedReader().forEachLine(onLog) } }.apply { isDaemon = true; start() }
         try {
-            p.inputStream.bufferedReader().useLines { lines ->
-                for (l in lines) { currentCoroutineContext().ensureActive(); onLog(l) }
-            }
-            val rc = p.waitFor()
+            while (!p.waitFor(100, java.util.concurrent.TimeUnit.MILLISECONDS)) currentCoroutineContext().ensureActive()
+            reader.join(2000)
+            val rc = p.exitValue()
             val outcome = SliceOutcome.parse(File(out, "result.json").takeIf { it.exists() }?.readText())
             EngineRun(rc, outcome, File(out, SliceJob.OUTPUT).takeIf { it.exists() }, dir, System.currentTimeMillis() - started)
         } finally {

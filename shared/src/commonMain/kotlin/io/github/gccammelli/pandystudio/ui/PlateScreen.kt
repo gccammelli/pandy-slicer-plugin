@@ -55,7 +55,7 @@ fun PlateScreen(studio: Studio, nav: Nav) {
             Segmented(listOf("Prepare", "Preview"), if (scene.mode == ViewMode.PREVIEW) 1 else 0, Modifier.align(Alignment.Center),
                 enabled = listOf(true, scene.preview != null)) { scene.mode = if (it == 1) ViewMode.PREVIEW else ViewMode.PREPARE; scene.touch() }
             Box(Modifier.align(Alignment.CenterEnd).padding(end = 12.dp)) {
-                val canSlice = studio.job() != null && state !is SliceState.Running && scene.outside().isEmpty()
+                val canSlice = studio.canSlice && state !is SliceState.Running && scene.outside().isEmpty()
                 Box(Modifier.height(36.dp).clip(RoundedCornerShape(18.dp)).background(if (canSlice) C.Accent else C.Track)
                     .clickable(enabled = canSlice) { studio.slice() }.padding(horizontal = 18.dp), contentAlignment = Alignment.Center) {
                     T("Slice", 15.sp, if (canSlice) C.OnAccent else C.Sub, FontWeight.Medium)

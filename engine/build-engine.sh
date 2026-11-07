@@ -8,7 +8,7 @@ ARCH=${1:?x86_64 or aarch64}
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 JOBS=${JOBS:-10}
 EXTRA=""
-[ "$ARCH" = aarch64 ] && EXTRA="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DPKG_CONFIG_EXECUTABLE=/repo/engine/tools/pkg-config-arm64 -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so -DPANDY_STATIC_EXE=ON -DwxWidgets_CONFIG_EXECUTABLE=/repo/build/aarch64/deps/destdir/usr/local/bin/wx-config -DOPENSSL_ROOT_DIR=/opt/arm64-glib/usr -DOPENSSL_INCLUDE_DIR=/opt/arm64-glib/usr/include -DPANDY_EXTRA_INCLUDES=/opt/arm64-glib/usr/include,/opt/arm64-glib/usr/include/aarch64-linux-gnu -DOPENSSL_CRYPTO_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcrypto.a -DOPENSSL_SSL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libssl.a -DCURL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcurl.a -DCURL_INCLUDE_DIR=/opt/arm64-glib/usr/include"
+[ "$ARCH" = aarch64 ] && EXTRA="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DPKG_CONFIG_EXECUTABLE=/repo/engine/tools/pkg-config-arm64 -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so -DPANDY_STATIC_EXE=ON -DPANDY_STUB_LIBDIR=/repo/build/aarch64/engine/stub-libs -DwxWidgets_CONFIG_EXECUTABLE=/repo/build/aarch64/deps/destdir/usr/local/bin/wx-config -DOPENSSL_ROOT_DIR=/opt/arm64-glib/usr -DOPENSSL_INCLUDE_DIR=/opt/arm64-glib/usr/include -DPANDY_EXTRA_INCLUDES=/opt/arm64-glib/usr/include,/opt/arm64-glib/usr/include/aarch64-linux-gnu -DOPENSSL_CRYPTO_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcrypto.a -DOPENSSL_SSL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libssl.a -DCURL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcurl.a -DCURL_INCLUDE_DIR=/opt/arm64-glib/usr/include"
 sudo -n docker run --rm -u "$(id -u):$(id -g)" -v "$ROOT:/repo" -w /repo pandy-studio-build bash -c "
   set -e
   [ $ARCH = aarch64 ] && export PKG_CONFIG=/repo/engine/tools/pkg-config-arm64
@@ -21,6 +21,9 @@ sudo -n docker run --rm -u "$(id -u):$(id -g)" -v "$ROOT:/repo" -w /repo pandy-s
     libswscale.so libswscale.so.8 libswscale.so.8.1.100 libswresample.so libswresample.so.5 libswresample.so.5.1.100; do
     [ -e \$L/\$f ] || : > \$L/\$f
   done
+  # arm64 has no fontconfig (system font lookup, used by the GUI's text tool): an empty archive stands in for it,
+  # so its functions become traps.
+  if [ $ARCH = aarch64 ]; then mkdir -p \$B/stub-libs; [ -f \$B/stub-libs/libfontconfig.a ] || aarch64-linux-gnu-ar rc \$B/stub-libs/libfontconfig.a; fi
   if [ ! -f \$B/build.ninja ]; then
     cmake -S third_party/bambustudio -B \$B -G Ninja -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DCMAKE_PREFIX_PATH=/repo/build/$ARCH/deps/destdir/usr/local -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 \

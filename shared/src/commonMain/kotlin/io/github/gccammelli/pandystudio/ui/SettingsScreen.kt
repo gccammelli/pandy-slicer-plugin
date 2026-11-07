@@ -54,7 +54,7 @@ fun SettingsScreen(studio: Studio, nav: Nav, startPage: Int) {
         } else pages.getOrNull(page)?.groups?.map { it.title to it.options }.orEmpty()
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
             for ((title, options) in visible) {
-                val shown = options.filter { studio.process?.get(it) != null || it in studio.overrides }
+                val shown = options.filter { it !in io.github.gccammelli.pandystudio.slicer.BLOCKED_OPTIONS && (studio.process?.get(it) != null || it in studio.overrides) }
                 if (shown.isEmpty()) continue
                 item(key = "h$title") { T(title, 13.sp, C.Sub, FontWeight.Medium, Modifier.padding(start = 24.dp, top = 18.dp, bottom = 6.dp)) }
                 item(key = "g$title") {

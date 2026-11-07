@@ -131,10 +131,13 @@ object ThreeMf {
         return (if(negative)"-" else "")+whole.toString()+"."+decimals
     }
 
+    /** Text for an XML attribute value: names come from files and must not break the document. */
+    fun escapeXml(s: String): String = buildString { for (c in s) when (c) { '&' -> append("&amp;"); '<' -> append("&lt;"); '>' -> append("&gt;"); '"' -> append("&quot;"); '\'' -> append("&apos;"); else -> if (c < ' ') append(' ') else append(c) } }
+
     fun writePlain(objects:List<SceneObject>):ByteArray {
         val res=StringBuilder();val build=StringBuilder()
         for(i in objects.indices) {
-            val obj=objects[i];val id=i+1;res.append("<object id=\"").append(id).append("\" name=\"").append(obj.name).append("\" type=\"model\"><mesh><vertices>")
+            val obj=objects[i];val id=i+1;res.append("<object id=\"").append(id).append("\" name=\"").append(escapeXml(obj.name)).append("\" type=\"model\"><mesh><vertices>")
             for(v in 0 until obj.mesh.vertexCount)res.append("<vertex x=\"").append(formatFixed6(obj.mesh.positions[v*3])).append("\" y=\"").append(formatFixed6(obj.mesh.positions[v*3+1])).append("\" z=\"").append(formatFixed6(obj.mesh.positions[v*3+2])).append("\"/>")
             res.append("</vertices><triangles>")
             for(t in 0 until obj.mesh.triangleCount)res.append("<triangle v1=\"").append(obj.mesh.indices[t*3]).append("\" v2=\"").append(obj.mesh.indices[t*3+1]).append("\" v3=\"").append(obj.mesh.indices[t*3+2]).append("\"/>")

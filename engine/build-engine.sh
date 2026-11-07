@@ -8,7 +8,7 @@ ARCH=${1:?x86_64 or aarch64}
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 JOBS=${JOBS:-10}
 EXTRA=""
-[ "$ARCH" = aarch64 ] && EXTRA="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DPKG_CONFIG_EXECUTABLE=/repo/engine/tools/pkg-config-arm64 -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so -DPANDY_STATIC_EXE=ON -DOPENSSL_ROOT_DIR=/opt/arm64-glib/usr -DOPENSSL_INCLUDE_DIR=/opt/arm64-glib/usr/include -DOPENSSL_CRYPTO_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcrypto.a -DOPENSSL_SSL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libssl.a -DCURL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcurl.a -DCURL_INCLUDE_DIR=/opt/arm64-glib/usr/include"
+[ "$ARCH" = aarch64 ] && EXTRA="-DCMAKE_TOOLCHAIN_FILE=/repo/engine/toolchains/aarch64-linux-gnu.cmake -DPKG_CONFIG_EXECUTABLE=/repo/engine/tools/pkg-config-arm64 -DOPENGL_opengl_LIBRARY=/usr/lib/x86_64-linux-gnu/libOpenGL.so -DOPENGL_glx_LIBRARY=/usr/lib/x86_64-linux-gnu/libGLX.so -DOPENGL_gl_LIBRARY=/usr/lib/x86_64-linux-gnu/libGL.so -DOPENGL_egl_LIBRARY=/usr/lib/x86_64-linux-gnu/libEGL.so -DPANDY_STATIC_EXE=ON -DwxWidgets_CONFIG_EXECUTABLE=/repo/build/aarch64/deps/destdir/usr/local/bin/wx-config -DOPENSSL_ROOT_DIR=/opt/arm64-glib/usr -DOPENSSL_INCLUDE_DIR=/opt/arm64-glib/usr/include -DPANDY_EXTRA_INCLUDES=/opt/arm64-glib/usr/include,/opt/arm64-glib/usr/include/aarch64-linux-gnu -DOPENSSL_CRYPTO_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcrypto.a -DOPENSSL_SSL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libssl.a -DCURL_LIBRARY=/opt/arm64-glib/usr/lib/aarch64-linux-gnu/libcurl.a -DCURL_INCLUDE_DIR=/opt/arm64-glib/usr/include"
 sudo -n docker run --rm -u "$(id -u):$(id -g)" -v "$ROOT:/repo" -w /repo pandy-studio-build bash -c "
   set -e
   [ $ARCH = aarch64 ] && export PKG_CONFIG=/repo/engine/tools/pkg-config-arm64
@@ -30,7 +30,7 @@ sudo -n docker run --rm -u "$(id -u):$(id -g)" -v "$ROOT:/repo" -w /repo pandy-s
   # First link: collect the GUI symbols the CLI sources reference, turn them into traps, link again.
   for attempt in 1 2 3 4 5 6; do
     if cmake --build \$B --target pandy-engine -j $JOBS > \$B/link.log 2>&1; then break; fi
-    grep -q 'undefined reference' \$B/link.log || { tail -60 \$B/link.log; exit 1; }
+    grep -q -E 'undefined reference|multiple definition' \$B/link.log || { tail -60 \$B/link.log; exit 1; }
     python3 engine/tools/gen_traps.py \$B/link.log \$B/pandy-traps.c
     [ \$attempt = 6 ] && { tail -30 \$B/link.log; exit 1; }
   done

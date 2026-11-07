@@ -44,6 +44,25 @@ input. The tests therefore:
 The engine runs Bambu Studio's code unchanged, so it inherits this variation rather than adding to it: a case the
 reference reproduces must be reproduced by the engine exactly.
 
+`distribution.py` makes the comparison directly: it slices one case N times with each and compares the sets of
+outputs. First result (A1 mini, feature plate, N = 20, x86-64 engine): the official build gave 11 distinct outputs,
+the engine 8; 7 are shared, the most frequent one is the same on both (5 runs each), and 17 of the engine's 20 runs
+are byte-identical to an output of the official build.
+
+### What we know about the cause
+
+Slicing is single-threaded when pinned to one CPU (the only other thread starts at exit), and the variation stays
+with the clock frozen, `getrandom` and `std::random_device` fixed, ASLR off, a fixed hostname and fixed file dates.
+Valgrind finds uninitialised reads in upstream's G-code generation, a sign the remaining randomness comes from
+memory contents (the kernel seeds every process's stack with random bytes):
+
+* `GCodeWriter::m_last_bed_temperature` is never initialised (its initialiser is commented out in
+  `GCodeWriter.hpp`). The first-layer bed temperature command is skipped when the garbage equals the temperature.
+* `RetractWhenCrossingPerimeters::m_layer` is never initialised before its first comparison.
+* `PartPlateList` fields are printed into the 3MF's plate metadata uninitialised.
+
+These are upstream bugs; the engine keeps them, so it behaves as the official build does.
+
 ## Run
 
 ```

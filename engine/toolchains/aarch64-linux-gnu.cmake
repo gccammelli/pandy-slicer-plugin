@@ -31,3 +31,14 @@ set(OPENGL_glx_LIBRARY /usr/lib/x86_64-linux-gnu/libGLX.so CACHE FILEPATH "")
 set(OPENGL_gl_LIBRARY /usr/lib/x86_64-linux-gnu/libGL.so CACHE FILEPATH "")
 set(OPENGL_egl_LIBRARY /usr/lib/x86_64-linux-gnu/libEGL.so CACHE FILEPATH "")
 set(OPENGL_glu_LIBRARY /usr/lib/x86_64-linux-gnu/libGLU.so CACHE FILEPATH "")
+
+# wxWidgets' resource compiler (wxrc, built only with XRC) links against GTK, which arm64 does not have; the engine uses no XRC.
+set(wxUSE_XRC OFF CACHE BOOL "")
+# GLEW and GLFW: looked up by upstream's top level for the GUI; the engine's GLFW is headless.c and it uses no GLEW.
+set(GLEW_SHARED_LIBRARY_RELEASE /usr/lib/x86_64-linux-gnu/libGLEW.so CACHE FILEPATH "")
+set(GLEW_STATIC_LIBRARY_RELEASE /usr/lib/x86_64-linux-gnu/libGLEW.so CACHE FILEPATH "")
+set(glfw3_DIR /usr/lib/x86_64-linux-gnu/cmake/glfw3 CACHE PATH "")
+# Wayland, looked up for the GUI library (libslic3r_gui), which the engine does not build.
+set(WAYLAND_CLIENT_LIBRARIES /usr/lib/x86_64-linux-gnu/libwayland-client.so CACHE FILEPATH "")
+set(WAYLAND_EGL_LIBRARIES /usr/lib/x86_64-linux-gnu/libwayland-egl.so CACHE FILEPATH "")
+set(WAYLAND_SERVER_LIBRARIES /usr/lib/x86_64-linux-gnu/libwayland-server.so CACHE FILEPATH "")

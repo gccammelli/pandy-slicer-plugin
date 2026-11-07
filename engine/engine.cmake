@@ -36,19 +36,41 @@ endfunction()
 # header (slic3r/pchheader.hpp); the same settings are used here.
 # Further GUI sources whose objects the plate code constructs (textures, models: inert without a display) are listed
 # here as they turn out to be reached; each addition is found by the trap it replaces.
-set(PANDY_GUI_SOURCES PartPlate.cpp GLTexture.cpp GLModel.cpp OpenGLManager.cpp BitmapCache.cpp 3DScene.cpp GLShader.cpp Plater.cpp)
+set(PANDY_GUI_SOURCES PartPlate.cpp GLTexture.cpp GLModel.cpp OpenGLManager.cpp BitmapCache.cpp 3DScene.cpp GLShader.cpp GLShadersManager.cpp Plater.cpp)
 list(TRANSFORM PANDY_GUI_SOURCES PREPEND ${PANDY_UPSTREAM_SRC}/slic3r/GUI/)
 add_library(pandy_gui_subset OBJECT ${PANDY_GUI_SOURCES})
 pandy_mirror(pandy_gui_subset libslic3r_gui)
 target_compile_options(pandy_gui_subset PRIVATE -include ${PANDY_UPSTREAM_SRC}/slic3r/pchheader.hpp)
 target_link_libraries(pandy_gui_subset PRIVATE libslic3r)
+# Headers of libraries found outside the deps tree (arm64: OpenSSL from Ubuntu's package, see docker/Dockerfile).
+string(REPLACE "," ";" _extra_includes "${PANDY_EXTRA_INCLUDES}")
+target_include_directories(pandy_gui_subset PRIVATE ${_extra_includes})
+# arm64: wxWidgets is built without WebView, WebRequest and XRC (no WebKit there), but the GUI headers the CLI
+# includes declare classes that use them. They compile against a copy of wx/setup.h with those three switched on,
+# as the official build's is; nothing else in it differs, and the missing classes' code becomes traps.
+if (PANDY_STATIC_EXE)
+    file(GLOB _wx_setup ${CMAKE_PREFIX_PATH}/lib/wx/include/*/wx/setup.h)
+    file(READ ${_wx_setup} _setup)
+    foreach (_feature WEBREQUEST WEBREQUEST_CURL XRC WEBVIEW WEBVIEW_WEBKIT2)
+        string(REGEX REPLACE "#define wxUSE_${_feature} 0" "#define wxUSE_${_feature} 1" _setup "${_setup}")
+    endforeach ()
+    file(WRITE ${CMAKE_BINARY_DIR}/pandy-wx-setup/wx/setup.h "${_setup}")
+    target_include_directories(pandy_gui_subset BEFORE PRIVATE ${CMAKE_BINARY_DIR}/pandy-wx-setup)
+endif ()
 
 # Same source and link line as upstream's BambuStudio executable (src/CMakeLists.txt), minus libslic3r_gui.
 add_executable(pandy-engine ${PANDY_UPSTREAM_SRC}/BambuStudio.cpp $<TARGET_OBJECTS:pandy_gui_subset>
     ${PANDY_ENGINE_DIR}/headless.c ${PANDY_TRAPS})
 pandy_mirror(pandy-engine BambuStudio)
+target_include_directories(pandy-engine PRIVATE ${_extra_includes})
+if (PANDY_STATIC_EXE)
+    target_include_directories(pandy-engine BEFORE PRIVATE ${CMAKE_BINARY_DIR}/pandy-wx-setup)
+endif ()
 set_source_files_properties(${PANDY_ENGINE_DIR}/headless.c ${PANDY_TRAPS} PROPERTIES COMPILE_DEFINITIONS "" INCLUDE_DIRECTORIES "")
 target_link_libraries(pandy-engine libslic3r cereal ${CMAKE_DL_LIBS} -lstdc++ Threads::Threads)
+# OpenSSL: the 3MF writer hashes each plate's G-code (MD5) for the .md5 file. Upstream links it through
+# libslic3r_gui; here it is linked directly.
+target_link_libraries(pandy-engine OpenSSL::SSL OpenSSL::Crypto)
 
 # wxWidgets, linked as upstream links it into libslic3r_gui: the GUI headers the CLI includes construct wx objects
 # (theme colours, strings) when the program starts. Desktop builds also link the GTK libraries upstream links; the
@@ -60,6 +82,10 @@ foreach (_item ${_gui_libs})
     separate_arguments(_parts UNIX_COMMAND "${_item}")
     foreach (_lib ${_parts})
         if (_lib MATCHES "wx_|libwx|wxregex|wxscintilla")
+            # The arm64 wxWidgets has no WebView or media library (no WebKit, GStreamer); only the GUI used them.
+            if (PANDY_STATIC_EXE AND (_lib MATCHES "webview|media" OR (IS_ABSOLUTE "${_lib}" AND NOT EXISTS "${_lib}")))
+                continue ()
+            endif ()
             target_link_libraries(pandy-engine ${_lib})
         elseif (NOT PANDY_STATIC_EXE AND _lib MATCHES "gtk|gdk|glib|gobject|gio|pango|cairo|X11|Xext|Xxf86vm|Xtst|xkbcommon|wayland|epoxy|secret|^-lSM$|^-lICE$|harfbuzz|fontconfig|OSMesa|^-lpng|^-ljpeg|^-ltiff|^-lexpat|^-lz$")
             target_link_libraries(pandy-engine ${_lib})

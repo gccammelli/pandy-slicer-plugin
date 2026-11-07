@@ -76,8 +76,7 @@ fun PlateScreen(studio: Studio, nav: Nav) {
                     Spacer(Modifier.width(6.dp)); T(f.string("filament_type") ?: f.name.substringBefore(" @"), 13.sp)
                 }
             }
-            if (studio.filaments.size < 16) Box(Modifier.size(34.dp).clip(CircleShape).background(C.Fill).clickable { filamentSlot = studio.filaments.size; sheet = "filament" },
-                contentAlignment = Alignment.Center) { Icon(Icons.Default.Add, "Add filament", Modifier.size(18.dp), tint = C.Text) }
+            // One filament per plate for now: per-object filaments are not covered by the equivalence tests yet.
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {
             Viewport(scene, ThemeMode.dark, Modifier.fillMaxSize())
@@ -215,7 +214,6 @@ private fun ObjectPanel(studio: Studio, o: PlateObject) {
             ToolButton(Icons.Default.ScreenRotation, "Tip over") { o.rotX = (o.rotX + 90f) % 360f; changed() }
             ToolButton(Icons.Default.Restore, "Reset") { o.rotX = 0f; o.rotY = 0f; o.rotZ = 0f; o.scale = Vec3(1f, 1f, 1f); changed() }
             ToolButton(Icons.Default.ContentCopy, "Duplicate") { studio.duplicate(o.id) }
-            if (studio.filaments.size > 1) ToolButton(Icons.Default.Palette, "Filament ${o.filament + 1}") { o.filament = (o.filament + 1) % studio.filaments.size; changed() }
             ToolButton(Icons.Default.Delete, "Delete", C.Red) { scene.remove(o.id); studio.invalidate() }
         }
     }

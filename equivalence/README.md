@@ -49,6 +49,11 @@ outputs. First result (A1 mini, feature plate, N = 20, x86-64 engine): the offic
 the engine 8; 7 are shared, the most frequent one is the same on both (5 runs each), and 17 of the engine's 20 runs
 are byte-identical to an output of the official build.
 
+On a phone (Sony Xperia 10 IV, arm64, X1 Carbon feature plate, N = 20): with the first arm64 build no phone output
+matched any official one: Eigen's ARM code used fused multiply-add instructions, which round differently from x86-64.
+Built without them (`engine/toolchains/aarch64-linux-gnu.cmake`), 19 of the phone's 20 slices are byte-identical to
+an output of the official build, sharing 5 variants with it.
+
 ### What we know about the cause
 
 Slicing is single-threaded when pinned to one CPU (the only other thread starts at exit), and the variation stays

@@ -17,8 +17,12 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
 # OpenSSL's headers (arm64 package, see docker/Dockerfile) are searched last (-idirafter): the official build finds
 # them in /usr/include, and they must not shadow anything.
 set(PANDY_ARM64_GLIB "-I/opt/arm64-glib/usr/lib/aarch64-linux-gnu/glib-2.0/include -idirafter /opt/arm64-glib/usr/include/aarch64-linux-gnu -idirafter /opt/arm64-glib/usr/include")
-set(CMAKE_C_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
-set(CMAKE_CXX_FLAGS_INIT "-ffp-contract=off ${PANDY_ARM64_GLIB}")
+# Eigen's ARM code calls fused multiply-add intrinsics itself whenever __ARM_FEATURE_FMA is defined, which
+# -ffp-contract=off cannot stop; without the macro it multiplies and adds separately, rounding as x86-64's SSE2 does.
+# (Found by counting fmadd/fmla in the engine: Eigen kernels inside mesh slicing and placement used them.)
+set(PANDY_NO_FMA "-ffp-contract=off -U__ARM_FEATURE_FMA")
+set(CMAKE_C_FLAGS_INIT "${PANDY_NO_FMA} ${PANDY_ARM64_GLIB}")
+set(CMAKE_CXX_FLAGS_INIT "${PANDY_NO_FMA} ${PANDY_ARM64_GLIB}")
 
 # Desktop libraries that GUI recipes look up (wxWidgets' GTK port, OpenGL) but the static arm64 engine never links:
 # the lookups are satisfied with the x86-64 files so configuration succeeds; nothing is linked against them.

@@ -60,13 +60,13 @@ endif ()
 
 # Same source and link line as upstream's BambuStudio executable (src/CMakeLists.txt), minus libslic3r_gui.
 add_executable(pandy-engine ${PANDY_UPSTREAM_SRC}/BambuStudio.cpp $<TARGET_OBJECTS:pandy_gui_subset>
-    ${PANDY_ENGINE_DIR}/headless.c ${PANDY_TRAPS})
+    ${PANDY_ENGINE_DIR}/headless.c ${PANDY_TRAPS} $<$<BOOL:${PANDY_STATIC_EXE}>:${PANDY_ENGINE_DIR}/gtk-headless.c>)
 pandy_mirror(pandy-engine BambuStudio)
 target_include_directories(pandy-engine PRIVATE ${_extra_includes})
 if (PANDY_STATIC_EXE)
     target_include_directories(pandy-engine BEFORE PRIVATE ${CMAKE_BINARY_DIR}/pandy-wx-setup)
 endif ()
-set_source_files_properties(${PANDY_ENGINE_DIR}/headless.c ${PANDY_TRAPS} PROPERTIES COMPILE_DEFINITIONS "" INCLUDE_DIRECTORIES "")
+set_source_files_properties(${PANDY_ENGINE_DIR}/headless.c ${PANDY_ENGINE_DIR}/gtk-headless.c ${PANDY_TRAPS} PROPERTIES COMPILE_DEFINITIONS "" INCLUDE_DIRECTORIES "")
 target_link_libraries(pandy-engine libslic3r cereal ${CMAKE_DL_LIBS} -lstdc++ Threads::Threads)
 # OpenSSL: the 3MF writer hashes each plate's G-code (MD5) for the .md5 file. Upstream links it through
 # libslic3r_gui; here it is linked directly.

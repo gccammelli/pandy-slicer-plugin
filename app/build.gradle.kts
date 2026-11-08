@@ -14,7 +14,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "io.github.gccammelli.pandystudio" + if (providers.gradleProperty("pandy.testbed").isPresent) ".testbed" else ""
+        applicationId = "io.github.gccammelli.pandy.slicer" + if (providers.gradleProperty("pandy.testbed").isPresent) ".testbed" else ""
         minSdk = 26
         targetSdk = 36
         versionCode = 1

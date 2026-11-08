@@ -1,59 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- To hand sliced files to Pandy, which prints them over the network. -->
-    <queries>
-        <package android:name="io.github.gccammelli.pandy" />
-        <package android:name="io.github.gccammelli.pandy.testbed" />
-    </queries>
-
-    <application
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Pandy Studio"
-        android:supportsRtl="true"
-        android:extractNativeLibs="true"
-        android:theme="@style/Theme.PandyStudio">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <!-- Open STL and 3MF files from other apps. -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="model/stl" />
-                <data android:mimeType="model/3mf" />
-                <data android:mimeType="application/vnd.ms-pki.stl" />
-                <data android:mimeType="application/sla" />
-                <data android:mimeType="application/octet-stream" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".PhoneActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="io.github.gccammelli.pandystudio.CAPABILITIES_V1" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="io.github.gccammelli.pandystudio.SLICE_V1" />
-                <action android:name="io.github.gccammelli.pandystudio.EDIT_V1" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="content" />
-                <data android:mimeType="model/3mf" />
-            </intent-filter>
-        </activity>
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.files"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
-        </provider>
+    <permission android:name="${applicationId}.permission.SLICE" android:protectionLevel="signature" />
+    <application android:allowBackup="false" android:extractNativeLibs="true" android:label="Pandy Slicer plugin" android:theme="@style/Theme.PandyStudio">
+        <service android:name=".SlicerService" android:exported="true" android:permission="${applicationId}.permission.SLICE">
+            <intent-filter><action android:name="io.github.gccammelli.pandy.slicer.BIND_V1" /></intent-filter>
+        </service>
     </application>
 </manifest>

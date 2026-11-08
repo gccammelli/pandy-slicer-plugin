@@ -6,3 +6,4 @@ local.properties
 third_party/
 .kotlin/
 __pycache__/
+CODEX-HANDOFF.md

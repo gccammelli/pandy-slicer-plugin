@@ -4,7 +4,7 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-08 11:36 UTC.*
+*Generated 2026-11-08 14:03 UTC.*
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ plate sliced on a phone and by the official Bambu Studio, compared as described 
 | 🟥 **Differs** | the part differs beyond the official build's own variation |
 | ⬜ **Not verified** | not run yet |
 
-**3 green · 0 yellow · 0 red · 397 not verified** (of 400: 10 models × 40 configurations)
+**351 green · 2 yellow · 47 red · 0 not verified** (of 400: 10 models × 40 configurations)
 
 ![Equivalence matrix](matrix.svg)
 
@@ -35,6 +35,60 @@ Hover a cell (open the SVG) for its details. Columns change one thing from the b
 
 Models are generated (`equivalence/pandy_equiv/models.py`): cube 20 mm, cylinder, tube (hole), sphere, torus, gear,
 bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm.
+
+## Cells that are not green
+
+| | Model | Configuration | Largest difference | Features | Layers |
+|---|---|---|---|---|---|
+| 🟥 | cylinder | nozzle 0.2 mm | 1.018 mm | Floating vertical shell, Outer wall | 120–120 |
+| 🟥 | gear | A1 | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | A1 mini | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | A2L | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | H2D Pro | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | H2S | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | X1E | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | X2D | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | classic walls | 4.415 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | infill 40% | 0.333 mm | Floating vertical shell | 35–35 |
+| 🟥 | gear | layer 0.12 mm | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | layer 0.16 mm | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | layer 0.24 mm | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | no brim | 3.38 mm | Floating vertical shell, Sparse infill | 35–35 |
+| 🟥 | gear | walls 1 | 0.661 mm | Floating vertical shell, Outer wall | 35–35 |
+| 🟥 | sphere | H2D | – mm | {"only_one_sliced": true, "candidate": {"returncode": 139, "cli_return_code": nu | – |
+| 🟥 | sphere | tree supports | 2.504 mm | Bridge, Brim, Custom, Internal solid infill, Skirt, Sparse infill, Support, Support interface | 0–9 |
+| 🟥 | torus | A1 | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | A1 mini | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | A2L | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | H2C | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | H2D | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | H2D Pro | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | H2S | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | P1P | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | P1S | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | P2S | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | X1 | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | X1E | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | X2D | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | baseline | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | fuzzy skin | inf mm | Sparse infill | 46–46 |
+| 🟥 | torus | ironing | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | layer 0.08 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | layer 0.12 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | layer 0.16 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | layer 0.24 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | layer 0.28 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | no brim | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | nozzle 0.2 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | nozzle 0.6 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | nozzle 0.8 mm | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | outer brim | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | pattern grid | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | pattern honeycomb | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | pattern lightning | 0.051 mm | Outer wall | 10–41 |
+| 🟥 | torus | walls 4 | 0.051 mm | Outer wall | 10–41 |
+| 🟨 | overhangs | tree supports | 4.744 mm | Bottom surface, Bridge, Internal solid infill, Skirt, Support | 0–72 |
+| 🟨 | torus | tree supports | 0.696 mm | Skirt, Support | 0–1 |
 
 ## Known differences
 

@@ -14,6 +14,7 @@ Each column changes one thing from the baseline (X1 Carbon 0.4 nozzle, 0.20mm St
 grid stays sparse but covers every printer, nozzle sizes, layer heights, infill, walls, supports and surface options.
 
   matrix.py run --device SERIAL [--ref-runs 5] [--only ROWS] [--cols N]   slice and classify (resumable)
+  matrix.py recheck [--ref-runs 20]                                        non-green cells against more official runs
   matrix.py report                                                          write docs/equivalence/{README.md,matrix.svg}
 """
 import argparse
@@ -199,6 +200,32 @@ def run(args):
         list(ex.map(cell, todo))
 
 
+def recheck(args):
+    """Non-green cells again, against more official runs (--ref-runs, default 20): a difference the official build also
+    produces in some run is its own variation, not the phone's. The phone's output is not re-sliced."""
+    results = json.loads((OUT / "results.json").read_text())
+    ref = runners.Reference()
+    for key, r in results.items():
+        if r["status"] == "green":
+            continue
+        base = OUT / "cells" / r["case"]
+        inputs = base / "inputs"
+        argv = cases.materialise(json.loads((inputs / "case.json").read_text()), base / "inputs-recheck")
+        def one(k):
+            d = base / f"ref{k}"
+            if not (d / "run.json").exists():
+                runners.set_cpu(2 + (k % 10) * 2)
+                rr = ref.run(inputs, argv, d)
+                (d / "run.json").write_text(json.dumps(outcome(d, rr.returncode)))
+            return d
+        with cf.ThreadPoolExecutor(10) as ex:
+            refs = list(ex.map(one, range(args.ref_runs)))
+        status, detail = classify(refs, base / "phone")
+        print(f"{r['status']:7} -> {status:7} {key} {json.dumps(detail)[:150]}", flush=True)
+        r["status"], r["detail"] = status, detail | {"official_runs": args.ref_runs}
+        (OUT / "results.json").write_text(json.dumps(results, indent=1, default=str))
+
+
 COLOURS = {"green": "#2FB344", "yellow": "#F2C94C", "red": "#E5484D", "grey": "#C9CDD3"}
 
 
@@ -286,10 +313,12 @@ def report(_):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["run", "report"])
+    ap.add_argument("command", choices=["run", "report", "recheck"])
     ap.add_argument("--device")
     ap.add_argument("--ref-runs", type=int, default=5)
     ap.add_argument("--only")
     ap.add_argument("--cols", type=int)
     a = ap.parse_args()
-    (run if a.command == "run" else report)(a)
+    if a.command == "recheck" and a.ref_runs == 5:
+        a.ref_runs = 20
+    {"run": run, "report": report, "recheck": recheck}[a.command](a)

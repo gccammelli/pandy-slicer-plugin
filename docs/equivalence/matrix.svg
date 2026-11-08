@@ -1,0 +1,453 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="742" height="290" font-family="Helvetica,Arial,sans-serif" font-size="10">
+<rect width="742" height="290" fill="white"/>
+<text transform="translate(103.0,114) rotate(-90)" fill="#333">baseline</text>
+<text transform="translate(119.0,114) rotate(-90)" fill="#333">A1</text>
+<text transform="translate(135.0,114) rotate(-90)" fill="#333">A1 mini</text>
+<text transform="translate(151.0,114) rotate(-90)" fill="#333">A2L</text>
+<text transform="translate(167.0,114) rotate(-90)" fill="#333">H2C</text>
+<text transform="translate(183.0,114) rotate(-90)" fill="#333">H2D</text>
+<text transform="translate(199.0,114) rotate(-90)" fill="#333">H2D Pro</text>
+<text transform="translate(215.0,114) rotate(-90)" fill="#333">H2S</text>
+<text transform="translate(231.0,114) rotate(-90)" fill="#333">P1P</text>
+<text transform="translate(247.0,114) rotate(-90)" fill="#333">P1S</text>
+<text transform="translate(263.0,114) rotate(-90)" fill="#333">P2S</text>
+<text transform="translate(279.0,114) rotate(-90)" fill="#333">X1</text>
+<text transform="translate(295.0,114) rotate(-90)" fill="#333">X1E</text>
+<text transform="translate(311.0,114) rotate(-90)" fill="#333">X2D</text>
+<text transform="translate(327.0,114) rotate(-90)" fill="#333">nozzle 0.2 mm</text>
+<text transform="translate(343.0,114) rotate(-90)" fill="#333">nozzle 0.6 mm</text>
+<text transform="translate(359.0,114) rotate(-90)" fill="#333">nozzle 0.8 mm</text>
+<text transform="translate(375.0,114) rotate(-90)" fill="#333">layer 0.08 mm</text>
+<text transform="translate(391.0,114) rotate(-90)" fill="#333">layer 0.12 mm</text>
+<text transform="translate(407.0,114) rotate(-90)" fill="#333">layer 0.16 mm</text>
+<text transform="translate(423.0,114) rotate(-90)" fill="#333">layer 0.24 mm</text>
+<text transform="translate(439.0,114) rotate(-90)" fill="#333">layer 0.28 mm</text>
+<text transform="translate(455.0,114) rotate(-90)" fill="#333">infill 0%</text>
+<text transform="translate(471.0,114) rotate(-90)" fill="#333">infill 40%</text>
+<text transform="translate(487.0,114) rotate(-90)" fill="#333">infill 100%</text>
+<text transform="translate(503.0,114) rotate(-90)" fill="#333">pattern gyroid</text>
+<text transform="translate(519.0,114) rotate(-90)" fill="#333">pattern grid</text>
+<text transform="translate(535.0,114) rotate(-90)" fill="#333">pattern honeycomb</text>
+<text transform="translate(551.0,114) rotate(-90)" fill="#333">pattern lightning</text>
+<text transform="translate(567.0,114) rotate(-90)" fill="#333">pattern adaptivecubic</text>
+<text transform="translate(583.0,114) rotate(-90)" fill="#333">walls 1</text>
+<text transform="translate(599.0,114) rotate(-90)" fill="#333">walls 4</text>
+<text transform="translate(615.0,114) rotate(-90)" fill="#333">classic walls</text>
+<text transform="translate(631.0,114) rotate(-90)" fill="#333">normal supports</text>
+<text transform="translate(647.0,114) rotate(-90)" fill="#333">tree supports</text>
+<text transform="translate(663.0,114) rotate(-90)" fill="#333">no brim</text>
+<text transform="translate(679.0,114) rotate(-90)" fill="#333">outer brim</text>
+<text transform="translate(695.0,114) rotate(-90)" fill="#333">ironing</text>
+<text transform="translate(711.0,114) rotate(-90)" fill="#333">seam back</text>
+<text transform="translate(727.0,114) rotate(-90)" fill="#333">fuzzy skin</text>
+<text x="86" y="132" text-anchor="end" fill="#333">cube</text>
+<rect x="93" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
+<rect x="109" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
+<rect x="125" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / A1 mini: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
+<rect x="141" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / A2L: grey (not run)</title></rect>
+<rect x="157" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / H2C: grey (not run)</title></rect>
+<rect x="173" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / H2D: grey (not run)</title></rect>
+<rect x="189" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / H2S: grey (not run)</title></rect>
+<rect x="221" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / P1P: grey (not run)</title></rect>
+<rect x="237" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / P1S: grey (not run)</title></rect>
+<rect x="253" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / P2S: grey (not run)</title></rect>
+<rect x="269" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / X1: grey (not run)</title></rect>
+<rect x="285" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / X1E: grey (not run)</title></rect>
+<rect x="301" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / X2D: grey (not run)</title></rect>
+<rect x="317" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / walls 1: grey (not run)</title></rect>
+<rect x="589" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / walls 4: grey (not run)</title></rect>
+<rect x="605" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / classic walls: grey (not run)</title></rect>
+<rect x="621" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / normal supports: grey (not run)</title></rect>
+<rect x="637" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / tree supports: grey (not run)</title></rect>
+<rect x="653" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / no brim: grey (not run)</title></rect>
+<rect x="669" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / outer brim: grey (not run)</title></rect>
+<rect x="685" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / ironing: grey (not run)</title></rect>
+<rect x="701" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / seam back: grey (not run)</title></rect>
+<rect x="717" y="121" width="14" height="14" rx="2" fill="#C9CDD3"><title>cube / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="148" text-anchor="end" fill="#333">cylinder</text>
+<rect x="93" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / baseline: grey (not run)</title></rect>
+<rect x="109" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / A1: grey (not run)</title></rect>
+<rect x="125" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / A2L: grey (not run)</title></rect>
+<rect x="157" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / H2C: grey (not run)</title></rect>
+<rect x="173" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / H2D: grey (not run)</title></rect>
+<rect x="189" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / H2S: grey (not run)</title></rect>
+<rect x="221" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / P1P: grey (not run)</title></rect>
+<rect x="237" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / P1S: grey (not run)</title></rect>
+<rect x="253" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / P2S: grey (not run)</title></rect>
+<rect x="269" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / X1: grey (not run)</title></rect>
+<rect x="285" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / X1E: grey (not run)</title></rect>
+<rect x="301" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / X2D: grey (not run)</title></rect>
+<rect x="317" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / walls 1: grey (not run)</title></rect>
+<rect x="589" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / walls 4: grey (not run)</title></rect>
+<rect x="605" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / classic walls: grey (not run)</title></rect>
+<rect x="621" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / normal supports: grey (not run)</title></rect>
+<rect x="637" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / tree supports: grey (not run)</title></rect>
+<rect x="653" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / no brim: grey (not run)</title></rect>
+<rect x="669" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / outer brim: grey (not run)</title></rect>
+<rect x="685" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / ironing: grey (not run)</title></rect>
+<rect x="701" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / seam back: grey (not run)</title></rect>
+<rect x="717" y="137" width="14" height="14" rx="2" fill="#C9CDD3"><title>cylinder / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="164" text-anchor="end" fill="#333">tube</text>
+<rect x="93" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / baseline: grey (not run)</title></rect>
+<rect x="109" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / A1: grey (not run)</title></rect>
+<rect x="125" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / A2L: grey (not run)</title></rect>
+<rect x="157" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / H2C: grey (not run)</title></rect>
+<rect x="173" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / H2D: grey (not run)</title></rect>
+<rect x="189" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / H2S: grey (not run)</title></rect>
+<rect x="221" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / P1P: grey (not run)</title></rect>
+<rect x="237" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / P1S: grey (not run)</title></rect>
+<rect x="253" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / P2S: grey (not run)</title></rect>
+<rect x="269" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / X1: grey (not run)</title></rect>
+<rect x="285" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / X1E: grey (not run)</title></rect>
+<rect x="301" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / X2D: grey (not run)</title></rect>
+<rect x="317" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / walls 1: grey (not run)</title></rect>
+<rect x="589" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / walls 4: grey (not run)</title></rect>
+<rect x="605" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / classic walls: grey (not run)</title></rect>
+<rect x="621" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / normal supports: grey (not run)</title></rect>
+<rect x="637" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / tree supports: grey (not run)</title></rect>
+<rect x="653" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / no brim: grey (not run)</title></rect>
+<rect x="669" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / outer brim: grey (not run)</title></rect>
+<rect x="685" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / ironing: grey (not run)</title></rect>
+<rect x="701" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / seam back: grey (not run)</title></rect>
+<rect x="717" y="153" width="14" height="14" rx="2" fill="#C9CDD3"><title>tube / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="180" text-anchor="end" fill="#333">sphere</text>
+<rect x="93" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / baseline: grey (not run)</title></rect>
+<rect x="109" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / A1: grey (not run)</title></rect>
+<rect x="125" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / A2L: grey (not run)</title></rect>
+<rect x="157" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / H2C: grey (not run)</title></rect>
+<rect x="173" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / H2D: grey (not run)</title></rect>
+<rect x="189" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / H2S: grey (not run)</title></rect>
+<rect x="221" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / P1P: grey (not run)</title></rect>
+<rect x="237" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / P1S: grey (not run)</title></rect>
+<rect x="253" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / P2S: grey (not run)</title></rect>
+<rect x="269" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / X1: grey (not run)</title></rect>
+<rect x="285" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / X1E: grey (not run)</title></rect>
+<rect x="301" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / X2D: grey (not run)</title></rect>
+<rect x="317" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / walls 1: grey (not run)</title></rect>
+<rect x="589" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / walls 4: grey (not run)</title></rect>
+<rect x="605" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / classic walls: grey (not run)</title></rect>
+<rect x="621" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / normal supports: grey (not run)</title></rect>
+<rect x="637" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / tree supports: grey (not run)</title></rect>
+<rect x="653" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / no brim: grey (not run)</title></rect>
+<rect x="669" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / outer brim: grey (not run)</title></rect>
+<rect x="685" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / ironing: grey (not run)</title></rect>
+<rect x="701" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / seam back: grey (not run)</title></rect>
+<rect x="717" y="169" width="14" height="14" rx="2" fill="#C9CDD3"><title>sphere / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="196" text-anchor="end" fill="#333">torus</text>
+<rect x="93" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / baseline: grey (not run)</title></rect>
+<rect x="109" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / A1: grey (not run)</title></rect>
+<rect x="125" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / A2L: grey (not run)</title></rect>
+<rect x="157" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / H2C: grey (not run)</title></rect>
+<rect x="173" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / H2D: grey (not run)</title></rect>
+<rect x="189" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / H2S: grey (not run)</title></rect>
+<rect x="221" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / P1P: grey (not run)</title></rect>
+<rect x="237" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / P1S: grey (not run)</title></rect>
+<rect x="253" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / P2S: grey (not run)</title></rect>
+<rect x="269" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / X1: grey (not run)</title></rect>
+<rect x="285" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / X1E: grey (not run)</title></rect>
+<rect x="301" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / X2D: grey (not run)</title></rect>
+<rect x="317" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / walls 1: grey (not run)</title></rect>
+<rect x="589" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / walls 4: grey (not run)</title></rect>
+<rect x="605" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / classic walls: grey (not run)</title></rect>
+<rect x="621" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / normal supports: grey (not run)</title></rect>
+<rect x="637" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / tree supports: grey (not run)</title></rect>
+<rect x="653" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / no brim: grey (not run)</title></rect>
+<rect x="669" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / outer brim: grey (not run)</title></rect>
+<rect x="685" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / ironing: grey (not run)</title></rect>
+<rect x="701" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / seam back: grey (not run)</title></rect>
+<rect x="717" y="185" width="14" height="14" rx="2" fill="#C9CDD3"><title>torus / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="212" text-anchor="end" fill="#333">gear</text>
+<rect x="93" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / baseline: grey (not run)</title></rect>
+<rect x="109" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / A1: grey (not run)</title></rect>
+<rect x="125" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / A2L: grey (not run)</title></rect>
+<rect x="157" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / H2C: grey (not run)</title></rect>
+<rect x="173" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / H2D: grey (not run)</title></rect>
+<rect x="189" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / H2S: grey (not run)</title></rect>
+<rect x="221" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / P1P: grey (not run)</title></rect>
+<rect x="237" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / P1S: grey (not run)</title></rect>
+<rect x="253" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / P2S: grey (not run)</title></rect>
+<rect x="269" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / X1: grey (not run)</title></rect>
+<rect x="285" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / X1E: grey (not run)</title></rect>
+<rect x="301" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / X2D: grey (not run)</title></rect>
+<rect x="317" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / walls 1: grey (not run)</title></rect>
+<rect x="589" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / walls 4: grey (not run)</title></rect>
+<rect x="605" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / classic walls: grey (not run)</title></rect>
+<rect x="621" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / normal supports: grey (not run)</title></rect>
+<rect x="637" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / tree supports: grey (not run)</title></rect>
+<rect x="653" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / no brim: grey (not run)</title></rect>
+<rect x="669" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / outer brim: grey (not run)</title></rect>
+<rect x="685" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / ironing: grey (not run)</title></rect>
+<rect x="701" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / seam back: grey (not run)</title></rect>
+<rect x="717" y="201" width="14" height="14" rx="2" fill="#C9CDD3"><title>gear / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="228" text-anchor="end" fill="#333">bridge</text>
+<rect x="93" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / baseline: grey (not run)</title></rect>
+<rect x="109" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / A1: grey (not run)</title></rect>
+<rect x="125" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / A2L: grey (not run)</title></rect>
+<rect x="157" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / H2C: grey (not run)</title></rect>
+<rect x="173" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / H2D: grey (not run)</title></rect>
+<rect x="189" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / H2S: grey (not run)</title></rect>
+<rect x="221" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / P1P: grey (not run)</title></rect>
+<rect x="237" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / P1S: grey (not run)</title></rect>
+<rect x="253" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / P2S: grey (not run)</title></rect>
+<rect x="269" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / X1: grey (not run)</title></rect>
+<rect x="285" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / X1E: grey (not run)</title></rect>
+<rect x="301" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / X2D: grey (not run)</title></rect>
+<rect x="317" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / walls 1: grey (not run)</title></rect>
+<rect x="589" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / walls 4: grey (not run)</title></rect>
+<rect x="605" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / classic walls: grey (not run)</title></rect>
+<rect x="621" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / normal supports: grey (not run)</title></rect>
+<rect x="637" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / tree supports: grey (not run)</title></rect>
+<rect x="653" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / no brim: grey (not run)</title></rect>
+<rect x="669" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / outer brim: grey (not run)</title></rect>
+<rect x="685" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / ironing: grey (not run)</title></rect>
+<rect x="701" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / seam back: grey (not run)</title></rect>
+<rect x="717" y="217" width="14" height="14" rx="2" fill="#C9CDD3"><title>bridge / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="244" text-anchor="end" fill="#333">overhangs</text>
+<rect x="93" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / baseline: grey (not run)</title></rect>
+<rect x="109" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / A1: grey (not run)</title></rect>
+<rect x="125" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / A2L: grey (not run)</title></rect>
+<rect x="157" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / H2C: grey (not run)</title></rect>
+<rect x="173" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / H2D: grey (not run)</title></rect>
+<rect x="189" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / H2S: grey (not run)</title></rect>
+<rect x="221" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / P1P: grey (not run)</title></rect>
+<rect x="237" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / P1S: grey (not run)</title></rect>
+<rect x="253" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / P2S: grey (not run)</title></rect>
+<rect x="269" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / X1: grey (not run)</title></rect>
+<rect x="285" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / X1E: grey (not run)</title></rect>
+<rect x="301" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / X2D: grey (not run)</title></rect>
+<rect x="317" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / walls 1: grey (not run)</title></rect>
+<rect x="589" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / walls 4: grey (not run)</title></rect>
+<rect x="605" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / classic walls: grey (not run)</title></rect>
+<rect x="621" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / normal supports: grey (not run)</title></rect>
+<rect x="637" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / tree supports: grey (not run)</title></rect>
+<rect x="653" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / no brim: grey (not run)</title></rect>
+<rect x="669" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / outer brim: grey (not run)</title></rect>
+<rect x="685" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / ironing: grey (not run)</title></rect>
+<rect x="701" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / seam back: grey (not run)</title></rect>
+<rect x="717" y="233" width="14" height="14" rx="2" fill="#C9CDD3"><title>overhangs / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="260" text-anchor="end" fill="#333">thin</text>
+<rect x="93" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / baseline: grey (not run)</title></rect>
+<rect x="109" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / A1: grey (not run)</title></rect>
+<rect x="125" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / A2L: grey (not run)</title></rect>
+<rect x="157" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / H2C: grey (not run)</title></rect>
+<rect x="173" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / H2D: grey (not run)</title></rect>
+<rect x="189" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / H2S: grey (not run)</title></rect>
+<rect x="221" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / P1P: grey (not run)</title></rect>
+<rect x="237" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / P1S: grey (not run)</title></rect>
+<rect x="253" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / P2S: grey (not run)</title></rect>
+<rect x="269" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / X1: grey (not run)</title></rect>
+<rect x="285" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / X1E: grey (not run)</title></rect>
+<rect x="301" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / X2D: grey (not run)</title></rect>
+<rect x="317" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / walls 1: grey (not run)</title></rect>
+<rect x="589" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / walls 4: grey (not run)</title></rect>
+<rect x="605" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / classic walls: grey (not run)</title></rect>
+<rect x="621" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / normal supports: grey (not run)</title></rect>
+<rect x="637" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / tree supports: grey (not run)</title></rect>
+<rect x="653" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / no brim: grey (not run)</title></rect>
+<rect x="669" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / outer brim: grey (not run)</title></rect>
+<rect x="685" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / ironing: grey (not run)</title></rect>
+<rect x="701" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / seam back: grey (not run)</title></rect>
+<rect x="717" y="249" width="14" height="14" rx="2" fill="#C9CDD3"><title>thin / fuzzy skin: grey (not run)</title></rect>
+<text x="86" y="276" text-anchor="end" fill="#333">tower</text>
+<rect x="93" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / baseline: grey (not run)</title></rect>
+<rect x="109" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / A1: grey (not run)</title></rect>
+<rect x="125" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / A1 mini: grey (not run)</title></rect>
+<rect x="141" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / A2L: grey (not run)</title></rect>
+<rect x="157" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / H2C: grey (not run)</title></rect>
+<rect x="173" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / H2D: grey (not run)</title></rect>
+<rect x="189" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / H2D Pro: grey (not run)</title></rect>
+<rect x="205" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / H2S: grey (not run)</title></rect>
+<rect x="221" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / P1P: grey (not run)</title></rect>
+<rect x="237" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / P1S: grey (not run)</title></rect>
+<rect x="253" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / P2S: grey (not run)</title></rect>
+<rect x="269" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / X1: grey (not run)</title></rect>
+<rect x="285" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / X1E: grey (not run)</title></rect>
+<rect x="301" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / X2D: grey (not run)</title></rect>
+<rect x="317" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / nozzle 0.2 mm: grey (not run)</title></rect>
+<rect x="333" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / nozzle 0.6 mm: grey (not run)</title></rect>
+<rect x="349" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / nozzle 0.8 mm: grey (not run)</title></rect>
+<rect x="365" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / layer 0.08 mm: grey (not run)</title></rect>
+<rect x="381" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / layer 0.12 mm: grey (not run)</title></rect>
+<rect x="397" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / layer 0.16 mm: grey (not run)</title></rect>
+<rect x="413" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / layer 0.24 mm: grey (not run)</title></rect>
+<rect x="429" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / layer 0.28 mm: grey (not run)</title></rect>
+<rect x="445" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / infill 0%: grey (not run)</title></rect>
+<rect x="461" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / infill 40%: grey (not run)</title></rect>
+<rect x="477" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / infill 100%: grey (not run)</title></rect>
+<rect x="493" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / pattern gyroid: grey (not run)</title></rect>
+<rect x="509" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / pattern grid: grey (not run)</title></rect>
+<rect x="525" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / pattern honeycomb: grey (not run)</title></rect>
+<rect x="541" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / pattern lightning: grey (not run)</title></rect>
+<rect x="557" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / pattern adaptivecubic: grey (not run)</title></rect>
+<rect x="573" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / walls 1: grey (not run)</title></rect>
+<rect x="589" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / walls 4: grey (not run)</title></rect>
+<rect x="605" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / classic walls: grey (not run)</title></rect>
+<rect x="621" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / normal supports: grey (not run)</title></rect>
+<rect x="637" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / tree supports: grey (not run)</title></rect>
+<rect x="653" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / no brim: grey (not run)</title></rect>
+<rect x="669" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / outer brim: grey (not run)</title></rect>
+<rect x="685" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / ironing: grey (not run)</title></rect>
+<rect x="701" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / seam back: grey (not run)</title></rect>
+<rect x="717" y="265" width="14" height="14" rx="2" fill="#C9CDD3"><title>tower / fuzzy skin: grey (not run)</title></rect>
+</svg>

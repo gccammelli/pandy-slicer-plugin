@@ -264,6 +264,11 @@ private fun PreviewPanel(studio: Studio, done: SliceState.Done) {
             }
         }
         if (done.warnings.isNotEmpty()) { Gap(8.dp); done.warnings.forEach { T(it, 13.sp, C.Red) } }
+        if (studio.value("enable_support")?.first == "1" && studio.value("support_type")?.first?.startsWith("tree") == true) {
+            Gap(8.dp)
+            T("Tree supports: the part matches Bambu Studio, but supports and the layers resting on them can differ slightly " +
+                "from it (docs/equivalence).", 13.sp, C.Orange, lh = 17.sp)
+        }
         Gap(12.dp)
         val name = "${studio.scene.objects.firstOrNull()?.name ?: "plate"}.gcode.3mf"
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

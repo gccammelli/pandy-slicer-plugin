@@ -33,11 +33,37 @@ are the same code as on Linux, not Android's). It is compiled with `-ffp-contrac
 FMA instruction on ARM by default, which x86-64 (no FMA in its baseline instruction set) never does, and fused results
 round differently. With it off, every floating-point operation is the same IEEE operation on both.
 
+### Maths library
+
+The C maths functions (`sin`, `atan2`, `pow`, ...) come from glibc 2.39, the version the official build runs on
+(Ubuntu 24.04). arm64 glibc gives bit-identical results to x86-64 glibc for all of them except eight, found with
+`tests/libm-parity.c` (2 million inputs per function, run on a phone against x86-64): `hypot`, `cbrt`, `pow` and
+the single-precision `tanf`, `asinf`, `acosf`, `atanf`, `atan2f`. For those the engine links glibc 2.39's own C
+source compiled the way x86-64 compiles it (`x86-libm/`, about 40 KB): no x86 code and no emulation, the same source
+with the same floating-point choices. All 29 tested functions are then bit-identical, except that an invalid
+operation's NaN is `-nan` on x86-64 and `nan` on ARM (each processor's default NaN).
+
+The glibc source download is pinned by SHA-256 (`build-engine.sh`). When the official build moves to another
+glibc, rebuild `x86-libm` from that version and rerun the parity test.
+
+### Android's sandbox
+
+Android runs apps under a seccomp filter that refuses some system calls glibc makes (`set_robust_list`, `rseq`,
+`clone3`, ...). On a kernel without them glibc gets `ENOSYS` and carries on; the filter kills the process instead.
+`android-start.c` (the entry point, before glibc starts) answers them with `ENOSYS`; `android-location.c` logs any
+refused call, makes `clone3` report `ENOSYS` (glibc then uses `clone`), and lets `PANDY_ENGINE_HOME` say where
+`resources/` is (Android installs the executable read-only, with no room beside it). None of this touches slicing.
+
 ### Why the resources come from the AppImage
 
 The official release's `resources/` is not git's: `profiles/BBL.json` lists presets in a different order and
 `cli_config.json` differs in its trailing newline. The engine ships the release's files so that every profile byte
 the slicer reads is the release's.
+
+## Equivalence
+
+`docs/equivalence/README.md` is the report: every reference model under every printer and setting tested, sliced on
+a phone and by the official build, with the result of each.
 
 ## Build
 

@@ -150,7 +150,10 @@ def materialise(case: dict, d: Path) -> list:
         mesh = models.MODELS[o["model"]]()
         objs.append((f"{o['model']}_{i + 1}", mesh, models.centred(mesh, o["x"], o["y"])))
     models.write_3mf(d / "model.3mf", objs)
-    includes = json.loads(PROFILES.read_text())["machine_includes"].get(case["printer"], {})
+    includes = json.loads(PROFILES.read_text())["machine_includes"].get(case["printer"])
+    if includes is None:  # a printer outside profiles.json (other nozzles): resolve from the reference's profiles
+        from . import profiles
+        includes = profiles.Presets(HERE.parents[1] / "build" / "reference" / "resources").includes(case["printer"])
     machine = {"type": "machine", "name": "case printer", "from": "User", "inherits": case["printer"],
                "printer_settings_id": "case printer", **includes}
     process = {"type": "process", "name": "case process", "from": "User", "inherits": case["process"],

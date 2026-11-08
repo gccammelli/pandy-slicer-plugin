@@ -1,5 +1,9 @@
 # Handoff: Pandy ↔ Pandy Studio phone slicing
 
+> **Superseded (2026-11-08).** The plan changed: Pandy gets a Studio tab with the plate editor (MIT, moved into
+> Pandy) and the engine becomes a separately installed plugin APK that Pandy calls through a signature-protected
+> service. The two-app request/result contract below is no longer the target.
+
 Goal: Pandy can use Pandy Studio (on the same phone) instead of the Pandy Slicer container to slice a model, with the
 same result. The contract is `~/projects/pandy-studio-integration/docs/phone-slicer-integration.md` (Android v1:
 `CAPABILITIES_V1`, `SLICE_V1`, `EDIT_V1`; request/result JSON; URI grants; limits). Read it first; it is the spec.

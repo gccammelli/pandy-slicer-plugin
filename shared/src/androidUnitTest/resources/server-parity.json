@@ -1,0 +1,83 @@
+{
+  "project": {
+    "printer_settings_id": "",
+    "print_settings_id": "",
+    "filament_settings_id": [],
+    "curr_bed_type": "Textured PEI Plate"
+  },
+  "machine": {
+    "name": "Demo Printer",
+    "default_print_profile": "0.20mm Standard @Demo",
+    "machine_start_gcode": "G28\nG29"
+  },
+  "process": {
+    "type": "process",
+    "from": "User",
+    "name": "pandy process",
+    "inherits": "0.20mm Standard @Demo",
+    "print_settings_id": "pandy process",
+    "compatible_printers": [
+      "Demo Printer"
+    ],
+    "curr_bed_type": "Textured PEI Plate"
+  },
+  "filament": {
+    "name": "pandy filament",
+    "filament_colour": [
+      "#123456"
+    ],
+    "from": "User",
+    "setting_id": ""
+  },
+  "arguments": [
+    "--load-settings",
+    "machine.json;process.json",
+    "--load-filaments",
+    "filament.json",
+    "--wall-loops=3",
+    "--arrange",
+    "1",
+    "--slice",
+    "1",
+    "--export-3mf",
+    "sliced.gcode.3mf",
+    "--uptodate",
+    "model.3mf"
+  ],
+  "project_conversion": {
+    "project": {
+      "printer_settings_id": "Old Printer",
+      "print_settings_id": "0.20mm Standard @Old",
+      "filament_settings_id": [
+        "Bambu PLA Basic @Old",
+        "Generic PETG @Old"
+      ],
+      "different_settings_to_system": [
+        "wall_loops"
+      ],
+      "wall_loops": "4",
+      "curr_bed_type": "Textured PEI Plate"
+    },
+    "model_settings": "<config><plate><metadata key=\"plater_id\" value=\"1\"/></plate><plate><metadata key=\"plater_id\" value=\"2\"/><metadata key=\"bed_type\" value=\"Textured PEI Plate\"/>\n</plate></config>",
+    "machine": {
+      "name": "Demo Printer",
+      "default_print_profile": "0.20mm Standard @Demo",
+      "machine_start_gcode": "G28\nG29"
+    },
+    "process": {
+      "type": "process",
+      "from": "User",
+      "name": "pandy process",
+      "inherits": "0.20mm Standard @Demo",
+      "print_settings_id": "pandy process",
+      "compatible_printers": [
+        "Demo Printer"
+      ],
+      "wall_loops": "4"
+    },
+    "filaments": [
+      "Bambu PLA Basic @Demo.json",
+      "Generic PETG @Demo.json"
+    ]
+  }
+}

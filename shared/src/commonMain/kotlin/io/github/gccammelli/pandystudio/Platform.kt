@@ -5,9 +5,15 @@ import io.github.gccammelli.pandystudio.slicer.EngineInfo
 import io.github.gccammelli.pandystudio.slicer.ProfileSource
 import io.github.gccammelli.pandystudio.slicer.SliceJob
 import io.github.gccammelli.pandystudio.slicer.SliceRun
+import io.github.gccammelli.pandystudio.slicer.PhoneRequest
+
+/** A model and its print context handed to the plate editor by Pandy. */
+data class PhoneEdit(val request: PhoneRequest, val model: ByteArray)
 
 /** What the shared UI needs from the phone. */
 interface Platform {
+    val phoneEditPending: Boolean get() = false
+    suspend fun takePhoneEdit(): PhoneEdit? = null
     fun setDarkBars(dark: Boolean)
     fun openUrl(url: String)
     /** Lets the user pick STL or 3MF files; returns (file name, contents) for each. */

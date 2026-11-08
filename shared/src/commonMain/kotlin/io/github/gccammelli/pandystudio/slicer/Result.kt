@@ -27,20 +27,22 @@ object Safety {
     const val MAX_NOZZLE = 350
     const val MAX_BED = 120
     const val MAX_CHAMBER = 65
+    private val command = Regex("^([A-Za-z][0-9]+)\\b")
+    private val temperature = Regex("\\bS(-?[0-9]+(?:\\.[0-9]+)?)", RegexOption.IGNORE_CASE)
 
     fun problems(gcode: String): List<String> {
         val out = mutableListOf<String>()
         val firstLayer = gcode.indexOf("; CHANGE_LAYER").let { if (it < 0) gcode.length else it }
         val head = gcode.substring(0, firstLayer)
-        val commands = head.lineSequence().map { it.substringBefore(';').trim().substringBefore(' ') }.toList()
+        val commands = head.lineSequence().mapNotNull { command.find(it.substringBefore(';').trim())?.groupValues?.get(1)?.uppercase() }.toList()
         val homes = "G28" in commands
         val levels = "G29" in commands || "M1002" in commands
         if (!homes || !levels) out += "The sliced file lacks the printer's start sequence (homing, bed levelling, purge line)."
         for (line in gcode.lineSequence()) {
             val code = line.substringBefore(';').trim()
-            val cmd = code.substringBefore(' ')
+            val cmd = command.find(code)?.groupValues?.get(1)?.uppercase() ?: continue
             val limit = when (cmd) { "M104", "M109" -> MAX_NOZZLE; "M140", "M190" -> MAX_BED; "M141", "M191" -> MAX_CHAMBER; else -> continue }
-            val s = code.split(' ').firstOrNull { it.startsWith("S") }?.drop(1)?.toDoubleOrNull() ?: continue
+            val s = temperature.find(code)?.groupValues?.get(1)?.toDoubleOrNull() ?: continue
             if (s > limit) out += "The sliced file sets $cmd S$s, beyond the printer's limit of $limit °C."
         }
         return out.distinct()

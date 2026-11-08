@@ -10,8 +10,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import io.github.gccammelli.pandystudio.LocalPlatform
 import io.github.gccammelli.pandystudio.studio.Studio
+import io.github.gccammelli.pandystudio.slicer.Setting
+import kotlinx.coroutines.flow.first
 
 /** Screens, as a back stack. */
 sealed class Screen {
@@ -35,6 +38,29 @@ fun App(onBackHandler: @Composable (enabled: Boolean, onBack: () -> Unit) -> Uni
     val studio = remember { Studio(platform, scope) }
     val nav = remember { Nav() }
     LaunchedEffect(Unit) { studio.load() }
+    LaunchedEffect(platform.phoneEditPending) {
+        if (platform.phoneEditPending) {
+            snapshotFlow { studio.library != null || studio.loadError != null }.first { it }
+            try {
+                val edit = platform.takePhoneEdit() ?: return@LaunchedEffect
+                val printer = studio.printers.flatMap { it.nozzles }.firstOrNull { it.name == edit.request.printer }
+                    ?: error("Pandy's printer preset is not available in Studio.")
+                studio.choosePrinter(printer)
+                val bed = mapOf("cool_plate" to "Cool Plate", "eng_plate" to "Engineering Plate", "hot_plate" to "High Temp Plate", "textured_plate" to "Textured PEI Plate", "supertack_plate" to "Supertack Plate")[edit.request.bed]
+                if (bed != null) studio.set("curr_bed_type", Setting.One(bed))
+                edit.request.filamentType?.takeIf { it.isNotBlank() }?.let { kind ->
+                    val filament = studio.filamentChoices.firstOrNull { it.name.startsWith("Bambu $kind Basic @") }
+                        ?: studio.filamentChoices.firstOrNull { it.name.startsWith("Bambu $kind @") }
+                        ?: studio.filamentChoices.firstOrNull { it.name.startsWith("Generic $kind @") }
+                        ?: error("The selected filament is not available for this printer.")
+                    studio.setFilament(0, filament, edit.request.filamentColor ?: filament.string("default_filament_colour") ?: "#FFFFFF")
+                }
+                edit.request.settings.forEach { (key, value) -> studio.set(key, Setting.One(value)) }
+                studio.addFile(edit.request.name + ".3mf", edit.model)
+                nav.go(Screen.Plate)
+            } catch (e: Exception) { studio.loadError = e.message ?: "Couldn't open the model from Pandy." }
+        }
+    }
     AppTheme {
         onBackHandler(nav.stack.size > 1) { nav.back() }
         AnimatedContent(nav.current, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "screen") { s ->

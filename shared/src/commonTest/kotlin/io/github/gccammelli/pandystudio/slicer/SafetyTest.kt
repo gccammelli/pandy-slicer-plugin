@@ -14,6 +14,12 @@ class SafetyTest {
 
     @Test fun hotNozzleIsRefused() = assertTrue(Safety.problems(start + "; CHANGE_LAYER\nM109 S400 ; too hot\n").single().contains("M109"))
 
+    @Test fun temperatureChecksHandleTabsAndLowercaseCommands() {
+        assertTrue(Safety.problems(start + "M104\tS400\n").single().contains("M104"))
+        assertTrue(Safety.problems(start + "m190\ts121\n").single().contains("M190"))
+        assertEquals(emptyList(), Safety.problems("G28\tX\nG29\tA\nM104\tS220\n"))
+    }
+
     @Test fun limitsAreInclusive() = assertEquals(emptyList(), Safety.problems(start + "; CHANGE_LAYER\nM104 S350\nM140 S120\nM141 S65\n"))
 
     @Test fun commentedCommandsAreIgnored() = assertEquals(emptyList(), Safety.problems(start + "; CHANGE_LAYER\n; M104 S999\n"))

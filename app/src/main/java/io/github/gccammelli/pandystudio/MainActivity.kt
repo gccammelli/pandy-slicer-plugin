@@ -10,6 +10,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowCompat
 import io.github.gccammelli.pandystudio.slicer.AndroidEngine
@@ -33,6 +36,19 @@ class MainActivity : ComponentActivity(), Platform {
     private val prefs by lazy { getSharedPreferences("studio", MODE_PRIVATE) }
     /** Files other apps opened with Pandy Studio, read once the UI asks for models. */
     private val incoming = mutableListOf<Uri>()
+    private var pendingEdit by mutableStateOf<Intent?>(null)
+    override val phoneEditPending get() = pendingEdit != null
+
+    override suspend fun takePhoneEdit(): PhoneEdit? {
+        val edit = pendingEdit ?: return null
+        try {
+            val source = profiles()
+            val schema = io.github.gccammelli.pandystudio.slicer.Schema.load(source)
+            val request = io.github.gccammelli.pandystudio.slicer.PhoneProtocol.parse(edit.getStringExtra("request_id"), edit.getStringExtra("request_json"), true, schema)
+            val data = edit.data?.let { withContext(Dispatchers.IO) { readCapped(it) } } ?: error("The model was not available.")
+            return PhoneEdit(request, data)
+        } finally { if (pendingEdit === edit) pendingEdit = null }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +66,7 @@ class MainActivity : ComponentActivity(), Platform {
     private fun intentUris(i: Intent?) {
         i ?: return
         when (i.action) {
+            "io.github.gccammelli.pandystudio.EDIT_PROJECT" -> if (i.data != null) pendingEdit = i
             Intent.ACTION_VIEW -> i.data?.let(incoming::add)
             Intent.ACTION_SEND -> (if (android.os.Build.VERSION.SDK_INT >= 33) i.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
                 else @Suppress("DEPRECATION") i.getParcelableExtra(Intent.EXTRA_STREAM))?.let(incoming::add)

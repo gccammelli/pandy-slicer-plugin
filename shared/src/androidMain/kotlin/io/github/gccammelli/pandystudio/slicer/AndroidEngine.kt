@@ -54,13 +54,18 @@ class AndroidEngine(private val context: Context) {
     } ?: 0
 
     /** Slices [job]; [onLog] gets the slicer's log lines as they come. Returns the result and the output directory. */
-    suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = withContext(Dispatchers.IO) {
+    suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = run(job.files(), job.arguments(), SliceJob.OUTPUT, onLog)
+
+    /** Runs a prepared server-style job in a fresh directory without mutating engine resources. */
+    suspend fun sliceServer(job: ServerJob, onLog: (String) -> Unit = {}): EngineRun = run(job.files, job.arguments, "sliced.gcode.3mf", onLog)
+
+    private suspend fun run(files: Map<String, ByteArray>, arguments: List<String>, output: String, onLog: (String) -> Unit): EngineRun = withContext(Dispatchers.IO) {
         val dir = File(context.cacheDir, "slice-${System.nanoTime()}").apply { mkdirs() }
         val out = File(dir, "out").apply { mkdirs() }
         File(dir, "home").mkdirs()
-        job.files().forEach { (name, bytes) -> File(dir, name).writeBytes(bytes) }
+        files.forEach { (name, bytes) -> File(dir, name).writeBytes(bytes) }
         val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), exe.path) +
-            job.arguments() + listOf("--outputdir", out.path)
+            arguments + listOf("--outputdir", out.path)
         val pb = ProcessBuilder(cmd).directory(dir).redirectErrorStream(true)
         pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("PANDY_ENGINE_HOME", home.path)
             // glibc registers rseq at start-up, before any handler exists; Android's sandbox may not allow it.
@@ -79,7 +84,11 @@ class AndroidEngine(private val context: Context) {
             reader.join(2000)
             val rc = p.exitValue()
             val outcome = SliceOutcome.parse(File(out, "result.json").takeIf { it.exists() }?.readText())
-            EngineRun(rc, outcome, File(out, SliceJob.OUTPUT).takeIf { it.exists() }, dir, System.currentTimeMillis() - started)
+            EngineRun(rc, outcome, File(out, output).takeIf { it.exists() }, dir, System.currentTimeMillis() - started)
+        } catch (e: Exception) {
+            if (p.isAlive) p.destroyForcibly()
+            dir.deleteRecursively()
+            throw e
         } finally {
             if (p.isAlive) p.destroyForcibly()
         }

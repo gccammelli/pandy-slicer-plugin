@@ -54,7 +54,13 @@ class AndroidEngine(private val context: Context) {
     } ?: 0
 
     /** Slices [job]; [onLog] gets the slicer's log lines as they come. Returns the result and the output directory. */
-    suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = run(job.files(), job.arguments(), SliceJob.OUTPUT, onLog)
+    suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = withContext(Dispatchers.IO) {
+        val root = home
+        val library = PresetLibrary(ProfileSource { path ->
+            File(root, if (path.startsWith("pandy/")) path else "resources/$path").takeIf { it.isFile }?.readText()
+        })
+        run(job.resolvedFiles(library), job.arguments(), SliceJob.OUTPUT, onLog)
+    }
 
     /** Runs a prepared server-style job in a fresh directory without mutating engine resources. */
     suspend fun sliceServer(job: ServerJob, onLog: (String) -> Unit = {}): EngineRun = run(job.files, job.arguments, "sliced.gcode.3mf", onLog)

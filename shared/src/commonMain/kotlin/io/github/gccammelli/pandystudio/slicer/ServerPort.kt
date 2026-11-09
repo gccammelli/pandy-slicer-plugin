@@ -16,6 +16,18 @@ object ServerPort {
 
     private fun readObject(bytes: ByteArray): JsonObject = Json.parseToJsonElement(bytes.decodeToString()).jsonObject
     private fun encoded(o: JsonObject) = json.encodeToString(JsonObject.serializer(), o).encodeToByteArray()
+
+    /** Resolve externally loaded process presets before the CLI, which otherwise falls back to generic values. */
+    fun resolveProcess(job: ServerJob, profiles: ProfileSource): ServerJob {
+        val file = job.files["process.json"] ?: return job
+        val requested = readObject(file)
+        val name = requested.string("inherits")
+        require(name.isNotEmpty()) { "Missing process preset." }
+        val preset = requireNotNull(PresetLibrary(profiles).preset(name)) { "Missing process preset: $name" }
+        val values = preset.values.filterKeys { it !in BLOCKED_OPTIONS }.mapValues { it.value.json }
+        val merged = JsonObject(values + requested.filterKeys { it !in BLOCKED_OPTIONS })
+        return job.copy(files = job.files + ("process.json" to encoded(merged)))
+    }
     private fun JsonObject.string(key: String) = (this[key] as? JsonPrimitive)?.contentOrNull.orEmpty()
     private fun JsonObject.strings(key: String) = (this[key] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.contentOrNull }.orEmpty()
     private fun safeName(name: String) = name.isNotEmpty() && !name.startsWith('.') && name.none { it == '/' || it == '\\' || it == '\u0000' }

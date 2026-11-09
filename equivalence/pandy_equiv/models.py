@@ -1,7 +1,8 @@
-"""Procedurally generated test models, written as plain 3MF projects (geometry and placement only, like a model
-dropped on the plate in Bambu Studio). Generated rather than downloaded, so the corpus is exact, redistributable and
-reproducible. Each one exercises different slicer code: walls, infill, supports, bridges, seams, thin features."""
+"""Test models written as plain 3MF projects. Synthetic models are generated; Benchy comes from the pinned
+reference's hash-verified resources. The corpus exercises walls, infill, supports, bridges, seams and thin features."""
 import math
+import hashlib
+import struct
 import zipfile
 from pathlib import Path
 
@@ -148,6 +149,57 @@ def thin_features():
     return m
 
 
+BENCHY_SHA256 = "bda2c80f10195078cbca11753584087341ec13d530ac9282482bcebf6de9c59b"
+BENCHY_PATH = Path(__file__).resolve().parents[2] / "build/reference/resources/model/3DBenchy.stl"
+
+
+def benchy():
+    """Bambu Studio's bundled 3DBenchy, verified before importing its binary STL."""
+    if not BENCHY_PATH.is_file():
+        raise FileNotFoundError(f"Missing bundled Benchy at {BENCHY_PATH}; extract the pinned reference resources first")
+    data = BENCHY_PATH.read_bytes()
+    if hashlib.sha256(data).hexdigest() != BENCHY_SHA256:
+        raise ValueError("The bundled Benchy does not match the pinned model SHA-256")
+    if len(data) < 84:
+        raise ValueError("Malformed Benchy STL")
+    triangles = struct.unpack_from("<I", data, 80)[0]
+    if len(data) != 84 + 50 * triangles:
+        raise ValueError("Malformed Benchy STL length")
+    mesh = Mesh()
+    vertices = {}
+    for i in range(triangles):
+        values = struct.unpack_from("<12fH", data, 84 + i * 50)
+        face = []
+        for j in (3, 6, 9):
+            vertex = tuple(values[j:j + 3])
+            if not all(math.isfinite(v) for v in vertex):
+                raise ValueError("Non-finite Benchy vertex")
+            if vertex not in vertices:
+                vertices[vertex] = len(mesh.v)
+                mesh.v.append(vertex)
+            face.append(vertices[vertex])
+        mesh.t.append(tuple(face))
+    return mesh
+
+
+def editor_placement(mesh, cx, cy):
+    """Match PlateObject.of/transform: float32 recentering, then placement on the bed."""
+    f32 = lambda n: struct.unpack('<f', struct.pack('<f', n))[0]
+    lo = [min(v[i] for v in mesh.v) for i in range(3)]
+    hi = [max(v[i] for v in mesh.v) for i in range(3)]
+    center = [f32(f32(lo[i] + hi[i]) * .5) for i in range(2)]
+    shift = [-center[0], -center[1], -lo[2]]
+    result = Mesh()
+    result.v = [tuple(f32(v[i] + shift[i]) for i in range(3)) for v in mesh.v]
+    result.t = list(mesh.t)
+    mins = [min(v[i] for v in result.v) for i in range(3)]
+    maxs = [max(v[i] for v in result.v) for i in range(3)]
+    x = f32(cx - f32(f32(mins[0] + maxs[0]) * .5))
+    y = f32(cy - f32(f32(mins[1] + maxs[1]) * .5))
+    z = f32(-mins[2])
+    return result, (x, y, 0.0 if z == 0 else z)
+
+
 MODELS = {
     "cube": lambda: box(20, 20, 20),
     "cylinder": lambda: cylinder(12, 25),
@@ -159,6 +211,7 @@ MODELS = {
     "overhangs": lambda: Mesh().add(overhang_wedge(45)).add(overhang_wedge(60), dy=14).add(overhang_wedge(75), dy=28),
     "thin": thin_features,
     "tower": lambda: box(8, 8, 80),
+    "benchy": benchy,
 }
 
 

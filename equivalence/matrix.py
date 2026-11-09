@@ -2,13 +2,12 @@
 """The equivalence matrix: reference models (rows) x printers and settings (columns), each cell sliced on a phone and
 by the official Bambu Studio, classified and drawn as a colour grid in docs/equivalence/.
 
-  green   1:1  the phone's G-code is byte-identical to an output of the official build, or geometrically within the
-               official build's own run-to-run variation (or both refused the settings identically)
-  yellow  part 1:1, supports differ: the part's walls are identical; differences only in supports and in the
-               layers resting on them (support interface, bridges and solid infill over supports, skirt/brim/purge
-               around a support footprint)
-  red     the part differs beyond the official build's own variation, or only one side sliced
-  grey    not verified (not run)
+  green   G-code is byte-identical to an official run
+  purple  bytes differ, but sampled geometry is within observed official variation
+  blue    both slicers refuse the settings with the same return code
+  yellow  sampled walls are within observed variation, but support-related features differ
+  red     sampled paths differ beyond observed official variation, or only one side sliced
+  grey    not verified, including cases with insufficient reference variation data
 
 Each column changes one thing from the baseline (X1 Carbon 0.4 nozzle, 0.20mm Standard, Bambu PLA Basic), so the
 grid stays sparse but covers every printer, nozzle sizes, layer heights, infill, walls, supports and surface options.
@@ -31,13 +30,15 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
-from pandy_equiv import cases, compare, models, runners  # noqa: E402
+from pandy_equiv import cases, compare, models, runners, verify_settings  # noqa: E402
 from run import plate_hashes, outcome  # noqa: E402
 
 OUT = ROOT / "build" / "matrix"
 DOCS = ROOT / "docs" / "equivalence"
-ROWS = ["cube", "cylinder", "tube", "sphere", "torus", "gear", "bridge", "overhangs", "thin", "tower"]
+ROWS = ["cube", "cylinder", "tube", "sphere", "torus", "gear", "bridge", "overhangs", "thin", "tower", "benchy"]
 X1C = "Bambu Lab X1 Carbon 0.4 nozzle"
+CLASSIFICATION_VERSION = 4
+VALIDATION_SHA256 = hashlib.sha256(Path(verify_settings.__file__).read_bytes()).hexdigest()
 
 
 def columns():
@@ -118,14 +119,24 @@ def classify(ref_dirs, cand_dir):
     """Status and details for one cell."""
     ro = [json.loads((d / "run.json").read_text()) for d in ref_dirs]
     co = json.loads((cand_dir / "run.json").read_text())
+    invalid = [o.get("profile_errors") for o in [*ro, co] if o.get("profile_errors")]
+    if invalid:
+        return "red", {"invalid_effective_settings": invalid}
     if not co["sliced"] and not ro[0]["sliced"]:
-        return ("green" if co["cli_return_code"] == ro[0]["cli_return_code"] else "red"), {"both_refused": True, "code": co["cli_return_code"]}
-    if co["sliced"] != ro[0]["sliced"]:
+        same = co["cli_return_code"] not in (None, 0) and all(r["cli_return_code"] == co["cli_return_code"] and not r["sliced"] for r in ro)
+        return ("refused" if same else "red"), {"both_refused": True, "code": co["cli_return_code"]}
+    if any(co["sliced"] != r["sliced"] for r in ro):
         return "red", {"only_one_sliced": True, "candidate": co, "reference": ro[0]}
     ref_files = [d / "out.gcode.3mf" for d in ref_dirs if (d / "out.gcode.3mf").exists()]
     cand = cand_dir / "out.gcode.3mf"
+    mismatches = [verify_settings.compare_outputs(f, cand) for f in ref_files]
+    mismatches = [errors for errors in mismatches if errors]
+    if mismatches:
+        return "red", {"effective_settings_differ": mismatches}
     if plate_hashes(cand) in {plate_hashes(f) for f in ref_files}:
         return "green", {"byte_identical": True, "official_variants": len({plate_hashes(f) for f in ref_files})}
+    if len(ref_files) < 2:
+        return "unverified", {"reason": "Non-identical G-code needs at least two official runs to assess variation"}
     R = [paths(f) for f in ref_files]
     C = paths(cand)
     # The official build's own variation, per feature: the largest distance between any two official runs.
@@ -133,14 +144,21 @@ def classify(ref_dirs, cand_dir):
     for i in range(len(R)):
         for j in range(i + 1, len(R)):
             for (layer, f), d in diffs(R[i], R[j]).items():
-                tol[f] = max(tol.get(f, 0.0), d)
+                tol[(layer, f)] = max(tol.get((layer, f), 0.0), d)
     best = None
+    best_unbounded = None
     for r in R:
-        dd = {k: d for k, d in diffs(C, r).items() if d > tol.get(k[1], 0.0) + 0.01}
-        if best is None or len(dd) < len(best):
-            best = dd
+        observed = diffs(C, r)
+        unbounded = {k: d for k, d in observed.items() if math.isinf(tol.get(k, 0.0))}
+        dd = {k: d for k, d in observed.items() if k not in unbounded and d > tol.get(k, 0.0) + 0.01}
+        if best is None or (len(dd), len(unbounded)) < (len(best), len(best_unbounded)):
+            best, best_unbounded = dd, unbounded
+    if not best and best_unbounded:
+        return "unverified", {"reason": "Official runs have unbounded variation for a differing layer and feature",
+                              "unbounded_comparisons": len(best_unbounded)}
     if not best:
-        return "green", {"within_official_variation": True, "official_tolerance_mm": {k: round(v, 3) for k, v in tol.items()}}
+        return "variant", {"within_official_variation": True, "tolerance_scope": "per layer and feature",
+                           "largest_official_difference_mm": round(max(tol.values(), default=0.0), 3)}
     support_layers = {layer for (layer, f) in best if f in SUPPORT} | {l for l in range(0, 1 + max(l for l, _ in best))
                                                                        if any(f in SUPPORT for f in C.get(l, {}))}
     part = {k: v for k, v in best.items() if k[1] not in SUPPORT}
@@ -160,19 +178,32 @@ def run(args):
         cols = cols[: args.cols]
     rows = args.only.split(",") if args.only else ROWS
     ref, dev = runners.Reference(), runners.Device(ROOT / "build" / "aarch64" / "package", args.device)
+    runners.verify_resources(ref, dev)
+    description = dev.describe()
+    device_info = {"phone_model": description["model"], "phone_abi": description["abi"], "phone_sdk": description["sdk"],
+                   "phone_cpu": dev.fastest_cpu()}
+    reference_image = ref.describe()["image_id"]
+    if not reference_image:
+        raise RuntimeError("Cannot identify the official reference image")
+    ref_key = hashlib.sha256(reference_image.encode()).hexdigest()[:16]
     OUT.mkdir(parents=True, exist_ok=True)
     results_file = OUT / "results.json"
     results = json.loads(results_file.read_text()) if results_file.exists() else {}
     lock = threading.Lock()
     todo = [(row, label, kw) for row in rows for (label, _, kw) in cols]
-    todo = [t for t in todo if f"{t[0]}|{t[1]}" not in results or results[f"{t[0]}|{t[1]}"]["engine"] != dev.ident["engine_sha256"]]
+    todo = [t for t in todo if not current_result(results.get(f"{t[0]}|{t[1]}"), t, dev.ident, reference_image)
+            or results[f"{t[0]}|{t[1]}"].get("reference_runs", 0) < args.ref_runs
+            or any(results[f"{t[0]}|{t[1]}"].get(k) != v for k, v in device_info.items())]
 
     def reference(c, inputs, argv, k):
-        d = OUT / "cells" / c["id"] / f"ref{k}"
+        d = OUT / "cells" / c["id"] / f"ref-{ref_key}-{k}"
         if not (d / "run.json").exists():
             runners.set_cpu(2 + k * 2)
             r = ref.run(inputs, argv, d)
-            (d / "run.json").write_text(json.dumps(outcome(d, r.returncode)))
+            (d / "run.json").write_text(json.dumps(outcome(d, r.returncode, inputs, c)))
+        else:
+            cached = json.loads((d / "run.json").read_text())
+            (d / "run.json").write_text(json.dumps(outcome(d, cached.get("returncode", -1), inputs, c)))
         return d
 
     def cell(t):
@@ -186,12 +217,16 @@ def run(args):
         with lock:  # one phone, one slice at a time
             cd = base / "phone"
             r = dev.run(inputs, argv, cd)
-            (cd / "run.json").write_text(json.dumps(outcome(cd, r.returncode) | {"seconds": round(r.seconds, 1)}))
+            (cd / "run.json").write_text(json.dumps(outcome(cd, r.returncode, inputs, c) | {"seconds": round(r.seconds, 1)}))
         status, detail = classify(refs, cd)
         with lock:
             results[f"{row}|{label}"] = {"row": row, "column": label, "case": c["id"], "status": status, "detail": detail,
                                          "printer": c["printer"], "process": c["process"], "filament": c["filaments"],
                                          "overrides": c["process_overrides"], "engine": dev.ident["engine_sha256"],
+                                         "resources": dev.ident["resources_sha256"], "reference_image": reference_image,
+                                         "input_format": cases.INPUT_FORMAT, "classification_version": CLASSIFICATION_VERSION,
+                                         "validation_sha256": validation_hash(), "reference_runs": args.ref_runs,
+                                         **device_info,
                                          "phone_seconds": json.loads((cd / "run.json").read_text()).get("seconds")}
             results_file.write_text(json.dumps(results, indent=1, default=str))
         print(f"{status:7} {row:10} {label}", flush=True)
@@ -205,18 +240,30 @@ def recheck(args):
     produces in some run is its own variation, not the phone's. The phone's output is not re-sliced."""
     results = json.loads((OUT / "results.json").read_text())
     ref = runners.Reference()
+    reference_image = ref.describe()["image_id"]
+    if not reference_image:
+        raise RuntimeError("Cannot identify the official reference image")
+    ref_key = hashlib.sha256(reference_image.encode()).hexdigest()[:16]
+    ident = runners.package_identity(ROOT / "build" / "aarch64" / "package")
+    runners.verify_resources(ref, runners.Engine(ROOT / "build" / "aarch64" / "package", "aarch64"))
+    options = {(row, label): (row, label, kw) for row in ROWS for label, _, kw in columns()}
     for key, r in results.items():
-        if r["status"] == "green":
+        item = options.get((r.get("row"), r.get("column")))
+        if item is None or not current_result(r, item, ident, reference_image):
+            continue
+        if r["status"] in ("green", "refused"):
             continue
         base = OUT / "cells" / r["case"]
         inputs = base / "inputs"
-        argv = cases.materialise(json.loads((inputs / "case.json").read_text()), base / "inputs-recheck")
+        case = json.loads((inputs / "case.json").read_text())
+        argv = cases.materialise(case, base / "inputs-recheck")
+        inputs = base / "inputs-recheck"
         def one(k):
-            d = base / f"ref{k}"
+            d = base / f"ref-{ref_key}-{k}"
             if not (d / "run.json").exists():
                 runners.set_cpu(2 + (k % 10) * 2)
                 rr = ref.run(inputs, argv, d)
-                (d / "run.json").write_text(json.dumps(outcome(d, rr.returncode)))
+                (d / "run.json").write_text(json.dumps(outcome(d, rr.returncode, inputs, case)))
             return d
         with cf.ThreadPoolExecutor(10) as ex:
             refs = list(ex.map(one, range(args.ref_runs)))
@@ -226,7 +273,21 @@ def recheck(args):
         (OUT / "results.json").write_text(json.dumps(results, indent=1, default=str))
 
 
-COLOURS = {"green": "#2FB344", "yellow": "#F2C94C", "red": "#E5484D", "grey": "#C9CDD3"}
+COLOURS = {"green": "#2FB344", "variant": "#9D72CE", "refused": "#4688C7", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
+
+
+def validation_hash():
+    return VALIDATION_SHA256
+
+
+def current_result(result, item, ident, reference_image):
+    if (not result or result.get("input_format") != cases.INPUT_FORMAT or result.get("classification_version") != CLASSIFICATION_VERSION
+            or result.get("validation_sha256") != validation_hash() or not all(result.get(k) for k in ("phone_model", "phone_abi", "phone_sdk"))
+            or result.get("phone_cpu") is None):
+        return False
+    row, _label, kw = item
+    return (result.get("case") == cell_case(row, kw)["id"] and result.get("engine") == ident.get("engine_sha256")
+            and result.get("resources") == ident.get("resources_sha256") and result.get("reference_image") == reference_image)
 
 
 def svg(results):
@@ -253,15 +314,21 @@ def svg(results):
 
 def report(_):
     results = json.loads((OUT / "results.json").read_text()) if (OUT / "results.json").exists() else {}
+    pkg = runners.package_identity(ROOT / "build" / "aarch64" / "package")
+    image = subprocess.run(["sudo", "-n", "docker", "image", "inspect", "-f", "{{.Id}}", runners.REFERENCE_IMAGE], capture_output=True, text=True).stdout.strip()
+    if not image:
+        raise RuntimeError("Cannot identify the official reference image")
+    options = {(row, label): (row, label, kw) for row in ROWS for label, _, kw in columns()}
+    results = {key: result for key, result in results.items()
+               if (item := options.get((result.get("row"), result.get("column")))) is not None
+               and current_result(result, item, pkg, image)}
     DOCS.mkdir(parents=True, exist_ok=True)
     (DOCS / "matrix.svg").write_text(svg(results))
     cols = columns()
     total = len(cols) * len(ROWS)
-    counts = {k: sum(1 for r in results.values() if r["status"] == k) for k in ("green", "yellow", "red")}
+    counts = {k: sum(1 for r in results.values() if r["status"] == k) for k in ("green", "variant", "refused", "yellow", "red")}
     counts["grey"] = total - sum(counts.values())
-    pkg = runners.package_identity(ROOT / "build" / "aarch64" / "package")
-    image = subprocess.run(["sudo", "-n", "docker", "image", "inspect", "-f", "{{.Id}}", runners.REFERENCE_IMAGE], capture_output=True, text=True).stdout.strip()
-    dev = next(iter(results.values()), {}) if results else {}
+    phones = sorted({f"{r['phone_model']} (Android SDK {r['phone_sdk']}, {r['phone_abi']}, CPU {r['phone_cpu']})" for r in results.values()})
     lines = [
         "# Equivalence report", "",
         "Does Pandy Studio's phone slicer write the same G-code as the official Bambu Studio? Each cell below is one",
@@ -269,11 +336,13 @@ def report(_):
         "[equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.", "",
         f"*Generated {datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}.*", "",
         "| | |", "|---|---|",
-        f"| 🟩 **1:1** | the phone's G-code is byte-identical to an output of the official build, or within the official build's own run-to-run variation |",
-        f"| 🟨 **Part 1:1, supports differ** | the part's walls are identical; only supports and the layers resting on them differ |",
-        f"| 🟥 **Differs** | the part differs beyond the official build's own variation |",
-        f"| ⬜ **Not verified** | not run yet |", "",
-        f"**{counts['green']} green · {counts['yellow']} yellow · {counts['red']} red · {counts['grey']} not verified** "
+        f"| 🟩 **Byte-identical** | the phone's G-code is byte-identical to an observed official output |",
+        f"| 🟪 **Within observed variation** | bytes differ; sampled geometry is within the observed official variation |",
+        f"| 🟦 **Both refused** | both returned the same nonzero CLI error without slicing |",
+        f"| 🟨 **Support differences** | sampled walls stay within observed variation; support-related features differ |",
+        f"| 🟥 **Differs** | sampled paths differ beyond variation observed in the official runs |",
+        f"| ⬜ **Not verified** | not run or insufficient reference evidence |", "",
+        f"**{counts['green']} byte-identical · {counts['variant']} within observed variation · {counts['refused']} both refused · {counts['yellow']} support differences · {counts['red']} differ · {counts['grey']} not verified** "
         f"(of {total}: {len(ROWS)} models × {len(cols)} configurations)", "",
         "![Equivalence matrix](matrix.svg)", "",
         "Hover a cell (open the SVG) for its details. Columns change one thing from the baseline: X1 Carbon, 0.4 mm nozzle,",
@@ -283,17 +352,17 @@ def report(_):
         "| Official build | Bambu Studio 02.08.02.61 Linux AppImage (SHA-256 pinned in Pandy Slicer's Dockerfile), x86-64, "
         f"Docker image `{image[:19]}` |",
         f"| Phone engine | `pandy-engine` arm64, SHA-256 `{pkg['engine_sha256']}` |",
-        f"| Profiles | the official release's `resources/`, tree SHA-256 `{pkg['resources_sha256']}` ({pkg['resources_files']} files) |",
+        f"| Profiles | the retained CLI resource subset of the official release, tree SHA-256 `{pkg['resources_sha256']}` ({pkg['resources_files']} files) |",
         "| Compiler | GCC 13.3.0 (Ubuntu 24.04), both builds |",
         "| C library | glibc 2.39 (Ubuntu 24.04), static on the phone |",
         "| Maths functions | arm64 glibc, except `hypot`, `cbrt`, `pow`, `tanf`, `asinf`, `acosf`, `atanf`, `atan2f`: glibc 2.39's "
         "source compiled as x86-64 compiles it ([engine/x86-libm](../../engine/x86-libm/README.md)); bit-identical to x86-64 on 2M inputs each |",
-        "| Phone | Sony Xperia 10 IV (XQ-CC54), Android 14, Snapdragon 695 |",
-        "| Runs | each cell: 5 official runs (the official build varies from run to run), 1 phone run; all pinned to one CPU |", "",
+        f"| Phone | {', '.join(phones) if phones else 'Not yet tested'} |",
+        "| Runs | Each recorded cell has one phone run and the number of official runs recorded in its result; all are pinned to one CPU. |", "",
         "Models are generated (`equivalence/pandy_equiv/models.py`): cube 20 mm, cylinder, tube (hole), sphere, torus, gear,",
-        "bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm.", "",
+        "bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm; Benchy uses the verified model bundled with the reference.", "",
     ]
-    others = sorted((r for r in results.values() if r["status"] != "green"), key=lambda r: (r["status"], r["row"], r["column"]))
+    others = sorted((r for r in results.values() if r["status"] in ("yellow", "red")), key=lambda r: (r["status"], r["row"], r["column"]))
     if others:
         lines += ["## Cells that are not green", "",
                   "| | Model | Configuration | Largest difference | Features | Layers |", "|---|---|---|---|---|---|"]
@@ -303,10 +372,10 @@ def report(_):
             lines.append(f"| {icon[r['status']]} | {r['row']} | {r['column']} | {d.get('max_mm', '–')} mm | {', '.join(d.get('features', [])) or json.dumps(d)[:80]} | "
                          f"{'–'.join(map(str, d.get('layers', []))) or '–'} |")
         lines.append("")
-    lines += ["## Known differences", "",
-              "* **Tree supports** take different branch decisions on ARM (a systematic difference still being traced). The part's walls are identical; supports and the layers resting on them differ by up to about 1.5 mm. The app marks tree-supported slices as not verified.",
-              "* **NaN signs**: an invalid floating-point operation gives `-nan` on x86-64 and `nan` on ARM (the processors' default). It only shows if a NaN were printed into the G-code.",
-              "* **Fuzzy skin** is random in Bambu Studio itself: no two official runs are alike either.", ""]
+    lines += ["## Interpretation", "",
+              "Geometric similarity is not byte equality. Unrun cells and results from older input formats or different engine, profile, or reference image identities are not counted.",
+              "A matching refusal is recorded separately from a successful slice. A successful slice must also pass effective-settings checks.",
+              "Reported distances compare sampled per-layer extrusion paths; they are not measurements of printed-part dimensional error.", ""]
     (DOCS / "README.md").write_text("\n".join(lines))
     print(f"{DOCS / 'README.md'}: {counts}")
 

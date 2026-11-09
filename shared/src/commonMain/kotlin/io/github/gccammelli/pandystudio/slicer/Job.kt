@@ -45,6 +45,25 @@ data class SliceJob(
         return out
     }
 
+    /** The CLI does not reliably resolve system inheritance for externally loaded presets. */
+    fun resolvedFiles(library: PresetLibrary): Map<String, ByteArray> {
+        require((processOverrides.keys + filamentOverrides.keys + printerIncludes.keys).none { it in BLOCKED_OPTIONS }) {
+            "Blocked slicer option in job."
+        }
+        val originals = files()
+        fun merge(file: String, preset: String): ByteArray {
+            val values = requireNotNull(library.preset(preset)) { "Missing slicer preset: $preset" }.values
+                .filterKeys { it !in BLOCKED_OPTIONS }.mapValues { it.value.json }
+            val overrides = Json.parseToJsonElement(originals.getValue(file).decodeToString()) as JsonObject
+            return json(JsonObject(values + overrides.filterKeys { it !in BLOCKED_OPTIONS }))
+        }
+        return originals.toMutableMap().apply {
+            put("machine.json", merge("machine.json", printer))
+            put("process.json", merge("process.json", process))
+            filaments.forEachIndexed { i, name -> put("filament${i + 1}.json", merge("filament${i + 1}.json", name)) }
+        }
+    }
+
     /** The slicer's arguments, relative to the job directory; the runner appends --outputdir. */
     fun arguments(): List<String> = listOf(
         "--load-settings", "machine.json;process.json",

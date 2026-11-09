@@ -1,5 +1,9 @@
 # Equivalence tests: is the phone's G-code Bambu Studio's G-code?
 
+> **Historical results are invalid for the named presets.** Before input format 3, the CLI received
+> inherit-only presets and silently used fallback values. Format 3 resolves profiles explicitly, validates
+> effective output settings, and invalidates the old caches. Only results regenerated with format 3 apply.
+
 The claim Pandy Studio makes, and these tests check: **for the same plate and settings, the engine writes the same
 G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu printer and for every print setting.
 
@@ -10,19 +14,32 @@ G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu
 * **Candidates**: the engine built for x86-64 (checks the build method against the AppImage), the arm64 engine under
   QEMU, and the arm64 engine on real phones over adb (`run.py check --candidate device:SERIAL`), the same file the app
   ships (`engine/package-android.sh`).
-* **Inputs**: every case is a plain 3MF of generated models (`pandy_equiv/models.py`) plus user presets that
-  inherit Bambu's system presets with the case's changes, and the command line
+* **Inputs**: every case is a plain 3MF of generated models or the reference's bundled Benchy (`pandy_equiv/models.py`),
+  plus complete system presets resolved through their inheritance and includes, with the case's changes applied, and the command line
   `--load-settings machine.json;process.json --load-filaments … --slice 0 --export-3mf out.gcode.3mf model.3mf`.
   The app builds slice jobs the same way (`shared/…/slicer/Job.kt`).
-* **Verdict**: every `Metadata/plate_N.gcode` must be byte-identical. Nothing in the G-code is normalised. A case
+* **Verdict**: every `Metadata/plate_N.gcode` must be byte-identical for a byte-identical pass. Nothing in the G-code is normalised. A case
   where the reference refuses the settings passes only if the candidate refuses them with the same return code.
   Other files of the 3MF are compared too and reported; only their creation dates are normalised (`compare.py`).
+  Successful outputs must also confirm their effective printer, process, filament and requested override settings.
+  The matrix distinguishes byte matches, approximate geometry within observed reference variation, matching refusals,
+  support differences, and failures; geometric similarity is not byte equality.
+  The checks deliberately fail a successful slice when a requested override was silently changed or clamped, even if
+  both engines make the same change; that outcome does not prove the requested settings were applied.
+
+### Benchy provenance
+
+The `benchy` case uses `resources/model/3DBenchy.stl` from the pinned official reference image. Its SHA-256 is
+`bda2c80f10195078cbca11753584087341ec13d530ac9282482bcebf6de9c59b`; a different or missing file fails the test.
+The original 3DBenchy was designed by Daniel Norée for Creative Tools; the current [3DBenchy license](https://www.3dbenchy.com/license/)
+is CC0 1.0. The test imports the mesh at its original size and centres it on the plate.
 
 ## Suites
 
 | Suite | Cases | What |
 |---|---|---|
 | `smoke` | 26 | every Bambu printer model with its default process and PLA; supports (tree, normal), vase mode, sequential printing, ironing, fuzzy skin, Arachne/classic walls, two filaments, H2D two nozzles |
+| `benchy` | 1 | the reference's hash-verified 3DBenchy on X1 Carbon, standard PLA settings |
 | `sweep` | 897 | every process and filament option of `schema.json` (extracted from upstream `PrintConfig.cpp`), one at a time, at each interesting value: both booleans, every enum choice, min, max, values around the default |
 | `random:SEED:N` | N | N seeded combinations of 12 changed settings on 1-3 random models and a random printer; a seed re-runs exactly |
 
@@ -45,7 +62,7 @@ The engine runs Bambu Studio's code unchanged, so it inherits this variation rat
 reference reproduces must be reproduced by the engine exactly.
 
 `distribution.py` makes the comparison directly: it slices one case N times with each and compares the sets of
-outputs. First result (A1 mini, feature plate, N = 20, x86-64 engine): the official build gave 11 distinct outputs,
+outputs. **Historical fallback-profile result, not evidence for the named presets:** the first result (A1 mini, feature plate, N = 20, x86-64 engine) was that the official build gave 11 distinct outputs,
 the engine 8; 7 are shared, the most frequent one is the same on both (5 runs each), and 17 of the engine's 20 runs
 are byte-identical to an output of the official build.
 
@@ -74,6 +91,7 @@ These are upstream bugs; the engine keeps them, so it behaves as the official bu
 sudo docker build -t pandy-studio-reference:02.08.02.61 ../pandy-slicer/pandy_slicer
 python3 run.py profiles
 python3 run.py check --suite smoke --candidate x86_64
+python3 run.py check --suite benchy --candidate device:SERIAL --package ../build/aarch64/package --ref-runs 5
 python3 run.py check --suite sweep --candidate device:SERIAL --package ../build/aarch64/package
 ```
 

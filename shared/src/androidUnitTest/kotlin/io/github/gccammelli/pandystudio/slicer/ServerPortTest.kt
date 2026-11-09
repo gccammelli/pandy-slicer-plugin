@@ -69,6 +69,27 @@ class ServerPortTest {
         assertFailsWith<IllegalArgumentException> { ServerPort.prepare(request(), model, source, "/engine/resources") }
     }
 
+    @Test fun generatedProcessIsResolvedBeforeSlicingAndKeepsOverrides() {
+        val indexed = profiles + mapOf(
+            "profiles/BBL.json" to """{"machine_list":[],"filament_list":[],"process_list":[{"name":"0.20mm Standard @Demo","sub_path":"process/0.20mm Standard @Demo.json"},{"name":"base","sub_path":"process/base.json"}]}""",
+            "profiles/BBL/process/0.20mm Standard @Demo.json" to """{"name":"0.20mm Standard @Demo","inherits":"base","wall_loops":"2"}""",
+            "profiles/BBL/process/base.json" to """{"name":"base","outer_wall_speed":["200"],"post_process":["unsafe"]}""",
+        )
+        val job = ServerPort.prepare(request(), zip("3D/3dmodel.model" to "<model/>"), source, "/engine/resources")
+        val changed = job.copy(files = job.files + ("process.json" to """{"inherits":"0.20mm Standard @Demo","wall_loops":"4"}""".encodeToByteArray()))
+        val resolved = ServerPort.resolveProcess(changed, ProfileSource { indexed[it] })
+        val process = obj(resolved.files.getValue("process.json"))
+        assertEquals("4", process.getValue("wall_loops").jsonPrimitive.content)
+        assertEquals("200", process.getValue("outer_wall_speed").jsonArray.first().jsonPrimitive.content)
+        assertFalse("post_process" in process)
+        assertEquals(changed.arguments, resolved.arguments)
+        assertContentEquals(changed.files.getValue("model.3mf"), resolved.files.getValue("model.3mf"))
+        assertFailsWith<IllegalArgumentException> { ServerPort.resolveProcess(changed, ProfileSource { if (it == "profiles/BBL.json") indexed[it] else null }) }
+        // A file that is not in the trusted vendor index is not an accepted system preset.
+        val unindexed = indexed + ("profiles/BBL.json" to """{"machine_list":[],"process_list":[],"filament_list":[]}""")
+        assertFailsWith<IllegalArgumentException> { ServerPort.resolveProcess(changed, ProfileSource { unindexed[it] }) }
+    }
+
     @Test fun editorRejectsProjectsWhoseSettingsItCannotPreserve() {
         val model = zip("3D/3dmodel.model" to "<model/>")
         PhoneProtocol.validateEditorModel(request(), model)

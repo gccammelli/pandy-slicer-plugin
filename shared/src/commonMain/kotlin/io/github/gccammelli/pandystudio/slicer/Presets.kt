@@ -28,12 +28,13 @@ data class PrinterModel(val model: String, val nozzles: List<Preset>) {
 /**
  * Bambu's system presets (resources/profiles/BBL), read the way Bambu Studio reads them: the vendor index BBL.json
  * lists every preset file; a preset's "inherits" parent is applied first, then its "include" templates, then its own
- * keys. The engine resolves presets itself when slicing; this is for choosing them and showing their values.
+ * keys. Resolved values are used for preset selection and supplied explicitly to the engine when slicing.
  */
 class PresetLibrary(private val source: ProfileSource, vendor: String = "BBL") {
     private val json = Json { ignoreUnknownKeys = true }
     private val raw = mutableMapOf<String, JsonObject>()
     private val resolved = mutableMapOf<String, Preset>()
+    private val resolving = mutableSetOf<String>()
     private val paths = mutableMapOf<String, String>()
     private val index: Map<String, List<String>>
 
@@ -42,8 +43,10 @@ class PresetLibrary(private val source: ProfileSource, vendor: String = "BBL") {
         index = listOf("machine_list", "process_list", "filament_list").associateWith { list ->
             idx[list]?.jsonArray?.mapNotNull { e ->
                 val o = e.jsonObject
-                val name = o["name"]?.jsonPrimitive?.content ?: return@mapNotNull null
-                val path = o["sub_path"]?.jsonPrimitive?.content ?: return@mapNotNull null
+                val name = requireNotNull(o["name"]?.jsonPrimitive?.content) { "Preset index entry has no name" }
+                val path = requireNotNull(o["sub_path"]?.jsonPrimitive?.content) { "Preset index entry has no path" }
+                require(name !in paths) { "Duplicate preset: $name" }
+                require(!path.startsWith('/') && path.split('/').none { it == ".." }) { "Invalid preset path" }
                 paths[name] = "profiles/$vendor/$path"
                 name
             } ?: emptyList()
@@ -52,17 +55,25 @@ class PresetLibrary(private val source: ProfileSource, vendor: String = "BBL") {
 
     private fun rawOf(name: String): JsonObject? = raw.getOrPut(name) {
         val text = paths[name]?.let(source::read) ?: return null
-        json.parseToJsonElement(text).jsonObject
+        json.parseToJsonElement(text).jsonObject.also { require(it["name"]?.jsonPrimitive?.content == name) { "Preset name mismatch: $name" } }
     }
 
     /** The preset [name] with inheritance applied, or null when Bambu has no such preset. */
     fun preset(name: String): Preset? = resolved[name] ?: run {
         val own = rawOf(name) ?: return null
-        val values = linkedMapOf<String, Setting>()
-        own["inherits"]?.jsonPrimitive?.content?.takeIf { it.isNotEmpty() }?.let { parent -> preset(parent)?.values?.let(values::putAll) }
-        own["include"]?.let { inc -> (inc as? JsonArray)?.forEach { i -> preset(i.jsonPrimitive.content)?.values?.let(values::putAll) } }
-        for ((k, v) in own) if (k !in META) values[k] = v.toSetting()
-        Preset(name, own["type"]?.jsonPrimitive?.content ?: "", values).also { resolved[name] = it }
+        require(resolving.add(name)) { "Cyclic preset inheritance: $name" }
+        try {
+            val values = linkedMapOf<String, Setting>()
+            own["inherits"]?.jsonPrimitive?.content?.takeIf { it.isNotEmpty() }?.let { parent ->
+                values.putAll(requireNotNull(preset(parent)) { "Missing inherited preset: $parent" }.values)
+            }
+            own["include"]?.let { inc -> (inc as? JsonArray)?.forEach { i ->
+                val included = i.jsonPrimitive.content
+                values.putAll(requireNotNull(preset(included)) { "Missing included preset: $included" }.values)
+            } }
+            for ((k, v) in own) if (k !in META) values[k] = v.toSetting()
+            Preset(name, own["type"]?.jsonPrimitive?.content ?: "", values).also { resolved[name] = it }
+        } finally { resolving.remove(name) }
     }
 
     /**
@@ -70,12 +81,23 @@ class PresetLibrary(private val source: ProfileSource, vendor: String = "BBL") {
      * G-code), through its inheritance chain. Bambu Studio's CLI does not merge them into a user preset that inherits
      * the system one, so the job's printer preset carries them (SliceJob, and equivalence/pandy_equiv/profiles.py).
      */
-    fun includes(name: String): Map<String, Setting> {
+    fun includes(name: String): Map<String, Setting> = includes(name, mutableSetOf())
+
+    private fun includes(name: String, visiting: MutableSet<String>): Map<String, Setting> {
         val own = rawOf(name) ?: return emptyMap()
+        require(visiting.add(name)) { "Cyclic preset inheritance: $name" }
         val out = linkedMapOf<String, Setting>()
-        own["inherits"]?.jsonPrimitive?.content?.takeIf { it.isNotEmpty() }?.let { out.putAll(includes(it)) }
-        (own["include"] as? JsonArray)?.forEach { i -> preset(i.jsonPrimitive.content)?.values?.let(out::putAll) }
-        return out
+        try {
+            own["inherits"]?.jsonPrimitive?.content?.takeIf { it.isNotEmpty() }?.let {
+                requireNotNull(rawOf(it)) { "Missing inherited preset: $it" }
+                out.putAll(includes(it, visiting))
+            }
+            (own["include"] as? JsonArray)?.forEach { i ->
+                val included = i.jsonPrimitive.content
+                out.putAll(requireNotNull(preset(included)) { "Missing included preset: $included" }.values)
+            }
+            return out
+        } finally { visiting.remove(name) }
     }
 
     private fun instantiable(list: String) = index[list].orEmpty().filter { rawOf(it)?.get("instantiation")?.jsonPrimitive?.content == "true" }

@@ -97,7 +97,8 @@ class SlicerService : Service() {
                     engine.slice(job) { line -> reply(target, PROGRESS, id, line.take(1024)) }
                 } else {
                     PhoneScope.check(original, request!!.settings)
-                    engine.sliceServer(ServerPort.prepare(request, original, profiles, File(home, "resources").path)) { line -> reply(target, PROGRESS, id, line.take(1024)) }
+                    val prepared = ServerPort.prepare(request, original, profiles, File(home, "resources").path)
+                    engine.sliceServer(ServerPort.resolveProcess(prepared, profiles)) { line -> reply(target, PROGRESS, id, line.take(1024)) }
                 }
             }
             try {

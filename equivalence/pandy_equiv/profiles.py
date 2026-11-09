@@ -1,43 +1,61 @@
 """Resolves Bambu's system presets (resources/profiles/BBL) the way their "inherits" chains read: parent first, then
-each child's keys on top. Used only to know each option's default for the sweeps (cases.py); the slicer itself
-always resolves presets on its own, from the same files."""
+each child's keys on top. These resolved values provide both sweep defaults and complete slicer inputs."""
 import json
 from pathlib import Path
 
-META = {"name", "inherits", "from", "instantiation", "setting_id", "type", "version", "compatible_printers",
-        "compatible_printers_condition", "compatible_prints", "compatible_prints_condition", "filament_id",
-        "description", "include", "renamed_from"}
+# Match PresetLibrary: preserve actual setting values, including filament_id and compatibility metadata.
+META = {"name", "inherits", "from", "instantiation", "setting_id", "type", "include", "renamed_from"}
 
 
 class Presets:
     def __init__(self, resources: Path):
         self.by_name = {}
-        for kind in ("machine", "process", "filament"):
-            for f in (Path(resources) / "profiles" / "BBL" / kind).rglob("*.json"):
-                try:
-                    d = json.loads(f.read_text())
-                except ValueError:
-                    continue
-                if isinstance(d, dict) and "name" in d:
-                    self.by_name[d["name"]] = d
+        root = Path(resources) / "profiles"
+        index = json.loads((root / "BBL.json").read_text())
+        for kind in ("machine_list", "process_list", "filament_list"):
+            for item in index[kind]:
+                name, path = item["name"], item["sub_path"]
+                if name in self.by_name:
+                    raise ValueError(f"Duplicate preset: {name}")
+                target = (root / "BBL" / path).resolve()
+                if not target.is_relative_to((root / "BBL").resolve()):
+                    raise ValueError(f"Invalid preset path: {path}")
+                d = json.loads(target.read_text())
+                if d.get("name") != name:
+                    raise ValueError(f"Preset name mismatch: {name}")
+                self.by_name[name] = d
 
-    def includes(self, name: str) -> dict:
+    def includes(self, name: str, _visiting=None) -> dict:
         """The keys a machine preset gets from its "include" templates (start/end/filament-change/layer-change
         G-code), through its inheritance chain. Bambu Studio's CLI does not merge them into a user preset that
         inherits the system one, so a job's printer preset carries them itself (as Pandy Slicer's server does)."""
-        d = self.by_name[name]
-        out = self.includes(d["inherits"]) if d.get("inherits") else {}
-        for inc in d.get("include", []):
-            out.update({k: v for k, v in self.resolve(inc).items()})
-        return out
+        visiting = set() if _visiting is None else _visiting
+        if name in visiting:
+            raise ValueError(f"Cyclic preset inheritance: {name}")
+        visiting.add(name)
+        try:
+            d = self.by_name[name]
+            out = self.includes(d["inherits"], visiting) if d.get("inherits") else {}
+            for inc in d.get("include", []):
+                out.update(self.resolve(inc))
+            return out
+        finally:
+            visiting.remove(name)
 
-    def resolve(self, name: str) -> dict:
+    def resolve(self, name: str, _visiting=None) -> dict:
+        visiting = set() if _visiting is None else _visiting
+        if name in visiting:
+            raise ValueError(f"Cyclic preset inheritance: {name}")
+        visiting.add(name)
         d = self.by_name[name]
-        out = self.resolve(d["inherits"]) if d.get("inherits") else {}
-        for inc in d.get("include", []):
-            out.update({k: v for k, v in self.resolve(inc).items()})
-        out.update({k: v for k, v in d.items() if k not in META})
-        return out
+        try:
+            out = self.resolve(d["inherits"], visiting) if d.get("inherits") else {}
+            for inc in d.get("include", []):
+                out.update(self.resolve(inc, visiting))
+            out.update({k: v for k, v in d.items() if k not in META})
+            return out
+        finally:
+            visiting.remove(name)
 
 
 def printers(p: Presets) -> dict:

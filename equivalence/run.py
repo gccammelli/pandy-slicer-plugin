@@ -9,11 +9,12 @@ candidate (the Pandy Studio engine), then requires byte-identical G-code.
 
 A case passes when both runs succeed and every plate's G-code is identical, or when both fail with the same
 return code (an invalid setting must be refused the same way). Results: build/equiv/<run>/results.jsonl and
-report.md, plus the reference outputs cached in build/equiv/reference/<case id>/ (the reference is deterministic:
-`check --candidate reference` re-slices and compares the reference with itself)."""
+report.md, plus cached reference outputs under build/equiv/reference/. Multiple reference runs reveal the official
+slicer's own run-to-run variation; byte equivalence requires a match to at least one reference run."""
 import argparse
 import concurrent.futures as cf
 import datetime
+import hashlib
 import json
 import platform
 import shutil
@@ -23,7 +24,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from pandy_equiv import cases, compare, profiles, runners  # noqa: E402
+from pandy_equiv import cases, compare, profiles, runners, verify_settings  # noqa: E402
 
 BUILD = HERE.parent / "build" / "equiv"
 
@@ -33,6 +34,8 @@ def suite(name: str):
         return cases.smoke()
     if name == "sweep":
         return cases.sweep()
+    if name == "benchy":
+        return [cases.make(objects=cases.plate("benchy"), note="3DBenchy, X1 Carbon standard PLA")]
     if name.startswith("random:"):
         _, seed, count = name.split(":")
         return cases.random_cases(int(seed), int(count))
@@ -52,22 +55,38 @@ def candidate(spec: str, package: str):
     raise SystemExit(f"unknown candidate {spec}")
 
 
-def outcome(run_dir: Path, rc: int) -> dict:
+def outcome(run_dir: Path, rc: int, inputs=None, case=None) -> dict:
     res = {}
     if (run_dir / "result.json").exists():
-        res = json.loads((run_dir / "result.json").read_text())
+        try:
+            res = json.loads((run_dir / "result.json").read_text())
+            if not isinstance(res, dict):
+                res = {}
+        except (OSError, ValueError):
+            res = {}
+    output = run_dir / "out.gcode.3mf"
+    errors = verify_settings.verify(output, inputs, case) if output.exists() and inputs is not None and case is not None else []
+    if output.exists() and res.get("return_code") != 0:
+        errors.append("output exists without a successful slicer result")
     return {"returncode": rc, "cli_return_code": res.get("return_code"), "error": res.get("error_string"),
-            "sliced": (run_dir / "out.gcode.3mf").exists()}
+            "sliced": output.exists(), "profile_errors": errors}
 
 
 def reference_run(ref, case, inputs, args, k=0):
     """The reference's k-th slice of [case], cached (k > 0: extra runs, to see Bambu Studio's own variation)."""
-    d = BUILD / "reference" / case["id"] / (f"run{k}" if k else "")
+    image = ref.describe().get("image_id")
+    if not image:
+        raise RuntimeError("Cannot identify the official reference image")
+    ref_key = hashlib.sha256(image.encode()).hexdigest()[:16]
+    d = BUILD / "reference" / ref_key / case["id"] / f"run{k}"
     meta = d / "run.json"
     if meta.exists():
-        return d, json.loads(meta.read_text())
+        cached = json.loads(meta.read_text())
+        current = outcome(d, cached.get("returncode", -1), inputs, case) | {"seconds": cached.get("seconds", 0)}
+        meta.write_text(json.dumps(current))
+        return d, current
     r = ref.run(inputs, args, d)
-    o = outcome(d, r.returncode) | {"seconds": round(r.seconds, 2)}
+    o = outcome(d, r.returncode, inputs, case) | {"seconds": round(r.seconds, 2)}
     meta.write_text(json.dumps(o))
     return d, o
 
@@ -75,7 +94,10 @@ def reference_run(ref, case, inputs, args, k=0):
 def plate_hashes(path: Path) -> tuple:
     import zipfile
     with zipfile.ZipFile(path) as z:
-        return tuple(compare.sha(z.read(n)) for n in sorted(z.namelist()) if compare.GCODE.search(n))
+        hashes = tuple(compare.sha(z.read(n)) for n in sorted(z.namelist()) if compare.GCODE.search(n))
+        if not hashes:
+            raise ValueError(f"No G-code plates in {path}")
+        return hashes
 
 
 REF_RUNS = 1
@@ -87,9 +109,16 @@ def check_case(case, ref, cand, run_dir):
     rdir, ro = reference_run(ref, case, inputs, args)
     cdir = run_dir / "candidate" / case["id"]
     cr = cand.run(inputs, args, cdir)
-    co = outcome(cdir, cr.returncode) | {"seconds": round(cr.seconds, 2)}
+    co = outcome(cdir, cr.returncode, inputs, case) | {"seconds": round(cr.seconds, 2)}
     row = {"id": case["id"], "note": case["note"], "args": args, "reference": ro, "candidate": co}
-    if ro["sliced"] and co["sliced"]:
+    if ro["profile_errors"] or co["profile_errors"]:
+        row["status"] = "FAIL"
+    elif ro["sliced"] and co["sliced"]:
+        settings_diff = verify_settings.compare_outputs(rdir / "out.gcode.3mf", cdir / "out.gcode.3mf")
+        if settings_diff:
+            row["status"] = "FAIL"
+            row["settings_diff"] = settings_diff
+            return row
         cmp = compare.compare(rdir / "out.gcode.3mf", cdir / "out.gcode.3mf")
         row["compare"] = cmp
         row["status"] = "pass" if cmp["gcode_identical"] else "FAIL"
@@ -98,13 +127,13 @@ def check_case(case, ref, cand, run_dir):
             mine, seen = plate_hashes(cdir / "out.gcode.3mf"), {plate_hashes(rdir / "out.gcode.3mf")}
             for k in range(1, REF_RUNS):
                 d, o = reference_run(ref, case, inputs, args, k)
-                if o["sliced"]:
+                if o["sliced"] and not o["profile_errors"] and not verify_settings.compare_outputs(d / "out.gcode.3mf", cdir / "out.gcode.3mf"):
                     seen.add(plate_hashes(d / "out.gcode.3mf"))
             row["reference_variants"] = len(seen)
             if mine in seen:
                 row["status"] = "pass-matches-reference-variant"
     elif not ro["sliced"] and not co["sliced"]:
-        same = ro["cli_return_code"] == co["cli_return_code"]
+        same = ro["cli_return_code"] not in (None, 0) and ro["cli_return_code"] == co["cli_return_code"]
         row["status"] = "pass-both-refused" if same else "FAIL"
     else:
         row["status"] = "FAIL"
@@ -156,6 +185,7 @@ def main():
     REF_RUNS = a.ref_runs
     todo = suite(a.suite)
     ref, cand = runners.Reference(), candidate(a.candidate, a.package)
+    runners.verify_resources(ref, cand)
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_dir = BUILD / (a.name or f"{stamp}-{a.suite.replace(':', '-')}-{cand.name}")
     run_dir.mkdir(parents=True, exist_ok=True)

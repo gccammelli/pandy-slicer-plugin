@@ -12,6 +12,7 @@ Invalid values are kept on purpose: the engine must then fail exactly like the r
 import hashlib
 import json
 import random
+from functools import lru_cache
 from pathlib import Path
 
 from . import models
@@ -32,13 +33,33 @@ def plate(*names, centre=(128.0, 128.0), spacing=40.0):
 FEATURE_PLATE = plate("overhangs", "bridge", "tube", "thin", spacing=45.0)
 
 
-# Bumped whenever materialise() changes what the slicer gets for the same case, so cached reference results of the
-# old inputs are never compared with new ones. 2: printer presets carry their include templates (start G-code).
-INPUT_FORMAT = 2
+# Bumped whenever materialise() changes what the slicer gets for the same case. Version 3 resolves complete
+# printer, process and filament profiles and records their values in the case identity.
+INPUT_FORMAT = 3
+BLOCKED_OPTIONS = {"post_process", "filename_format", "gcode_substitutions"}
+
+
+@lru_cache(maxsize=1)
+def preset_library():
+    from . import profiles
+    resources = HERE.parents[1] / "build" / "reference" / "resources"
+    if not (resources / "profiles" / "BBL").is_dir():
+        raise FileNotFoundError(f"Missing pinned Bambu Studio resources at {resources}")
+    return profiles.Presets(resources)
+
+
+def resolved_profiles(case: dict) -> dict:
+    lib = preset_library()
+    clean = lambda values: {k: v for k, v in values.items() if k not in BLOCKED_OPTIONS}
+    return {"machine": clean(lib.resolve(case["printer"])), "process": clean(lib.resolve(case["process"])),
+            "filaments": [clean(lib.resolve(f)) for f in case["filaments"]]}
 
 
 def case_id(case: dict) -> str:
-    body = json.dumps({"format": INPUT_FORMAT, **{k: v for k, v in case.items() if k not in ("id", "note")}}, sort_keys=True)
+    body = json.dumps({"format": INPUT_FORMAT, "resolved_profiles": resolved_profiles(case),
+                       "model_generator_sha256": hashlib.sha256(Path(models.__file__).read_bytes()).hexdigest(),
+                       "benchy_sha256": models.BENCHY_SHA256 if any(o["model"] == "benchy" for o in case["objects"]) else None,
+                       **{k: v for k, v in case.items() if k not in ("id", "note")}}, sort_keys=True)
     return hashlib.sha256(body.encode()).hexdigest()[:16]
 
 
@@ -74,7 +95,7 @@ def smoke():
 def _values(key: str, default):
     """Interesting values of [key] given its schema and its default in the case's process or filament preset."""
     s = SCHEMA.get(key)
-    if not s or s.get("readonly"):
+    if not s or s.get("readonly") or key in BLOCKED_OPTIONS:
         return []
     t = s["type"]
     vector = t.endswith("s") and t not in ("coPercents",) or t in ("coPercents",)
@@ -135,7 +156,8 @@ def random_cases(seed: int, count: int, printer=None, per_case=12):
         picked = {}
         for kind, key, v in rng.sample(choices, min(per_case, len(choices))):
             picked.setdefault((kind, key), v)
-        objs = plate(*rng.sample(sorted(models.MODELS), rng.randint(1, 3)), spacing=45.0)
+        # Benchy is a large real-world model covered by its own slow suite and matrix row.
+        objs = plate(*rng.sample(sorted(k for k in models.MODELS if k != "benchy"), rng.randint(1, 3)), spacing=45.0)
         cases.append(make(pk, objects=objs, overrides={k: v for (kind, k), v in picked.items() if kind == "p"},
                           filament_overrides={k: v for (kind, k), v in picked.items() if kind == "f"},
                           note=f"random seed {seed} #{i}"))
@@ -145,25 +167,28 @@ def random_cases(seed: int, count: int, printer=None, per_case=12):
 def materialise(case: dict, d: Path) -> list:
     """Writes the case's input files into [d] and returns the slicer arguments (relative to [d])."""
     d.mkdir(parents=True, exist_ok=True)
+    if BLOCKED_OPTIONS.intersection(case["process_overrides"]) or BLOCKED_OPTIONS.intersection(case["filament_overrides"]):
+        raise ValueError("The case contains an option blocked by the app")
     objs = []
     for i, o in enumerate(case["objects"]):
         mesh = models.MODELS[o["model"]]()
-        objs.append((f"{o['model']}_{i + 1}", mesh, models.centred(mesh, o["x"], o["y"])))
+        if o["model"] == "benchy":
+            mesh, placement = models.editor_placement(mesh, o["x"], o["y"])
+            objs.append(("3DBenchy", mesh, placement))
+        else:
+            objs.append((f"{o['model']}_{i + 1}", mesh, models.centred(mesh, o["x"], o["y"])))
     models.write_3mf(d / "model.3mf", objs)
-    includes = json.loads(PROFILES.read_text())["machine_includes"].get(case["printer"])
-    if includes is None:  # a printer outside profiles.json (other nozzles): resolve from the reference's profiles
-        from . import profiles
-        includes = profiles.Presets(HERE.parents[1] / "build" / "reference" / "resources").includes(case["printer"])
-    machine = {"type": "machine", "name": "case printer", "from": "User", "inherits": case["printer"],
-               "printer_settings_id": "case printer", **includes}
-    process = {"type": "process", "name": "case process", "from": "User", "inherits": case["process"],
+    resolved = resolved_profiles(case)
+    machine = {**resolved["machine"], "type": "machine", "name": "case printer", "from": "User", "inherits": case["printer"],
+               "printer_settings_id": "case printer"}
+    process = {**resolved["process"], "type": "process", "name": "case process", "from": "User", "inherits": case["process"],
                "print_settings_id": "case process", "compatible_printers": [case["printer"]], **case["process_overrides"]}
     (d / "machine.json").write_text(json.dumps(machine, indent=1))
     (d / "process.json").write_text(json.dumps(process, indent=1))
     fil_files = []
     for i, f in enumerate(case["filaments"], start=1):
         name = f"case filament {i}"
-        fil = {"type": "filament", "name": name, "from": "User", "inherits": f, "filament_settings_id": [name],
+        fil = {**resolved["filaments"][i - 1], "type": "filament", "name": name, "from": "User", "inherits": f, "filament_settings_id": [name],
                "compatible_printers": [case["printer"]], **case["filament_overrides"]}
         (d / f"filament{i}.json").write_text(json.dumps(fil, indent=1))
         fil_files.append(f"filament{i}.json")

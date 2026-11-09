@@ -4,7 +4,7 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 23:34 UTC.*
+*Generated 2026-11-09 23:41 UTC.*
 
 | | |
 |---|---|
@@ -16,7 +16,7 @@ plate sliced on a phone and by the official Bambu Studio, compared as described 
 | 🟩 **Matching refusal** | both returned the same nonzero CLI error without slicing; expected rejection passes |
 | ⬜ **Not verified** | not run or insufficient reference evidence |
 
-**249 byte-identical · 79 within observed variation · 3 support differences · 98 small model differences · 0 significant differences or failed checks · 11 both refused · 0 not verified** (of 440: 11 models × 40 configurations)
+**253 byte-identical · 80 within observed variation · 3 support differences · 93 small model differences · 0 significant differences or failed checks · 11 both refused · 0 not verified** (of 440: 11 models × 40 configurations)
 
 ![Equivalence matrix](matrix.svg)
 
@@ -58,7 +58,6 @@ The [difference investigation](difference-investigation.md) records the seam, cu
 | 🟨 | benchy | P1P | 0.032 mm | Floating vertical shell | 6–85 |
 | 🟨 | benchy | P1S | 0.031 mm | Floating vertical shell | 43–77 |
 | 🟨 | benchy | P2S | 0.03 mm | Floating vertical shell | 49–49 |
-| 🟨 | benchy | baseline | 0.031 mm | Floating vertical shell | 76–76 |
 | 🟨 | benchy | classic walls | 0.032 mm | Floating vertical shell | 49–85 |
 | 🟨 | benchy | layer 0.08 mm | 0.032 mm | Floating vertical shell | 47–473 |
 | 🟨 | benchy | layer 0.12 mm | 0.061 mm | Floating vertical shell | 59–126 |
@@ -76,10 +75,6 @@ The [difference investigation](difference-investigation.md) records the seam, cu
 | 🟨 | benchy | solid rectilinear | 0 mm | Floating vertical shell | 69–69 |
 | 🟨 | benchy | tree supports | 0 mm | Floating vertical shell | 43–43 |
 | 🟨 | benchy | walls 1 | 0.031 mm | Floating vertical shell | 26–235 |
-| 🟨 | cube | ironing | 0.03 mm | Floating vertical shell | 94–94 |
-| 🟨 | cube | layer 0.24 mm | 0.03 mm | Floating vertical shell | 78–78 |
-| 🟨 | cube | normal supports | 0.03 mm | Floating vertical shell | 94–94 |
-| 🟨 | cube | pattern grid | 0.03 mm | Floating vertical shell | 94–94 |
 | 🟨 | cylinder | layer 0.08 mm | 0.031 mm | Floating vertical shell | 300–300 |
 | 🟨 | gear | A1 | 0.03 mm | Floating vertical shell | 34–34 |
 | 🟨 | gear | A1 mini | 0.03 mm | Floating vertical shell | 34–34 |

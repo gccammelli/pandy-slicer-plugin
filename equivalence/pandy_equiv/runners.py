@@ -28,7 +28,8 @@ class Run:
 
 # Bambu Studio parallelises slicing with TBB, and its output then depends on thread timing: the official build
 # gives different G-code for the same input from one run to the next (equivalence/README.md, "Determinism"). Pinned
-# to one CPU (TBB sizes its pool from the CPU affinity mask) it is reproducible, so that is how every runner slices.
+# to one CPU (TBB sizes its pool from the CPU affinity mask) reduces variation but does not eliminate it;
+# repeated official runs are still required. That is how every runner slices.
 # Each worker thread of run.py gets its own CPU (set_cpu), so parallel cases don't share one.
 _cpu = __import__("threading").local()
 

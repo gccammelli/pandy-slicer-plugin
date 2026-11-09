@@ -141,3 +141,8 @@ The matrix includes a successful 100% infill column using Bambu's `zig-zag` (rec
 original invalid 100%-grid rejection column. Use `matrix.py run --device SERIAL --columns 'solid rectilinear'`
 to run a selected column. `matrix.py reclassify` verifies input identity, engine/resources/reference identity,
 and effective settings before recomputing cached outcomes with the current comparator; it does not slice again.
+
+`yellow_diagnostics.py` inventories the saved yellow cases and can inspect a specified layer and feature.
+Its optional loop-gap completion is diagnostic only: it reports material differences separately and never changes
+a matrix grade. See [the yellow investigation](../docs/equivalence/difference-investigation.md#yellow-case-investigation)
+for commands, repeated-reference evidence and remaining engine traces.

@@ -12,6 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import matrix
 import geometry
+import yellow_diagnostics
 from pandy_equiv import cases, models, profiles, runners, safety, verify_settings
 
 
@@ -31,6 +32,24 @@ def example():
 
 
 class EquivalenceTests(unittest.TestCase):
+    def test_loop_completion_diagnostic_preserves_material_difference(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp) / 'phone.3mf', Path(tmp) / 'reference.3mf'
+            header = 'G90\nM83\n; CHANGE_LAYER\n; FEATURE: Floating vertical shell\n'
+            with zipfile.ZipFile(a, 'w') as z:
+                z.writestr('Metadata/plate_1.gcode', header +
+                           'G1 X0 Y0\nG1 X1 E.1\nG1 Y1 E.1\nG1 X0 E.1\nG1 Y.06 E.1\n')
+            with zipfile.ZipFile(b, 'w') as z:
+                z.writestr('Metadata/plate_1.gcode', header +
+                           'G1 X1 Y1\nG1 X0 E.2\nG1 Y0 E.2\nG1 X1 E.2\nG1 Y.94 E.2\n')
+            result = yellow_diagnostics.measure(a, b, 0, 'Floating vertical shell', .06)
+            self.assertGreater(result['raw_distance_mm'], .02)
+            self.assertAlmostEqual(0., result['completed_distance_mm_diagnostic_only'])
+            self.assertEqual(-50., result['filament_change_percent'])
+            self.assertEqual(0., result['bounds_delta_mm'])
+            self.assertEqual(1, len(result['closed_gaps_mm']['phone']))
+            self.assertEqual(1, len(result['closed_gaps_mm']['reference']))
+
     def test_geometry_ignores_unretraction_but_keeps_full_circle_arcs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp) / 'plate.3mf'

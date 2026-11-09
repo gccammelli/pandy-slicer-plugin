@@ -2,8 +2,8 @@
 
 The following checks use the pinned Bambu Studio reference and the packaged engines identified in the matrix report. They do not establish physical print quality.
 
-The current 440-cell matrix has 249 byte matches, 79 within observed reference variation, three support-only
-differences, 98 small model differences, eleven matching refusals and no red cells. Eleven fuzzy-skin cases are
+The current 440-cell matrix has 253 byte matches, 80 within observed reference variation, three support-only
+differences, 93 small model differences, eleven matching refusals and no red cells. Eleven fuzzy-skin cases are
 excluded because their surface texture is intentionally random. None of the retained cases triggered the bounded
 start-sequence/heater safety checks. No print was started.
 
@@ -23,6 +23,85 @@ The inspected gap paths differed by about 0.0011–0.0015 mm, with matching depo
 below 0.0005 mm. Gap infill now receives the existing strict surface limits, rather than the looser internal-infill
 limits; missing material or a larger thin-feature displacement still fails. These cases must not be described as
 large changes to the model.
+
+## Yellow-case investigation
+
+The initial 98 yellow cells fell into a few repeated groups: 60 reported only floating vertical shell paths,
+12 combined those with outer walls, 19 reported only outer walls, six only inner walls, and one both wall roles.
+All 32 cells reporting outer walls were torus cases; all six inner-wall-only cases were tubes. Ten cells had
+recognized wall seam relocations. These are reported feature groups, not a complete list of every sub-micron
+or within-reference variation in their outputs.
+
+### Repeated reference runs
+
+Six configurations were investigated with eight additional official runs each. Three also received three new
+runs of our desktop x86-64 build. The same saved phone output and resolved inputs were used throughout.
+
+| Configuration | New official outputs byte-identical to phone | New desktop outputs byte-identical to phone |
+|---|---:|---:|
+| Cube, 0.24 mm layers | 3 / 8 | 1 / 3 |
+| Cube, grid infill | 6 / 8 | Not run |
+| Cube, normal supports | 2 / 8 | Not run |
+| Cube, ironing | 4 / 8 | Not run |
+| Gear, four walls | 0 / 8 | 0 / 3 |
+| Benchy, baseline | 0 / 8 | 0 / 3 |
+
+The result is four yellow-to-green changes for the cubes and one yellow-to-dark-green change for baseline
+Benchy: 93 yellow cases remain, with 55 reporting only floating-shell differences and 38 reporting wall
+differences (including mixed cases).
+
+All four cube differences are therefore confirmed official nondeterminism, including the extrusion-width
+change; their complete G-code, rather than just the affected contour, was reproduced by the official binary.
+The new reference outputs are retained with the matrix evidence. No acceptance tolerance was changed.
+
+For baseline Benchy, one new official run reproduced the phone's affected floating-shell geometry and
+extrusion amount at zero-based layer 76, despite the whole G-code still differing. This confirms official
+variation at that location. Reclassification against 28 validated official runs places the whole candidate
+within observed official variation, while the G-code bytes still differ. This includes ten previously cached
+reference runs beyond the original ten recorded for this cell, plus the eight new runs.
+For gear, all three desktop runs and eight new official runs retained the original reference geometry at
+zero-based layer 34, about 0.03181 mm from the phone's path. This remains evidence of a platform-dependent
+path choice at that location, not proof of a specific floating-point instruction causing it.
+
+### Loop endings account for much of the distance
+
+Upstream `Fill/Fill.cpp` sets internal loop clipping to 0.15 times nozzle diameter, and
+`Fill/FillFloatingConcentric.cpp` clips each loop's end to avoid extruding back onto its beginning.
+For a 0.4 mm nozzle that is 0.06 mm. Moving that small gap to another corner can produce a roughly
+0.03 mm path distance while leaving the underlying loop and its outer bounds effectively unchanged.
+The floating-shell generator itself uses Arachne variable-width toolpaths, so selecting classic walls does
+not by itself remove Arachne from this internal-path calculation.
+
+The following diagnostics compare the phone with recorded official run 0. Only gaps near the expected
+0.06 mm length were completed, solely to inspect the underlying contours. These completed paths are
+never substituted into the matrix verdict.
+
+| Configuration and zero-based layer | Raw path distance | Completed contour distance | Filament difference | Surface/path bounds difference |
+|---|---:|---:|---:|---:|
+| Cube, 0.24 mm, layer 78 | 0.03036 mm | 0.00084 mm | -3.4002% | 0 mm |
+| Gear, four walls, layer 34 | 0.03181 mm | 0.01136 mm | -0.5820% | 0 mm |
+| Benchy, baseline, layer 76 | 0.03083 mm | 0.00876 mm | +0.00062% | 0.00039 mm |
+
+There is still real material variation in some internal paths. For the cube, the affected loop's emitted
+line width was 0.391672 mm on the phone versus 0.403653 mm in original reference run 0, with 2.40040 versus
+2.48489 mm of filament. Its loop direction/end gap also changed. The official binary reproduced the phone's
+entire output, so this difference cannot be attributed exclusively to ARM arithmetic. Gear's remaining
+0.58% material difference likewise should not be dismissed as merely reordering identical paths.
+
+Reproduce the inventory and the gear contour diagnostic from the saved matrix with:
+
+```sh
+build/venv/bin/python equivalence/yellow_diagnostics.py
+build/venv/bin/python equivalence/yellow_diagnostics.py --case 'gear|walls 4' --layer 34
+```
+
+The diagnostic reports both raw and completed distances, gap lengths, filament changes and bounds. A regression
+test verifies that completing identical underlying contours still reports a material difference.
+
+The next engine-level trace should compare Arachne loop orientation/start selection and variable-width extrusion
+conversion for gear before G-code arc fitting. For torus and tube, trace seam selection before fitting; earlier
+no-arc tests already showed fitting alone does not cause their discrepancy. The existing data does not yet
+identify a single computation responsible for all yellow cases.
 
 ## Fuzzy skin
 

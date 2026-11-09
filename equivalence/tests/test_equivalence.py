@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import matrix
+import geometry
 from pandy_equiv import cases, models, profiles, verify_settings
 
 
@@ -30,6 +31,19 @@ def example():
 
 
 class EquivalenceTests(unittest.TestCase):
+    def test_geometry_ignores_unretraction_but_keeps_full_circle_arcs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'plate.3mf'
+            with zipfile.ZipFile(p, 'w') as z:
+                z.writestr('Metadata/plate_1.gcode', '\n'.join([
+                    'M83', '; CHANGE_LAYER', '; FEATURE: Outer wall',
+                    'G1 X10 Y10', 'G1 E.8', 'G1 X11 E.1', 'G2 I-1 J0 E.1',
+                ]))
+            paths = geometry.parse(p)[0]['walls']
+            self.assertAlmostEqual(0.2, paths[1])
+            self.assertGreater(len(paths[0]), 20)
+            self.assertEqual(1, sum((pt == (10, 10)).all() for pt in paths[0]))
+
     def test_materialise_resolves_and_applies_overrides(self):
         with tempfile.TemporaryDirectory() as tmp, patch.object(cases, 'preset_library', return_value=FakePresets()):
             c = example(); c['id'] = cases.case_id(c)

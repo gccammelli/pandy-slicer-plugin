@@ -1,10 +1,10 @@
 # Xperia Benchy cross-check
 
-The 40 Benchy configurations were sliced on the Xperia XQ-CC54 (Android SDK 34, arm64) using the same pinned engine and profiles as the main matrix. Each was compared against at least five official Bambu Studio runs. The baseline was also checked on the OnePlus 3.
+The 40 Benchy configurations were sliced on the Xperia XQ-CC54 (Android SDK 34, arm64) using the same pinned engine and profiles as the main matrix. The baseline was also sliced on the OnePlus 3. Neither phone's baseline G-code matched any of 20 official Bambu Studio runs byte for byte.
 
-No Xperia output was byte-identical: 29 differed beyond observed official variation, 10 had sampled geometry within that variation, and one configuration was refused by both slicers. Geometric similarity does not establish byte equality.
+A geometry analysis error was corrected: extruder-only unretractions do not deposit points. In a corrected baseline comparison against one official run, both phones had identical sampled outer, inner and overhang wall paths, top and bottom surfaces, and infill paths. Floating vertical shell paths differed by at most 0.093 mm in sampled nearest-point distance; similar differences occurred between two official runs. These distances are not measurements of printed-part dimensions.
 
-For the baseline, neither phone matched any of 20 official G-code outputs. A geometry recheck against ten official runs still classified both phone outputs as differing beyond the observed variation.
+With the corrected parser, the ten-reference baseline classification is differing for each phone. The per-layer comparisons flag a maximum sampled path distance of 0.067 mm on layers 40 and 76 for the OnePlus, and on layer 76 for the Xperia.
 
 | Configuration | Result |
 |---|---|
@@ -14,7 +14,7 @@ For the baseline, neither phone matched any of 20 official G-code outputs. A geo
 | A2L | Differs |
 | H2C | Differs |
 | H2D | Differs |
-| H2D Pro | Differs |
+| H2D Pro | Within observed variation; bytes differ |
 | H2S | Differs |
 | P1P | Differs |
 | P1S | Differs |
@@ -49,4 +49,4 @@ For the baseline, neither phone matched any of 20 official G-code outputs. A geo
 | seam back | Differs |
 | fuzzy skin | Differs |
 
-The classification uses sampled per-layer extrusion paths. See the [main equivalence report](README.md) and [test documentation](../../equivalence/README.md) for the comparison method and limits.
+All other rows use five official reference runs. The classification uses sampled per-layer extrusion paths; sampling can itself affect small distances. See the [main equivalence report](README.md) and [test documentation](../../equivalence/README.md) for the comparison method and limits.

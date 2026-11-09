@@ -4,7 +4,7 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 05:00 UTC.*
+*Generated 2026-11-09 10:49 UTC.*
 
 | | |
 |---|---|
@@ -15,7 +15,7 @@ plate sliced on a phone and by the official Bambu Studio, compared as described 
 | 🟥 **Differs** | sampled paths differ beyond variation observed in the official runs |
 | ⬜ **Not verified** | not run or insufficient reference evidence |
 
-**240 byte-identical · 73 within observed variation · 11 both refused · 1 support differences · 115 differ · 0 not verified** (of 440: 11 models × 40 configurations)
+**240 byte-identical · 71 within observed variation · 11 both refused · 3 support differences · 115 differ · 0 not verified** (of 440: 11 models × 40 configurations)
 
 ![Equivalence matrix](matrix.svg)
 
@@ -46,119 +46,121 @@ A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configura
 |---|---|---|---|---|---|
 | 🟥 | benchy | A1 | 0.03 mm | Floating vertical shell | 40–40 |
 | 🟥 | benchy | A1 mini | 0.055 mm | Floating vertical shell | 19–87 |
-| 🟥 | benchy | A2L | 16.288 mm | Floating vertical shell, Outer wall, Sparse infill | 5–23 |
+| 🟥 | benchy | A2L | 0.064 mm | Floating vertical shell | 5–23 |
 | 🟥 | benchy | H2C | 0.088 mm | Floating vertical shell | 46–46 |
 | 🟥 | benchy | H2D | 0.03 mm | Floating vertical shell | 40–40 |
-| 🟥 | benchy | H2D Pro | 14.526 mm | Gap infill, Internal solid infill, Sparse infill | 81–81 |
-| 🟥 | benchy | H2S | 16.979 mm | Floating vertical shell, Internal solid infill, Sparse infill, Top surface | 73–86 |
-| 🟥 | benchy | P1P | 7.45 mm | Floating vertical shell, Internal solid infill, Sparse infill | 6–86 |
-| 🟥 | benchy | P1S | 5.701 mm | Floating vertical shell, Gap infill, Internal solid infill, Sparse infill | 43–186 |
+| 🟥 | benchy | H2S | 0.067 mm | Floating vertical shell | 80–86 |
+| 🟥 | benchy | P1P | 0.074 mm | Floating vertical shell | 6–85 |
+| 🟥 | benchy | P1S | 0.085 mm | Floating vertical shell | 43–186 |
 | 🟥 | benchy | P2S | 0.066 mm | Floating vertical shell | 49–49 |
 | 🟥 | benchy | X2D | 0.093 mm | Floating vertical shell | 19–44 |
-| 🟥 | benchy | baseline | 13.862 mm | Floating vertical shell, Internal solid infill, Sparse infill | 40–83 |
-| 🟥 | benchy | classic walls | 7.45 mm | Floating vertical shell, Gap infill, Internal solid infill, Sparse infill | 49–86 |
-| 🟥 | benchy | fuzzy skin | inf mm | Floating vertical shell, Gap infill, Inner wall, Internal solid infill, Outer wall, Overhang wall, Sparse infill, Top surface | 3–231 |
-| 🟥 | benchy | layer 0.08 mm | inf mm | Floating vertical shell, Gap infill, Internal solid infill, Outer wall, Sparse infill | 47–474 |
-| 🟥 | benchy | layer 0.12 mm | 1.278 mm | Floating vertical shell, Outer wall, Sparse infill | 59–126 |
-| 🟥 | benchy | layer 0.16 mm | 15.008 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 85–107 |
+| 🟥 | benchy | baseline | 0.067 mm | Floating vertical shell | 40–76 |
+| 🟥 | benchy | classic walls | 0.075 mm | Floating vertical shell | 49–85 |
+| 🟥 | benchy | fuzzy skin | inf mm | Gap infill, Inner wall, Outer wall, Overhang wall | 8–214 |
+| 🟥 | benchy | layer 0.08 mm | 0.094 mm | Floating vertical shell | 47–473 |
+| 🟥 | benchy | layer 0.12 mm | 0.073 mm | Floating vertical shell | 59–126 |
+| 🟥 | benchy | layer 0.16 mm | 0.093 mm | Floating vertical shell | 85–107 |
 | 🟥 | benchy | no brim | 0.067 mm | Floating vertical shell | 22–22 |
 | 🟥 | benchy | nozzle 0.2 mm | 0.088 mm | Floating vertical shell | 84–354 |
-| 🟥 | benchy | nozzle 0.6 mm | 6.208 mm | Floating vertical shell, Gap infill, Sparse infill | 48–65 |
+| 🟥 | benchy | nozzle 0.6 mm | 0.078 mm | Floating vertical shell | 48–65 |
 | 🟥 | benchy | outer brim | 0.072 mm | Floating vertical shell | 22–186 |
 | 🟥 | benchy | pattern adaptivecubic | 0.093 mm | Floating vertical shell | 44–44 |
-| 🟥 | benchy | pattern grid | 10.397 mm | Floating vertical shell, Top surface | 68–68 |
-| 🟥 | benchy | pattern gyroid | 5.975 mm | Floating vertical shell, Gap infill, Internal solid infill, Sparse infill | 46–88 |
-| 🟥 | benchy | pattern honeycomb | 19.548 mm | Floating vertical shell, Gap infill, Internal solid infill, Sparse infill, Top surface | 46–99 |
-| 🟥 | benchy | pattern lightning | 0.072 mm | Floating vertical shell | 68–186 |
-| 🟥 | benchy | seam back | 24.365 mm | Floating vertical shell, Gap infill, Internal solid infill, Sparse infill, Top surface | 40–186 |
+| 🟥 | benchy | pattern grid | 0.075 mm | Floating vertical shell | 68–68 |
+| 🟥 | benchy | pattern gyroid | 0.088 mm | Floating vertical shell | 46–88 |
+| 🟥 | benchy | pattern honeycomb | 0.099 mm | Floating vertical shell | 46–99 |
+| 🟥 | benchy | pattern lightning | 0.072 mm | Floating vertical shell | 22–186 |
+| 🟥 | benchy | seam back | 0.093 mm | Floating vertical shell | 40–186 |
 | 🟥 | benchy | tree supports | 0.03 mm | Floating vertical shell | 40–40 |
-| 🟥 | benchy | walls 1 | 16.627 mm | Bridge, Floating vertical shell, Gap infill, Internal solid infill, Outer wall, Sparse infill, Top surface | 26–235 |
-| 🟥 | bridge | fuzzy skin | 7.647 mm | Inner wall, Outer wall, Sparse infill | 3–118 |
-| 🟥 | cube | fuzzy skin | 2.303 mm | Inner wall, Outer wall, Sparse infill | 5–92 |
+| 🟥 | benchy | walls 1 | 0.095 mm | Floating vertical shell | 26–235 |
+| 🟥 | bridge | fuzzy skin | 0.667 mm | Inner wall, Outer wall | 5–58 |
+| 🟥 | cube | fuzzy skin | 0.619 mm | Outer wall | 43–43 |
 | 🟥 | cube | ironing | 0.06 mm | Floating vertical shell | 94–94 |
 | 🟥 | cube | layer 0.24 mm | 0.06 mm | Floating vertical shell | 78–78 |
 | 🟥 | cube | normal supports | 0.06 mm | Floating vertical shell | 94–94 |
 | 🟥 | cube | pattern grid | 0.06 mm | Floating vertical shell | 94–94 |
-| 🟥 | cylinder | fuzzy skin | 17.965 mm | Inner wall, Internal solid infill, Outer wall, Sparse infill | 13–124 |
-| 🟥 | cylinder | layer 0.08 mm | 0.805 mm | Floating vertical shell, Outer wall | 300–300 |
-| 🟥 | gear | A1 | 1.117 mm | Floating vertical shell, Outer wall, Sparse infill | 34–34 |
-| 🟥 | gear | A1 mini | 1.117 mm | Floating vertical shell, Outer wall, Sparse infill | 34–34 |
-| 🟥 | gear | A2L | 1.117 mm | Floating vertical shell, Outer wall, Sparse infill | 34–34 |
-| 🟥 | gear | H2C | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | H2D Pro | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | X1 | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | X1E | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | classic walls | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | fuzzy skin | 2.123 mm | Gap infill, Inner wall, Sparse infill | 11–39 |
-| 🟥 | gear | infill 0% | 0.885 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | layer 0.12 mm | 0.606 mm | Floating vertical shell, Gap infill | 60–60 |
-| 🟥 | gear | layer 0.24 mm | 0.828 mm | Floating vertical shell, Outer wall | 27–27 |
-| 🟥 | gear | no brim | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | normal supports | 0.859 mm | Floating vertical shell, Sparse infill | 34–34 |
-| 🟥 | gear | outer brim | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | pattern grid | 0.755 mm | Floating vertical shell, Outer wall | 34–34 |
-| 🟥 | gear | pattern lightning | inf mm | Floating vertical shell, Sparse infill | 34–35 |
-| 🟥 | gear | tree supports | 0.859 mm | Floating vertical shell, Sparse infill | 34–34 |
+| 🟥 | cylinder | fuzzy skin | 0.586 mm | Inner wall, Outer wall | 2–121 |
+| 🟥 | cylinder | layer 0.08 mm | 0.053 mm | Floating vertical shell | 300–300 |
+| 🟥 | gear | A1 | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | A1 mini | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | A2L | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | H2C | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | H2D Pro | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | X1 | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | X1E | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | classic walls | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | fuzzy skin | 0.058 mm | Floating vertical shell, Inner wall | 27–34 |
+| 🟥 | gear | infill 0% | 0.06 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | layer 0.12 mm | 0.051 mm | Floating vertical shell | 60–60 |
+| 🟥 | gear | layer 0.24 mm | 0.051 mm | Floating vertical shell | 27–27 |
+| 🟥 | gear | no brim | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | normal supports | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | outer brim | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | pattern grid | 0.051 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | pattern lightning | 0.06 mm | Floating vertical shell | 34–34 |
+| 🟥 | gear | tree supports | 0.051 mm | Floating vertical shell | 34–34 |
 | 🟥 | gear | walls 1 | 0.043 mm | Floating vertical shell | 34–34 |
 | 🟥 | gear | walls 4 | 0.095 mm | Floating vertical shell | 34–34 |
-| 🟥 | overhangs | H2C | 4.469 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 4–70 |
-| 🟥 | overhangs | P2S | 4.469 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 4–70 |
-| 🟥 | overhangs | X2D | 4.469 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 4–70 |
-| 🟥 | overhangs | classic walls | 4.469 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 4–70 |
-| 🟥 | overhangs | fuzzy skin | 15.512 mm | Inner wall, Internal solid infill, Outer wall, Overhang wall, Sparse infill, Top surface | 2–74 |
-| 🟥 | overhangs | layer 0.16 mm | 4.558 mm | Floating vertical shell, Internal solid infill, Outer wall, Sparse infill | 5–86 |
+| 🟥 | overhangs | H2C | 0.06 mm | Floating vertical shell | 4–70 |
+| 🟥 | overhangs | P2S | 0.06 mm | Floating vertical shell | 4–70 |
+| 🟥 | overhangs | X2D | 0.06 mm | Floating vertical shell | 4–70 |
+| 🟥 | overhangs | classic walls | 0.06 mm | Floating vertical shell | 4–70 |
+| 🟥 | overhangs | fuzzy skin | 17.139 mm | Inner wall, Outer wall, Overhang wall | 2–74 |
+| 🟥 | overhangs | infill 0% | 0.096 mm | Floating vertical shell | 69–69 |
+| 🟥 | overhangs | layer 0.16 mm | 0.053 mm | Floating vertical shell | 5–86 |
+| 🟥 | overhangs | layer 0.28 mm | 0.083 mm | Floating vertical shell | 49–49 |
 | 🟥 | overhangs | pattern lightning | 0.096 mm | Floating vertical shell | 69–69 |
-| 🟥 | overhangs | tree supports | 15.875 mm | Bottom surface, Custom, Floating vertical shell, Internal solid infill, Sparse infill, Support | 0–72 |
-| 🟥 | sphere | fuzzy skin | inf mm | Inner wall, Outer wall, Overhang wall, Sparse infill | 3–125 |
+| 🟥 | sphere | fuzzy skin | inf mm | Inner wall, Outer wall, Overhang wall | 16–119 |
 | 🟥 | sphere | pattern honeycomb | 0.042 mm | Floating vertical shell | 119–119 |
-| 🟥 | sphere | tree supports | 2.165 mm | Bottom surface, Bridge, Custom, Internal solid infill, Sparse infill, Support | 0–9 |
-| 🟥 | thin | fuzzy skin | 15.406 mm | Gap infill, Inner wall, Outer wall | 3–56 |
+| 🟥 | thin | fuzzy skin | 0.607 mm | Outer wall | 22–59 |
 | 🟥 | torus | A1 | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | A1 mini | 0.017 mm | Outer wall | 10–10 |
 | 🟥 | torus | A2L | 0.035 mm | Outer wall | 9–40 |
 | 🟥 | torus | H2C | 0.018 mm | Outer wall | 10–10 |
-| 🟥 | torus | H2D | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
+| 🟥 | torus | H2D | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟥 | torus | H2D Pro | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | H2S | 0.018 mm | Outer wall | 10–10 |
-| 🟥 | torus | P1P | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
-| 🟥 | torus | P1S | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
-| 🟥 | torus | P2S | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
-| 🟥 | torus | X1 | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
-| 🟥 | torus | X1E | 1.677 mm | Floating vertical shell, Outer wall, Sparse infill | 10–43 |
+| 🟥 | torus | P1P | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟥 | torus | P1S | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟥 | torus | P2S | 0.055 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟥 | torus | X1 | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟥 | torus | X1E | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟥 | torus | X2D | 0.055 mm | Outer wall | 10–10 |
 | 🟥 | torus | baseline | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | classic walls | 0.018 mm | Outer wall | 10–10 |
-| 🟥 | torus | fuzzy skin | 1.756 mm | Floating vertical shell, Inner wall, Outer wall, Sparse infill | 13–40 |
+| 🟥 | torus | fuzzy skin | 0.099 mm | Inner wall | 29–38 |
 | 🟥 | torus | infill 0% | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | infill 40% | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | ironing | 0.018 mm | Outer wall | 10–10 |
-| 🟥 | torus | layer 0.08 mm | 0.043 mm | Floating vertical shell, Inner wall, Outer wall | 2–99 |
+| 🟥 | torus | layer 0.08 mm | 0.043 mm | Inner wall, Outer wall | 2–99 |
 | 🟥 | torus | layer 0.16 mm | 0.053 mm | Outer wall | 14–14 |
 | 🟥 | torus | layer 0.28 mm | 0.058 mm | Outer wall | 11–15 |
-| 🟥 | torus | no brim | 2.069 mm | Floating vertical shell, Outer wall, Sparse infill | 10–44 |
+| 🟥 | torus | no brim | 0.054 mm | Floating vertical shell, Outer wall | 10–44 |
+| 🟥 | torus | normal supports | 0.052 mm | Outer wall | 44–44 |
 | 🟥 | torus | outer brim | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | pattern adaptivecubic | 0.052 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟥 | torus | pattern grid | 0.018 mm | Outer wall | 10–10 |
 | 🟥 | torus | pattern gyroid | 0.05 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟥 | torus | pattern honeycomb | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟥 | torus | pattern lightning | 0.052 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟥 | torus | seam back | 0.051 mm | Floating vertical shell | 42–42 |
 | 🟥 | torus | walls 1 | 0.018 mm | Outer wall | 10–10 |
-| 🟥 | torus | walls 4 | 1.648 mm | Floating vertical shell, Outer wall, Sparse infill | 10–44 |
+| 🟥 | torus | walls 4 | 0.054 mm | Floating vertical shell, Outer wall | 10–43 |
 | 🟥 | tower | A2L | 0.06 mm | Floating vertical shell | 394–394 |
 | 🟥 | tower | H2S | 0.06 mm | Floating vertical shell | 394–394 |
-| 🟥 | tower | fuzzy skin | 2.278 mm | Inner wall, Internal solid infill, Outer wall, Sparse infill | 1–398 |
+| 🟥 | tower | fuzzy skin | 0.627 mm | Inner wall, Outer wall | 3–395 |
 | 🟥 | tower | layer 0.08 mm | 0.072 mm | Floating vertical shell | 988–988 |
 | 🟥 | tower | layer 0.28 mm | 0.06 mm | Floating vertical shell | 281–281 |
 | 🟥 | tower | nozzle 0.8 mm | 0.056 mm | Floating vertical shell | 197–197 |
 | 🟥 | tower | pattern honeycomb | 0.041 mm | Floating vertical shell | 394–394 |
-| 🟥 | tube | A1 | 0.053 mm | Inner wall, Sparse infill | 7–58 |
-| 🟥 | tube | fuzzy skin | 0.965 mm | Inner wall, Outer wall | 9–85 |
-| 🟥 | tube | layer 0.12 mm | 0.052 mm | Inner wall, Sparse infill | 64–64 |
-| 🟥 | tube | layer 0.24 mm | 0.054 mm | Inner wall, Outer wall, Sparse infill | 24–24 |
-| 🟥 | tube | layer 0.28 mm | 0.053 mm | Inner wall, Sparse infill | 54–57 |
-| 🟥 | tube | nozzle 0.2 mm | 0.059 mm | Inner wall, Sparse infill | 2–144 |
-| 🟥 | tube | nozzle 0.8 mm | 0.072 mm | Inner wall, Sparse infill | 10–23 |
-| 🟥 | tube | pattern lightning | inf mm | Floating vertical shell, Sparse infill | 85–85 |
+| 🟥 | tube | A1 | 0.053 mm | Inner wall | 7–58 |
+| 🟥 | tube | fuzzy skin | 0.58 mm | Inner wall, Outer wall | 8–81 |
+| 🟥 | tube | layer 0.12 mm | 0.052 mm | Inner wall | 64–64 |
+| 🟥 | tube | layer 0.24 mm | 0.054 mm | Inner wall, Outer wall | 24–24 |
+| 🟥 | tube | layer 0.28 mm | 0.053 mm | Inner wall | 54–57 |
+| 🟥 | tube | nozzle 0.2 mm | 0.053 mm | Inner wall | 2–144 |
+| 🟥 | tube | nozzle 0.8 mm | 0.048 mm | Inner wall | 10–23 |
+| 🟨 | overhangs | tree supports | 5.305 mm | Support | 0–72 |
+| 🟨 | sphere | tree supports | 1.205 mm | Support | 0–9 |
 | 🟨 | torus | tree supports | 0.734 mm | Support | 0–1 |
 
 ## Interpretation

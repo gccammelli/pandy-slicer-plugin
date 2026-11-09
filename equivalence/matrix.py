@@ -37,7 +37,7 @@ OUT = ROOT / "build" / "matrix"
 DOCS = ROOT / "docs" / "equivalence"
 ROWS = ["cube", "cylinder", "tube", "sphere", "torus", "gear", "bridge", "overhangs", "thin", "tower", "benchy"]
 X1C = "Bambu Lab X1 Carbon 0.4 nozzle"
-CLASSIFICATION_VERSION = 4
+CLASSIFICATION_VERSION = 5
 VALIDATION_SHA256 = hashlib.sha256(Path(verify_settings.__file__).read_bytes()).hexdigest()
 
 

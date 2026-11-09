@@ -54,7 +54,10 @@ def parse(path):
             args = {w[0]: float(w[1:]) for w in code[1:] if len(w) > 1 and w[0] in "XYZEIJ" and re.fullmatch(r"-?[0-9.]+", w[1:])}
             nx, ny = args.get("X", x), args.get("Y", y)
             e = args.get("E", 0.0)
-            if layer >= 0 and e > 0 and rel_e and c != "G0":
+            # Extruder-only unretractions do not deposit a path at the current XY position.
+            # Full-circle arcs can have the same start and end, so keep arcs with a centre.
+            has_path = nx != x or ny != y or (c in ("G2", "G3") and ("I" in args or "J" in args))
+            if layer >= 0 and e > 0 and rel_e and c != "G0" and has_path:
                 slot = layers[layer][group_of(feature)]
                 slot[1] += e
                 if c in ("G2", "G3") and ("I" in args or "J" in args):

@@ -1,6 +1,6 @@
 # Xperia Benchy cross-check
 
-The original 40 Benchy configurations were sliced on the Xperia XQ-CC54 (Android SDK 34, arm64). The baseline was also sliced on the OnePlus 3. Neither phone's baseline G-code matched any of 20 observed official Bambu Studio runs byte for byte. The additional solid-rectilinear column in the main matrix was tested on the OnePlus only.
+The 39 non-fuzzy Benchy configurations were sliced on the Xperia XQ-CC54 (Android SDK 34, arm64). The baseline was also sliced on the OnePlus 3. Neither phone's baseline G-code matched any of 20 observed official Bambu Studio runs byte for byte. The additional solid-rectilinear column in the main matrix was tested on the OnePlus only.
 
 The table below has been reclassified with the continuous line/arc comparator. The current baseline is **yellow on both phones**. The remaining baseline differences are small floating vertical shell paths; outer, inner and overhang walls, top and bottom surfaces, and infill matched the checked official path geometry. The numerical error bound is 0.0005 mm. These are toolpath comparisons, not measurements of a printed part.
 
@@ -45,6 +45,5 @@ The table below has been reclassified with the continuous line/arc comparator. T
 | outer brim | Small model differences |
 | ironing | Within observed variation; bytes differ |
 | seam back | Small model differences |
-| fuzzy skin | Strict geometry screen failed |
 
 Ten official runs were used for the baseline geometry classification; other rows use five. See the [main report](README.md), [comparison method](../../equivalence/README.md), and [difference investigation](difference-investigation.md) for seam, gap-infill and fuzzy-skin evidence.

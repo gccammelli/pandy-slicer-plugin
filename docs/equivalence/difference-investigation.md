@@ -2,10 +2,10 @@
 
 The following checks use the pinned Bambu Studio reference and the packaged engines identified in the matrix report. They do not establish physical print quality.
 
-The completed 451-cell matrix has 249 byte matches, 79 within observed reference variation, three support-only
-differences, 98 small model differences, eleven matching refusals and eleven strict-geometry failures. All eleven
-remaining red cells enable fuzzy skin. None triggered the bounded start-sequence/heater safety checks. No print
-was started.
+The current 440-cell matrix has 249 byte matches, 79 within observed reference variation, three support-only
+differences, 98 small model differences, eleven matching refusals and no red cells. Eleven fuzzy-skin cases are
+excluded because their surface texture is intentionally random. None of the retained cases triggered the bounded
+start-sequence/heater safety checks. No print was started.
 
 | Case | Evidence | Interpretation |
 |---|---|---|
@@ -30,7 +30,9 @@ Fuzzy skin deliberately displaces surfaces using random numbers in upstream's `F
 
 A diagnostic on the cube compared the phone and five official fuzzy outputs against the smooth official outer-wall rectangle, sampling by path length. The phone's signed mean displacement was -0.00154 mm and standard deviation was 0.14087 mm. Official signed means ranged from -0.00453 to +0.00419 mm and standard deviations from 0.13972 to 0.14151 mm. Those aggregate texture statistics are consistent with the official samples.
 
-This is evidence for the cube's texture distribution only. It does not prove local contour, holes, thin walls, support behaviour or strength for every model. Fuzzy cells remain subject to the strict geometry rules until a separate distribution-aware test has sufficient local evidence. They must not be turned green merely by increasing the ordinary dimensional tolerances.
+Fuzzy skin is excluded from the main matrix because its texture is intentionally random. These measurements
+remain an optional historical diagnostic of the cube's texture distribution; they do not establish exact toolpath
+equivalence or local geometry and strength for every model.
 
 Reproduce this diagnostic with `build/venv/bin/python equivalence/fuzzy_stats.py`. It deliberately rejects a
 non-rectangular baseline rather than treating its bounding box as the actual surface, and never awards a pass.

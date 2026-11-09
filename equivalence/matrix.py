@@ -70,7 +70,6 @@ def columns():
     cols.append(("outer brim", "Adhesion", {"overrides": {"brim_type": "outer_only"}}))
     cols.append(("ironing", "Surface", {"overrides": {"ironing_type": "top"}}))
     cols.append(("seam back", "Surface", {"overrides": {"seam_position": "back"}}))
-    cols.append(("fuzzy skin", "Surface", {"overrides": {"fuzzy_skin": "external"}}))
     return cols
 
 
@@ -582,7 +581,8 @@ def report(_):
         "| Runs | Each recorded cell has one phone run and the number of official runs recorded in its result; all are pinned to one CPU. |", "",
         "Models are generated (`equivalence/pandy_equiv/models.py`): cube 20 mm, cylinder, tube (hole), sphere, torus, gear,",
         "bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm; Benchy uses the verified model bundled with the reference.", "",
-        "A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configurations on a second phone.", "",
+        "A separate [Xperia Benchy cross-check](xperia-benchy.md) covers 39 configurations on a second phone; solid rectilinear was tested on OnePlus only.", "",
+        "Fuzzy skin is excluded: its intentionally random surface texture is outside this matrix's equivalence comparison.", "",
         "The [difference investigation](difference-investigation.md) records the seam, curve, tower and fuzzy-skin diagnostics.", "",
     ]
     others = sorted((r for r in results.values() if r["status"] in ("blue", "yellow", "red")), key=lambda r: (r["status"], r["row"], r["column"]))

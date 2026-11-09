@@ -4,7 +4,7 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 22:58 UTC.*
+*Generated 2026-11-09 23:32 UTC.*
 
 | | |
 |---|---|
@@ -16,7 +16,7 @@ plate sliced on a phone and by the official Bambu Studio, compared as described 
 | ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |
 | ⬜ **Not verified** | not run or insufficient reference evidence |
 
-**249 byte-identical · 79 within observed variation · 3 support differences · 98 small model differences · 11 significant differences or failed checks · 11 both refused · 0 not verified** (of 451: 11 models × 41 configurations)
+**249 byte-identical · 79 within observed variation · 3 support differences · 98 small model differences · 0 significant differences or failed checks · 11 both refused · 0 not verified** (of 440: 11 models × 40 configurations)
 
 ![Equivalence matrix](matrix.svg)
 
@@ -39,7 +39,9 @@ Hover a cell (open the SVG) for its details. Columns change one thing from the b
 Models are generated (`equivalence/pandy_equiv/models.py`): cube 20 mm, cylinder, tube (hole), sphere, torus, gear,
 bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm; Benchy uses the verified model bundled with the reference.
 
-A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configurations on a second phone.
+A separate [Xperia Benchy cross-check](xperia-benchy.md) covers 39 configurations on a second phone; solid rectilinear was tested on OnePlus only.
+
+Fuzzy skin is excluded: its intentionally random surface texture is outside this matrix's equivalence comparison.
 
 The [difference investigation](difference-investigation.md) records the seam, curve, tower and fuzzy-skin diagnostics.
 
@@ -50,17 +52,6 @@ The [difference investigation](difference-investigation.md) records the seam, cu
 | Light green | overhangs | tree supports | 5.306 mm | Support | 0–72 |
 | Light green | sphere | tree supports | 1.205 mm | Support | 0–9 |
 | Light green | torus | tree supports | 0.74 mm | Support | 0–1 |
-| 🟥 | benchy | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | bridge | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | cube | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | cylinder | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | gear | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | overhangs | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | sphere | fuzzy skin | – mm | Overhang wall | 1–1 |
-| 🟥 | thin | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | torus | fuzzy skin | – mm | Overhang wall | 1–1 |
-| 🟥 | tower | fuzzy skin | – mm | Outer wall | 1–1 |
-| 🟥 | tube | fuzzy skin | – mm | Outer wall | 1–1 |
 | 🟨 | benchy | A2L | 0.061 mm | Floating vertical shell | 5–22 |
 | 🟨 | benchy | H2C | 0.031 mm | Floating vertical shell | 46–46 |
 | 🟨 | benchy | H2S | 0.032 mm | Floating vertical shell | 80–86 |

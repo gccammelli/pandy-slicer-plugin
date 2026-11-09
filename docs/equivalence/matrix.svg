@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="758" height="306" font-family="Helvetica,Arial,sans-serif" font-size="10">
-<rect width="758" height="306" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="742" height="306" font-family="Helvetica,Arial,sans-serif" font-size="10">
+<rect width="742" height="306" fill="white"/>
 <text transform="translate(103.0,114) rotate(-90)" fill="#333">baseline</text>
 <text transform="translate(119.0,114) rotate(-90)" fill="#333">A1</text>
 <text transform="translate(135.0,114) rotate(-90)" fill="#333">A1 mini</text>
@@ -40,7 +40,6 @@
 <text transform="translate(695.0,114) rotate(-90)" fill="#333">outer brim</text>
 <text transform="translate(711.0,114) rotate(-90)" fill="#333">ironing</text>
 <text transform="translate(727.0,114) rotate(-90)" fill="#333">seam back</text>
-<text transform="translate(743.0,114) rotate(-90)" fill="#333">fuzzy skin</text>
 <text x="86" y="132" text-anchor="end" fill="#333">cube</text>
 <rect x="93" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="109" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
@@ -82,7 +81,6 @@
 <rect x="685" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="701" y="121" width="14" height="14" rx="2" fill="#F2C94C"><title>cube / ironing: yellow ({&quot;max_mm&quot;: 0.03, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [94, 94], &quot;extrusion_differences&quot;: 1})</title></rect>
 <rect x="717" y="121" width="14" height="14" rx="2" fill="#2FB344"><title>cube / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
-<rect x="733" y="121" width="14" height="14" rx="2" fill="#E5484D"><title>cube / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.037, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="148" text-anchor="end" fill="#333">cylinder</text>
 <rect x="93" y="137" width="14" height="14" rx="2" fill="#2FB344"><title>cylinder / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="109" y="137" width="14" height="14" rx="2" fill="#2FB344"><title>cylinder / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
@@ -124,7 +122,6 @@
 <rect x="685" y="137" width="14" height="14" rx="2" fill="#2FB344"><title>cylinder / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="701" y="137" width="14" height="14" rx="2" fill="#2FB344"><title>cylinder / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="717" y="137" width="14" height="14" rx="2" fill="#2FB344"><title>cylinder / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
-<rect x="733" y="137" width="14" height="14" rx="2" fill="#E5484D"><title>cylinder / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.069, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="164" text-anchor="end" fill="#333">tube</text>
 <rect x="93" y="153" width="14" height="14" rx="2" fill="#2FB344"><title>tube / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 3})</title></rect>
 <rect x="109" y="153" width="14" height="14" rx="2" fill="#F2C94C"><title>tube / A1: yellow ({&quot;max_mm&quot;: 0.032, &quot;differing&quot;: 5, &quot;features&quot;: [&quot;Inner wall&quot;], &quot;layers&quot;: [7, 58], &quot;extrusion_differences&quot;: 0, &quot;seam_differences&quot;: [{&quot;layer&quot;: 7, &quot;feature&quot;: &quot;Inner)</title></rect>
@@ -166,7 +163,6 @@
 <rect x="685" y="153" width="14" height="14" rx="2" fill="#2FB344"><title>tube / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 3})</title></rect>
 <rect x="701" y="153" width="14" height="14" rx="2" fill="#2FB344"><title>tube / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="717" y="153" width="14" height="14" rx="2" fill="#2FB344"><title>tube / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 3})</title></rect>
-<rect x="733" y="153" width="14" height="14" rx="2" fill="#E5484D"><title>tube / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.134, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="180" text-anchor="end" fill="#333">sphere</text>
 <rect x="93" y="169" width="14" height="14" rx="2" fill="#166534"><title>sphere / baseline: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
 <rect x="109" y="169" width="14" height="14" rx="2" fill="#166534"><title>sphere / A1: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
@@ -208,7 +204,6 @@
 <rect x="685" y="169" width="14" height="14" rx="2" fill="#166534"><title>sphere / outer brim: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
 <rect x="701" y="169" width="14" height="14" rx="2" fill="#166534"><title>sphere / ironing: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
 <rect x="717" y="169" width="14" height="14" rx="2" fill="#166534"><title>sphere / seam back: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
-<rect x="733" y="169" width="14" height="14" rx="2" fill="#E5484D"><title>sphere / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.119, &quot;features&quot;: [&quot;Overhang wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="196" text-anchor="end" fill="#333">torus</text>
 <rect x="93" y="185" width="14" height="14" rx="2" fill="#F2C94C"><title>torus / baseline: yellow ({&quot;max_mm&quot;: 0.018, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [10, 10], &quot;extrusion_differences&quot;: 0})</title></rect>
 <rect x="109" y="185" width="14" height="14" rx="2" fill="#F2C94C"><title>torus / A1: yellow ({&quot;max_mm&quot;: 0.018, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [10, 10], &quot;extrusion_differences&quot;: 0})</title></rect>
@@ -250,7 +245,6 @@
 <rect x="685" y="185" width="14" height="14" rx="2" fill="#F2C94C"><title>torus / outer brim: yellow ({&quot;max_mm&quot;: 0.018, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [10, 10], &quot;extrusion_differences&quot;: 0})</title></rect>
 <rect x="701" y="185" width="14" height="14" rx="2" fill="#F2C94C"><title>torus / ironing: yellow ({&quot;max_mm&quot;: 0.018, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [10, 10], &quot;extrusion_differences&quot;: 0})</title></rect>
 <rect x="717" y="185" width="14" height="14" rx="2" fill="#F2C94C"><title>torus / seam back: yellow ({&quot;max_mm&quot;: 0.031, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [42, 42], &quot;extrusion_differences&quot;: 0})</title></rect>
-<rect x="733" y="185" width="14" height="14" rx="2" fill="#E5484D"><title>torus / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.165, &quot;features&quot;: [&quot;Overhang wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="212" text-anchor="end" fill="#333">gear</text>
 <rect x="93" y="201" width="14" height="14" rx="2" fill="#2FB344"><title>gear / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="109" y="201" width="14" height="14" rx="2" fill="#F2C94C"><title>gear / A1: yellow ({&quot;max_mm&quot;: 0.03, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [34, 34], &quot;extrusion_differences&quot;: 1})</title></rect>
@@ -292,7 +286,6 @@
 <rect x="685" y="201" width="14" height="14" rx="2" fill="#F2C94C"><title>gear / outer brim: yellow ({&quot;max_mm&quot;: 0.03, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [34, 34], &quot;extrusion_differences&quot;: 1})</title></rect>
 <rect x="701" y="201" width="14" height="14" rx="2" fill="#2FB344"><title>gear / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="717" y="201" width="14" height="14" rx="2" fill="#2FB344"><title>gear / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
-<rect x="733" y="201" width="14" height="14" rx="2" fill="#E5484D"><title>gear / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.155, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="228" text-anchor="end" fill="#333">bridge</text>
 <rect x="93" y="217" width="14" height="14" rx="2" fill="#2FB344"><title>bridge / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="109" y="217" width="14" height="14" rx="2" fill="#2FB344"><title>bridge / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
@@ -334,7 +327,6 @@
 <rect x="685" y="217" width="14" height="14" rx="2" fill="#2FB344"><title>bridge / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="701" y="217" width="14" height="14" rx="2" fill="#2FB344"><title>bridge / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="717" y="217" width="14" height="14" rx="2" fill="#2FB344"><title>bridge / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
-<rect x="733" y="217" width="14" height="14" rx="2" fill="#E5484D"><title>bridge / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.084, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="244" text-anchor="end" fill="#333">overhangs</text>
 <rect x="93" y="233" width="14" height="14" rx="2" fill="#2FB344"><title>overhangs / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="109" y="233" width="14" height="14" rx="2" fill="#2FB344"><title>overhangs / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 4})</title></rect>
@@ -376,7 +368,6 @@
 <rect x="685" y="233" width="14" height="14" rx="2" fill="#2FB344"><title>overhangs / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 3})</title></rect>
 <rect x="701" y="233" width="14" height="14" rx="2" fill="#166534"><title>overhangs / ironing: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
 <rect x="717" y="233" width="14" height="14" rx="2" fill="#2FB344"><title>overhangs / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 4})</title></rect>
-<rect x="733" y="233" width="14" height="14" rx="2" fill="#E5484D"><title>overhangs / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.039104, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="260" text-anchor="end" fill="#333">thin</text>
 <rect x="93" y="249" width="14" height="14" rx="2" fill="#2FB344"><title>thin / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="109" y="249" width="14" height="14" rx="2" fill="#2FB344"><title>thin / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
@@ -418,7 +409,6 @@
 <rect x="685" y="249" width="14" height="14" rx="2" fill="#2FB344"><title>thin / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="701" y="249" width="14" height="14" rx="2" fill="#2FB344"><title>thin / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
 <rect x="717" y="249" width="14" height="14" rx="2" fill="#2FB344"><title>thin / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
-<rect x="733" y="249" width="14" height="14" rx="2" fill="#E5484D"><title>thin / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.036, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="276" text-anchor="end" fill="#333">tower</text>
 <rect x="93" y="265" width="14" height="14" rx="2" fill="#2FB344"><title>tower / baseline: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="109" y="265" width="14" height="14" rx="2" fill="#2FB344"><title>tower / A1: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
@@ -460,7 +450,6 @@
 <rect x="685" y="265" width="14" height="14" rx="2" fill="#2FB344"><title>tower / outer brim: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="701" y="265" width="14" height="14" rx="2" fill="#2FB344"><title>tower / ironing: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 2})</title></rect>
 <rect x="717" y="265" width="14" height="14" rx="2" fill="#2FB344"><title>tower / seam back: green ({&quot;byte_identical&quot;: true, &quot;official_variants&quot;: 1})</title></rect>
-<rect x="733" y="265" width="14" height="14" rx="2" fill="#E5484D"><title>tower / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.045, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 <text x="86" y="292" text-anchor="end" fill="#333">benchy</text>
 <rect x="93" y="281" width="14" height="14" rx="2" fill="#F2C94C"><title>benchy / baseline: yellow ({&quot;max_mm&quot;: 0.031, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [76, 76], &quot;extrusion_differences&quot;: 0})</title></rect>
 <rect x="109" y="281" width="14" height="14" rx="2" fill="#166534"><title>benchy / A1: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
@@ -502,5 +491,4 @@
 <rect x="685" y="281" width="14" height="14" rx="2" fill="#F2C94C"><title>benchy / outer brim: yellow ({&quot;max_mm&quot;: 0.061, &quot;differing&quot;: 1, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [22, 22], &quot;extrusion_differences&quot;: 1})</title></rect>
 <rect x="701" y="281" width="14" height="14" rx="2" fill="#166534"><title>benchy / ironing: dark green: within observed variation ({&quot;max_mm&quot;: 0, &quot;differing&quot;: 0, &quot;features&quot;: [], &quot;layers&quot;: [], &quot;extrusion_differences&quot;: 0, &quot;within_official_variation&quot;: true})</title></rect>
 <rect x="717" y="281" width="14" height="14" rx="2" fill="#F2C94C"><title>benchy / seam back: yellow ({&quot;max_mm&quot;: 0.032, &quot;differing&quot;: 9, &quot;features&quot;: [&quot;Floating vertical shell&quot;], &quot;layers&quot;: [49, 186], &quot;extrusion_differences&quot;: 1})</title></rect>
-<rect x="733" y="281" width="14" height="14" rx="2" fill="#E5484D"><title>benchy / fuzzy skin: red ({&quot;reason&quot;: &quot;Surface bounds differ by more than 0.02 mm&quot;, &quot;bounds_delta_mm&quot;: 0.099, &quot;features&quot;: [&quot;Outer wall&quot;], &quot;layers&quot;: [1, 1]})</title></rect>
 </svg>

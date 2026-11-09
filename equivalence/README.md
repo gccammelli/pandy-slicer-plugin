@@ -30,6 +30,9 @@ G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu
 
 ### Matrix tiers and limits
 
+Fuzzy skin is excluded from the matrix because its surface texture is intentionally random. Saved fuzzy-skin
+outputs and the optional texture diagnostic remain available; the general smoke suite still exercises this setting.
+
 Light green requires all model features and extrusion amounts to stay within observed official variation; support paths
 may differ. A candidate that drops all support present in a reference is not light green; light green does not certify that a
 different support arrangement will work. Yellow requires model changes to be limited to internal infill, floating vertical shell, or surface

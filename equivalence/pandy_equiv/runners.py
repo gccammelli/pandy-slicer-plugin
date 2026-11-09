@@ -108,6 +108,8 @@ class Engine(Runner):
         return {"runner": self.name, "package": str(self.package), **package_identity(self.package)}
 
     def run(self, inputs, args, out_dir, timeout=3600):
+        if self.arch == 'aarch64' and not Path('/usr/bin/qemu-aarch64-static').is_file():
+            raise RuntimeError('QEMU is unavailable at /usr/bin/qemu-aarch64-static; use a real device runner')
         work = _prepare(inputs, out_dir)
         t0 = time.time()
         exe = ["/pkg/bin/pandy-engine"]
@@ -257,6 +259,7 @@ def verify_resources(reference: Reference, candidate=None):
         raise RuntimeError("Reference image and extracted reference resources differ")
     if candidate is not None and not isinstance(candidate, Reference):
         actual = candidate.ident if isinstance(candidate, Device) else package_identity(candidate.package)
-        if any(actual.get(key) != value for key, value in packaged.items()):
+        allowed = [packaged] if isinstance(candidate, Device) else [packaged, expected]
+        if not any(all(actual.get(key) == value for key, value in identity.items()) for identity in allowed):
             raise RuntimeError("Candidate and official reference resources differ")
     return {"reference": expected, "packaged": packaged}

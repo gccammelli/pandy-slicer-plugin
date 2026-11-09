@@ -33,12 +33,29 @@ G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu
 Light green requires all model features and extrusion amounts to stay within observed official variation; support paths
 may differ. A candidate that drops all support present in a reference is not light green; light green does not certify that a
 different support arrangement will work. Yellow requires model changes to be limited to internal infill, floating vertical shell, or surface
-paths: sampled distances are at most 0.4 mm for internal paths or 0.02 mm for surfaces; per-layer surface bounds
+paths: continuous-path distances are at most 0.4 mm for internal paths or 0.02 mm for surfaces; per-layer surface bounds
 may differ by at most 0.02 mm; and material for each changed feature must be present on both sides and differ by no
 more than 5% or the observed official variation (with a 0.002 mm filament noise allowance). Unrecognized features,
 larger changes, missing material, differing layer counts or Z positions beyond 0.001 mm, and incompatible settings are red. These are conservative screening limits, not
-proof of visual or mechanical equivalence. Sampling itself can cause small measured differences. Matching refusals
+proof of visual or mechanical equivalence. Numerical comparison bounds still apply. Matching refusals
 have a separate dark-grey status; missing evidence is light grey.
+Gap infill uses the strict surface limits, since it can form narrow visible features; it does not receive the
+larger internal-infill allowance. Micron-scale gap-infill arc differences with matching material are therefore
+eligible for a small-difference tier, while missing or displaced thin features still fail.
+
+The matrix now compares continuous line and arc geometry (`pandy_equiv/toolpaths.py`), rather than nearest sample
+points 0.1 mm apart. Point-to-path distances are analytic; adaptive source intervals use a Lipschitz upper bound
+to bound the maximum-distance error to 0.0005 mm. Collinear and co-circular interval coverage detects identical
+paths regardless of segmentation or direction. Arc coordinates are interpreted as nominal I/J circles plus the
+specified rounded endpoint. Unsupported arc modes fail closed as unverified. `geometry.py` remains a sampled
+exploratory report, not the matrix's verdict implementation.
+The observed-variation tier retains a 0.01 mm comparison allowance above the measured official envelope;
+the independent absolute contour, dimension and material limits still apply.
+
+Relocated seam gaps can be yellow when both outputs have the same number of matching configured gaps (within
+0.002 mm), closing only those gaps produces contours within 0.02 mm, completed contour bounds agree within
+0.002 mm, and wall extrusion differs by at most 0.5% (with a 0.00002 mm filament noise allowance). These diagnostic
+closures never modify G-code. A changed hole size or an unexpectedly large gap is not accepted as a seam change.
 
 Every successful candidate also receives bounded safety checks based on the plugin's checks. The matrix requires
 homing before an explicit levelling command and a first-layer marker, and checks nozzle, bed and chamber temperature
@@ -115,3 +132,8 @@ python3 run.py check --suite sweep --candidate device:SERIAL --package ../build/
 
 Reports land in `build/equiv/<run>/report.md` (one row per case: status, G-code SHA-256 of both sides, timings) with
 `results.jsonl` holding every detail, including the first differing line of any failure.
+
+The matrix includes a successful 100% infill column using Bambu's `zig-zag` (rectilinear) pattern, alongside the
+original invalid 100%-grid rejection column. Use `matrix.py run --device SERIAL --columns 'solid rectilinear'`
+to run a selected column. `matrix.py reclassify` verifies input identity, engine/resources/reference identity,
+and effective settings before recomputing cached outcomes with the current comparator; it does not slice again.

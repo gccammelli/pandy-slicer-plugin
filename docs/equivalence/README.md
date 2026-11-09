@@ -4,19 +4,19 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 21:57 UTC.*
+*Generated 2026-11-09 22:58 UTC.*
 
 | | |
 |---|---|
 | 🟩 **Byte-identical** | the phone's G-code is byte-identical to an observed official output |
-| **Dark green — Within observed variation** | bytes differ; sampled geometry is within the observed official variation |
+| **Dark green — Within observed variation** | bytes differ; continuous paths are within the observed official variation |
 | **Light green — Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |
 | 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |
 | 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |
 | ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |
 | ⬜ **Not verified** | not run or insufficient reference evidence |
 
-**240 byte-identical · 70 within observed variation · 3 support differences · 91 small model differences · 25 significant differences or failed checks · 11 both refused · 0 not verified** (of 440: 11 models × 40 configurations)
+**249 byte-identical · 79 within observed variation · 3 support differences · 98 small model differences · 11 significant differences or failed checks · 11 both refused · 0 not verified** (of 451: 11 models × 41 configurations)
 
 ![Equivalence matrix](matrix.svg)
 
@@ -41,133 +41,128 @@ bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 
 
 A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configurations on a second phone.
 
+The [difference investigation](difference-investigation.md) records the seam, curve, tower and fuzzy-skin diagnostics.
+
 ## Cells that are not green
 
 | | Model | Configuration | Largest difference | Features | Layers |
 |---|---|---|---|---|---|
-| Light green | overhangs | tree supports | 5.305 mm | Support | 0–72 |
+| Light green | overhangs | tree supports | 5.306 mm | Support | 0–72 |
 | Light green | sphere | tree supports | 1.205 mm | Support | 0–9 |
-| Light green | torus | tree supports | 0.734 mm | Support | 0–1 |
-| 🟥 | benchy | fuzzy skin | inf mm | Floating vertical shell, Gap infill, Inner wall, Outer wall, Overhang wall | 1–239 |
-| 🟥 | bridge | fuzzy skin | 0.591 mm | Inner wall, Outer wall, Overhang wall | 1–119 |
-| 🟥 | cube | fuzzy skin | 0.598 mm | Inner wall, Outer wall | 1–99 |
-| 🟥 | cylinder | fuzzy skin | 0.591 mm | Inner wall, Internal solid infill, Outer wall | 0–124 |
-| 🟥 | gear | fuzzy skin | 0.617 mm | Floating vertical shell, Inner wall, Outer wall | 0–39 |
-| 🟥 | overhangs | fuzzy skin | 18.311 mm | Inner wall, Outer wall, Overhang wall | 1–74 |
-| 🟥 | sphere | fuzzy skin | inf mm | Floating vertical shell, Inner wall, Outer wall, Overhang wall | 1–139 |
-| 🟥 | thin | fuzzy skin | 0.686 mm | Inner wall, Outer wall | 1–59 |
-| 🟥 | torus | A2L | 0.035 mm | Outer wall | 9–40 |
-| 🟥 | torus | P2S | 0.055 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟥 | torus | X2D | 0.055 mm | Outer wall | 10–10 |
-| 🟥 | torus | fuzzy skin | 24.028 mm | Inner wall, Outer wall, Overhang wall | 1–49 |
-| 🟥 | torus | layer 0.08 mm | 0.043 mm | Inner wall, Outer wall | 2–99 |
-| 🟥 | torus | layer 0.16 mm | 0.053 mm | Outer wall | 14–14 |
-| 🟥 | torus | layer 0.28 mm | 0.095 mm | Floating vertical shell, Outer wall | 11–32 |
-| 🟥 | torus | normal supports | 0.052 mm | Outer wall | 44–44 |
-| 🟥 | tower | fuzzy skin | 0.618 mm | Inner wall, Outer wall | 0–399 |
-| 🟥 | tower | layer 0.08 mm | 0.072 mm | Floating vertical shell | 988–988 |
-| 🟥 | tube | A1 | 0.053 mm | Inner wall | 7–58 |
-| 🟥 | tube | fuzzy skin | 0.58 mm | Floating vertical shell, Inner wall, Outer wall | 1–89 |
-| 🟥 | tube | layer 0.12 mm | 0.052 mm | Inner wall | 64–64 |
-| 🟥 | tube | layer 0.24 mm | 0.054 mm | Inner wall, Outer wall | 24–24 |
-| 🟥 | tube | layer 0.28 mm | 0.053 mm | Inner wall | 54–57 |
-| 🟥 | tube | nozzle 0.2 mm | 0.053 mm | Floating vertical shell, Inner wall | 2–171 |
-| 🟥 | tube | nozzle 0.8 mm | 0.048 mm | Inner wall | 10–23 |
-| 🟨 | benchy | A1 | 0.03 mm | Floating vertical shell | 40–40 |
-| 🟨 | benchy | A1 mini | 0.055 mm | Floating vertical shell | 19–87 |
-| 🟨 | benchy | A2L | 0.064 mm | Floating vertical shell | 5–23 |
-| 🟨 | benchy | H2C | 0.088 mm | Floating vertical shell | 46–46 |
-| 🟨 | benchy | H2D | 0.03 mm | Floating vertical shell | 40–40 |
-| 🟨 | benchy | H2S | 0.067 mm | Floating vertical shell | 80–86 |
-| 🟨 | benchy | P1P | 0.074 mm | Floating vertical shell | 6–85 |
-| 🟨 | benchy | P1S | 0.085 mm | Floating vertical shell | 43–186 |
-| 🟨 | benchy | P2S | 0.066 mm | Floating vertical shell | 49–49 |
-| 🟨 | benchy | X2D | 0.093 mm | Floating vertical shell | 19–44 |
-| 🟨 | benchy | baseline | 0.067 mm | Floating vertical shell | 40–76 |
-| 🟨 | benchy | classic walls | 0.075 mm | Floating vertical shell | 49–85 |
-| 🟨 | benchy | layer 0.08 mm | 0.094 mm | Floating vertical shell | 47–473 |
-| 🟨 | benchy | layer 0.12 mm | 0.073 mm | Floating vertical shell | 59–126 |
-| 🟨 | benchy | layer 0.16 mm | 0.093 mm | Floating vertical shell | 85–107 |
-| 🟨 | benchy | no brim | 0.067 mm | Floating vertical shell | 22–22 |
-| 🟨 | benchy | nozzle 0.2 mm | 0.088 mm | Floating vertical shell | 84–354 |
-| 🟨 | benchy | nozzle 0.6 mm | 0.078 mm | Floating vertical shell | 48–65 |
+| Light green | torus | tree supports | 0.74 mm | Support | 0–1 |
+| 🟥 | benchy | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | bridge | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | cube | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | cylinder | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | gear | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | overhangs | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | sphere | fuzzy skin | – mm | Overhang wall | 1–1 |
+| 🟥 | thin | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | torus | fuzzy skin | – mm | Overhang wall | 1–1 |
+| 🟥 | tower | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟥 | tube | fuzzy skin | – mm | Outer wall | 1–1 |
+| 🟨 | benchy | A2L | 0.061 mm | Floating vertical shell | 5–22 |
+| 🟨 | benchy | H2C | 0.031 mm | Floating vertical shell | 46–46 |
+| 🟨 | benchy | H2S | 0.032 mm | Floating vertical shell | 80–86 |
+| 🟨 | benchy | P1P | 0.032 mm | Floating vertical shell | 6–85 |
+| 🟨 | benchy | P1S | 0.031 mm | Floating vertical shell | 43–77 |
+| 🟨 | benchy | P2S | 0.03 mm | Floating vertical shell | 49–49 |
+| 🟨 | benchy | baseline | 0.031 mm | Floating vertical shell | 76–76 |
+| 🟨 | benchy | classic walls | 0.032 mm | Floating vertical shell | 49–85 |
+| 🟨 | benchy | layer 0.08 mm | 0.032 mm | Floating vertical shell | 47–473 |
+| 🟨 | benchy | layer 0.12 mm | 0.061 mm | Floating vertical shell | 59–126 |
+| 🟨 | benchy | layer 0.16 mm | 0.032 mm | Floating vertical shell | 86–107 |
+| 🟨 | benchy | no brim | 0.061 mm | Floating vertical shell | 22–22 |
+| 🟨 | benchy | nozzle 0.2 mm | 0.016 mm | Floating vertical shell | 84–84 |
+| 🟨 | benchy | nozzle 0.6 mm | 0.045 mm | Floating vertical shell | 48–65 |
 | 🟨 | benchy | nozzle 0.8 mm | 0 mm | Floating vertical shell | 34–34 |
-| 🟨 | benchy | outer brim | 0.072 mm | Floating vertical shell | 22–186 |
-| 🟨 | benchy | pattern adaptivecubic | 0.093 mm | Floating vertical shell | 44–44 |
-| 🟨 | benchy | pattern grid | 0.075 mm | Floating vertical shell | 68–68 |
-| 🟨 | benchy | pattern gyroid | 0.088 mm | Floating vertical shell | 46–88 |
-| 🟨 | benchy | pattern honeycomb | 0.099 mm | Floating vertical shell | 46–99 |
-| 🟨 | benchy | pattern lightning | 0.072 mm | Floating vertical shell | 22–186 |
-| 🟨 | benchy | seam back | 0.093 mm | Floating vertical shell | 40–186 |
-| 🟨 | benchy | tree supports | 0.03 mm | Floating vertical shell | 40–43 |
-| 🟨 | benchy | walls 1 | 0.095 mm | Floating vertical shell | 26–235 |
-| 🟨 | cube | ironing | 0.06 mm | Floating vertical shell | 94–94 |
-| 🟨 | cube | layer 0.24 mm | 0.06 mm | Floating vertical shell | 78–78 |
-| 🟨 | cube | normal supports | 0.06 mm | Floating vertical shell | 94–94 |
-| 🟨 | cube | pattern grid | 0.06 mm | Floating vertical shell | 94–94 |
-| 🟨 | cylinder | layer 0.08 mm | 0.053 mm | Floating vertical shell | 300–300 |
-| 🟨 | gear | A1 | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | A1 mini | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | A2L | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | H2C | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | H2D Pro | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | X1 | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | X1E | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | classic walls | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | infill 0% | 0.06 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | layer 0.12 mm | 0.051 mm | Floating vertical shell | 60–60 |
-| 🟨 | gear | layer 0.24 mm | 0.051 mm | Floating vertical shell | 27–27 |
-| 🟨 | gear | no brim | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | normal supports | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | outer brim | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | pattern grid | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | pattern lightning | 0.06 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | tree supports | 0.051 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | walls 1 | 0.043 mm | Floating vertical shell | 34–34 |
-| 🟨 | gear | walls 4 | 0.095 mm | Floating vertical shell | 34–34 |
-| 🟨 | overhangs | H2C | 0.06 mm | Floating vertical shell | 4–70 |
-| 🟨 | overhangs | P2S | 0.06 mm | Floating vertical shell | 4–70 |
-| 🟨 | overhangs | X2D | 0.06 mm | Floating vertical shell | 4–70 |
-| 🟨 | overhangs | classic walls | 0.06 mm | Floating vertical shell | 4–70 |
-| 🟨 | overhangs | infill 0% | 0.096 mm | Floating vertical shell | 69–69 |
-| 🟨 | overhangs | layer 0.16 mm | 0.053 mm | Floating vertical shell | 5–86 |
-| 🟨 | overhangs | layer 0.28 mm | 0.083 mm | Floating vertical shell | 49–49 |
-| 🟨 | overhangs | pattern lightning | 0.096 mm | Floating vertical shell | 69–69 |
-| 🟨 | sphere | pattern honeycomb | 0.042 mm | Floating vertical shell | 119–119 |
+| 🟨 | benchy | outer brim | 0.061 mm | Floating vertical shell | 22–22 |
+| 🟨 | benchy | pattern grid | 0.061 mm | Floating vertical shell | 68–68 |
+| 🟨 | benchy | pattern gyroid | 0.032 mm | Floating vertical shell | 46–88 |
+| 🟨 | benchy | pattern honeycomb | 0.031 mm | Floating vertical shell | 46–99 |
+| 🟨 | benchy | pattern lightning | 0.061 mm | Floating vertical shell | 22–68 |
+| 🟨 | benchy | seam back | 0.032 mm | Floating vertical shell | 49–186 |
+| 🟨 | benchy | solid rectilinear | 0 mm | Floating vertical shell | 69–69 |
+| 🟨 | benchy | tree supports | 0 mm | Floating vertical shell | 43–43 |
+| 🟨 | benchy | walls 1 | 0.031 mm | Floating vertical shell | 26–235 |
+| 🟨 | cube | ironing | 0.03 mm | Floating vertical shell | 94–94 |
+| 🟨 | cube | layer 0.24 mm | 0.03 mm | Floating vertical shell | 78–78 |
+| 🟨 | cube | normal supports | 0.03 mm | Floating vertical shell | 94–94 |
+| 🟨 | cube | pattern grid | 0.03 mm | Floating vertical shell | 94–94 |
+| 🟨 | cylinder | layer 0.08 mm | 0.031 mm | Floating vertical shell | 300–300 |
+| 🟨 | gear | A1 | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | A1 mini | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | A2L | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | H2C | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | H2D Pro | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | X1 | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | X1E | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | classic walls | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | infill 0% | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | layer 0.12 mm | 0.031 mm | Floating vertical shell | 60–60 |
+| 🟨 | gear | layer 0.24 mm | 0.031 mm | Floating vertical shell | 27–27 |
+| 🟨 | gear | no brim | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | normal supports | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | outer brim | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | pattern grid | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | pattern lightning | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | tree supports | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | walls 1 | 0.03 mm | Floating vertical shell | 34–34 |
+| 🟨 | gear | walls 4 | 0.032 mm | Floating vertical shell | 34–34 |
+| 🟨 | overhangs | H2C | 0.03 mm | Floating vertical shell | 4–70 |
+| 🟨 | overhangs | P2S | 0.03 mm | Floating vertical shell | 4–70 |
+| 🟨 | overhangs | X2D | 0.03 mm | Floating vertical shell | 4–70 |
+| 🟨 | overhangs | classic walls | 0.03 mm | Floating vertical shell | 4–70 |
+| 🟨 | overhangs | layer 0.16 mm | 0.03 mm | Floating vertical shell | 5–86 |
+| 🟨 | sphere | pattern honeycomb | 0.03 mm | Floating vertical shell | 119–119 |
 | 🟨 | torus | A1 | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | A1 mini | 0.017 mm | Outer wall | 10–10 |
+| 🟨 | torus | A2L | 0.031 mm | Outer wall | 9–40 |
 | 🟨 | torus | H2C | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | H2D | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | H2D | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟨 | torus | H2D Pro | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | H2S | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | P1P | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | P1S | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | X1 | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | X1E | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | P1P | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | P1S | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | P2S | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | X1 | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | X1E | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | X2D | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | baseline | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | classic walls | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | infill 0% | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | infill 40% | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | ironing | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | no brim | 0.054 mm | Floating vertical shell, Outer wall | 10–44 |
+| 🟨 | torus | layer 0.08 mm | 0.031 mm | Inner wall, Outer wall | 2–99 |
+| 🟨 | torus | layer 0.16 mm | 0.026 mm | Outer wall | 14–14 |
+| 🟨 | torus | layer 0.28 mm | 0.03 mm | Outer wall | 15–15 |
+| 🟨 | torus | no brim | 0.031 mm | Floating vertical shell, Outer wall | 10–44 |
+| 🟨 | torus | normal supports | 0.026 mm | Outer wall | 44–44 |
 | 🟨 | torus | outer brim | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | pattern adaptivecubic | 0.052 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | pattern adaptivecubic | 0.026 mm | Floating vertical shell, Outer wall | 10–42 |
 | 🟨 | torus | pattern grid | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | pattern gyroid | 0.05 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | pattern honeycomb | 0.051 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | pattern lightning | 0.052 mm | Floating vertical shell, Outer wall | 10–42 |
-| 🟨 | torus | seam back | 0.051 mm | Floating vertical shell | 42–42 |
+| 🟨 | torus | pattern gyroid | 0.03 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | pattern honeycomb | 0.031 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | pattern lightning | 0.026 mm | Floating vertical shell, Outer wall | 10–42 |
+| 🟨 | torus | seam back | 0.031 mm | Floating vertical shell | 42–42 |
+| 🟨 | torus | solid rectilinear | 0.018 mm | Outer wall | 10–10 |
 | 🟨 | torus | walls 1 | 0.018 mm | Outer wall | 10–10 |
-| 🟨 | torus | walls 4 | 0.054 mm | Floating vertical shell, Outer wall | 10–43 |
-| 🟨 | tower | A2L | 0.06 mm | Floating vertical shell | 394–394 |
-| 🟨 | tower | H2S | 0.06 mm | Floating vertical shell | 394–394 |
-| 🟨 | tower | layer 0.28 mm | 0.06 mm | Floating vertical shell | 281–281 |
-| 🟨 | tower | nozzle 0.8 mm | 0.056 mm | Floating vertical shell | 197–197 |
-| 🟨 | tower | pattern honeycomb | 0.041 mm | Floating vertical shell | 394–394 |
+| 🟨 | torus | walls 4 | 0.031 mm | Floating vertical shell, Outer wall | 10–43 |
+| 🟨 | tower | A2L | 0.03 mm | Floating vertical shell | 394–394 |
+| 🟨 | tower | H2S | 0.03 mm | Floating vertical shell | 394–394 |
+| 🟨 | tower | layer 0.28 mm | 0.031 mm | Floating vertical shell | 281–281 |
+| 🟨 | tower | nozzle 0.8 mm | 0.06 mm | Floating vertical shell | 197–197 |
+| 🟨 | tower | pattern honeycomb | 0.03 mm | Floating vertical shell | 394–394 |
+| 🟨 | tube | A1 | 0.032 mm | Inner wall | 7–58 |
+| 🟨 | tube | layer 0.12 mm | 0.03 mm | Inner wall | 64–64 |
+| 🟨 | tube | layer 0.24 mm | 0.03 mm | Inner wall | 24–24 |
+| 🟨 | tube | layer 0.28 mm | 0.03 mm | Inner wall | 54–57 |
+| 🟨 | tube | nozzle 0.2 mm | 0.016 mm | Inner wall | 2–144 |
+| 🟨 | tube | nozzle 0.8 mm | 0.06 mm | Inner wall | 10–23 |
 
 ## Interpretation
 
 Geometric similarity is not byte equality. Unrun cells and results from older input formats or different engine, profile, or reference image identities are not counted.
 A matching refusal is recorded separately from a successful slice. A successful slice must also pass effective-settings checks.
-Reported distances compare sampled per-layer extrusion paths; they are not measurements of printed-part dimensional error.
+Reported distances compare continuous per-layer extrusion paths with a 0.0005 mm numerical error bound; they are not measurements of printed-part dimensional error.
 The safety check covers the start sequence and heater limits; it does not prove the absence of collisions or other hazards.

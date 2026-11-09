@@ -12,7 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import matrix
 import geometry
-from pandy_equiv import cases, models, profiles, safety, verify_settings
+from pandy_equiv import cases, models, profiles, runners, safety, verify_settings
 
 
 class FakePresets:
@@ -96,7 +96,7 @@ class EquivalenceTests(unittest.TestCase):
     def test_geometry_similarity_is_not_called_byte_identical(self):
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp); ref = p / 'ref'; ref2 = p / 'ref2'; candidate = p / 'phone'; ref.mkdir(); ref2.mkdir(); candidate.mkdir()
-            for d, text in ((ref, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n'), (ref2, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n'), (candidate, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n; different\n')):
+            for d, text in ((ref, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n'), (ref2, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n; official variant\n'), (candidate, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n; different\n')):
                 (d / 'run.json').write_text(json.dumps({'sliced': True, 'cli_return_code': 0, 'profile_errors': []}))
                 with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as z:
                     z.writestr('Metadata/plate_1.gcode', text)
@@ -140,6 +140,8 @@ class EquivalenceTests(unittest.TestCase):
         self.assertEqual('blue', matrix.geometry_grade({(1, 'Support'): 4.}, paths('Outer wall'), paths('Outer wall'), {}))
         self.assertEqual('yellow', matrix.geometry_grade({(1, 'Sparse infill'): .2}, paths('Sparse infill'), paths('Sparse infill'), {}))
         self.assertEqual('yellow', matrix.geometry_grade({(1, 'Outer wall'): .015}, paths('Outer wall'), paths('Outer wall'), {}))
+        self.assertEqual('yellow', matrix.geometry_grade({(1, 'Gap infill'): .0015}, paths('Gap infill'), paths('Gap infill'), {}))
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Gap infill'): .03}, paths('Gap infill'), paths('Gap infill'), {}))
         self.assertEqual('red', matrix.geometry_grade({(1, 'Inner wall'): .05}, paths('Inner wall'), paths('Inner wall'), {}))
         self.assertEqual('red', matrix.geometry_grade({(1, 'Support'): math.inf}, paths('Outer wall'), paths('Support'), {}))
         bigger = points * 1.1
@@ -182,6 +184,18 @@ class EquivalenceTests(unittest.TestCase):
                     output.writestr('Metadata/project_settings.config', '{}')
             self.assertEqual('red', matrix.classify([ref, ref], candidate)[0])
 
+    def test_identical_paths_with_wrong_material_are_not_equivalent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            ref, candidate = Path(tmp) / 'ref', Path(tmp) / 'candidate'; ref.mkdir(); candidate.mkdir()
+            for d, e in ((ref, 1), (candidate, 2)):
+                (d / 'run.json').write_text(json.dumps({'sliced': True, 'cli_return_code': 0, 'profile_errors': []}))
+                with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as z:
+                    z.writestr('Metadata/plate_1.gcode', f'G28\nG29\nM83\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n; FEATURE: Outer wall\nG1 X1 E{e}\n')
+                    z.writestr('Metadata/project_settings.config', '{}')
+            status, detail = matrix.classify([ref, ref], candidate)
+            self.assertEqual('red', status)
+            self.assertIn('Outer wall', detail['features'])
+
     def test_stale_matrix_results_are_not_current(self):
         item = ('cube', 'baseline', {}); ident = {'engine_sha256': 'e', 'resources_sha256': 'r'}
         valid = {'input_format': cases.INPUT_FORMAT, 'classification_version': matrix.CLASSIFICATION_VERSION,
@@ -189,8 +203,69 @@ class EquivalenceTests(unittest.TestCase):
                  'phone_model': 'test phone', 'phone_abi': 'arm64', 'phone_sdk': '28', 'phone_cpu': 0}
         with patch.object(matrix, 'cell_case', return_value={'id': 'new'}):
             self.assertTrue(matrix.current_result(valid, item, ident, 'image'))
+            self.assertTrue(matrix.current_inputs(valid | {'classification_version': -1, 'validation_sha256': 'old'}, item, ident, 'image'))
             for changed in ({'input_format': 2}, {'validation_sha256': 'old'}, {'case': 'old'}, {'engine': 'old'}, {'resources': 'old'}, {'reference_image': 'old'}):
                 self.assertFalse(matrix.current_result(valid | changed, item, ident, 'image'))
+
+    def test_solid_column_uses_a_valid_100_percent_pattern(self):
+        kw = next(kw for label, _, kw in matrix.columns() if label == 'solid rectilinear')
+        self.assertEqual('100%', kw['overrides']['sparse_infill_density'])
+        pattern = kw['overrides']['sparse_infill_pattern']
+        self.assertIn(pattern, cases.SCHEMA['sparse_infill_pattern']['enum'])
+        self.assertIn(pattern, cases.SCHEMA['top_surface_pattern']['enum'])
+
+    def test_seam_changes_require_matching_completed_contours_and_dimensions(self):
+        from pandy_equiv.toolpaths import Primitive, PathGeometry
+        def ring(radius, shift=0, gap=.06):
+            start = shift + gap / (2 * radius)
+            sweep = math.tau - gap / radius
+            xy = lambda t: (radius * math.cos(t), radius * math.sin(t))
+            return {0: {'Outer wall': (PathGeometry([Primitive(xy(start), xy(start+sweep), (0., 0.), sweep)]), 1.)}}
+        a, b = ring(6.), ring(6., .1)
+        changes = {(0, 'Outer wall'): .03}
+        self.assertTrue(matrix.seam_differences(changes, a, b, .06))
+        self.assertFalse(matrix.seam_differences(changes, a, ring(6.02, .1), .06))
+        self.assertFalse(matrix.seam_differences(changes, a, ring(6., .1, gap=.1), .06))
+
+    def test_missing_qemu_fails_before_preparing_or_mounting_inputs(self):
+        runner = runners.Engine(Path('/missing/package'), 'aarch64')
+        with patch('pathlib.Path.is_file', return_value=False), patch.object(runners, '_prepare') as prepare:
+            with self.assertRaisesRegex(RuntimeError, 'QEMU is unavailable'):
+                runner.run(Path('/input'), [], Path('/output'))
+            prepare.assert_not_called()
+
+    def test_desktop_full_resources_are_verified_without_accepting_changed_files(self):
+        from types import SimpleNamespace
+        full = {'resources_sha256': 'full', 'resources_files': 2}
+        runner = runners.Engine(Path('/package'), 'x86_64')
+        with patch.object(runners.subprocess, 'run', return_value=SimpleNamespace(stdout='full 2 subset 1')), \
+             patch.object(runners, 'resources_identity', return_value=full), \
+             patch.object(runners, 'package_identity', return_value=full) as identity:
+            self.assertEqual(full, runners.verify_resources(runners.Reference(), runner)['reference'])
+            identity.return_value = {'resources_sha256': 'changed', 'resources_files': 2}
+            with self.assertRaisesRegex(RuntimeError, 'resources differ'):
+                runners.verify_resources(runners.Reference(), runner)
+
+    def test_cached_reclassification_revalidates_effective_settings_and_input_identity(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(cases, 'preset_library', return_value=FakePresets()):
+            c = example(); c['id'] = cases.case_id(c)
+            root = Path(tmp); base = root / 'cells' / c['id']; inputs = base / 'inputs'
+            cases.materialise(c, inputs)
+            for d in (base / 'ref-reference-0', base / 'phone'):
+                d.mkdir()
+                (d / 'run.json').write_text(json.dumps({'sliced': True, 'returncode': 0, 'cli_return_code': 0, 'profile_errors': []}))
+                (d / 'result.json').write_text('{"return_code":0}')
+                with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as z:
+                    z.writestr('Metadata/plate_1.gcode', 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n')
+                    z.writestr('Metadata/project_settings.config', '{}')
+            record = {'case': c['id'], 'reference_runs': 1}
+            _, result = matrix._reclassify_saved_cell(('example', record, 'reference', str(root)))
+            self.assertEqual('red', result['status'])
+            self.assertTrue(result['detail']['invalid_effective_settings'])
+            bad = c | {'process_overrides': {'wall_loops': '4'}}
+            (inputs / 'case.json').write_text(json.dumps(bad))
+            with self.assertRaisesRegex(ValueError, 'cached input identity'):
+                matrix._reclassify_saved_cell(('example', record, 'reference', str(root)))
 
     def test_profile_cycles_and_missing_ancestors_are_rejected(self):
         lib = profiles.Presets.__new__(profiles.Presets)

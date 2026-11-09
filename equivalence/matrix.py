@@ -2,12 +2,12 @@
 """The equivalence matrix: reference models (rows) x printers and settings (columns), each cell sliced on a phone and
 by the official Bambu Studio, classified and drawn as a colour grid in docs/equivalence/.
 
-  green        G-code is byte-identical to an official run
+  green        G-code is byte-identical to an official run, or both engines refuse identically
   dark green   bytes differ, but continuous paths are within observed official variation
   light green  only supports differ; model paths and extrusion stay within observed variation
   yellow  small bounded model-path differences, with consistent material and outline
   red     significant model differences or a failed bounded safety check
-  grey    matching refusals, not verified, or insufficient reference variation data
+  grey    not verified or insufficient reference variation data
 
 Each column changes one thing from the baseline (X1 Carbon 0.4 nozzle, 0.20mm Standard, Bambu PLA Basic), so the
 grid stays sparse but covers every printer, nozzle sizes, layer heights, infill, walls, supports and surface options.
@@ -440,7 +440,7 @@ def recheck(args):
         (OUT / "results.json").write_text(json.dumps(results, indent=1, default=str))
 
 
-COLOURS = {"green": "#2FB344", "variant": "#166534", "blue": "#A5D6A7", "refused": "#75828E", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
+COLOURS = {"green": "#2FB344", "variant": "#166534", "blue": "#A5D6A7", "refused": "#2FB344", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
 
 
 def validation_hash():
@@ -560,7 +560,7 @@ def report(_):
         f"| **Light green — Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |",
         f"| 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |",
         f"| 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |",
-        f"| ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |",
+        f"| 🟩 **Matching refusal** | both returned the same nonzero CLI error without slicing; expected rejection passes |",
         f"| ⬜ **Not verified** | not run or insufficient reference evidence |", "",
         f"**{counts['green']} byte-identical · {counts['variant']} within observed variation · {counts['blue']} support differences · {counts['yellow']} small model differences · {counts['red']} significant differences or failed checks · {counts['refused']} both refused · {counts['grey']} not verified** "
         f"(of {total}: {len(ROWS)} models × {len(cols)} configurations)", "",

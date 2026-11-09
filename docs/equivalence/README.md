@@ -4,7 +4,7 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 23:32 UTC.*
+*Generated 2026-11-09 23:34 UTC.*
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@ plate sliced on a phone and by the official Bambu Studio, compared as described 
 | **Light green — Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |
 | 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |
 | 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |
-| ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |
+| 🟩 **Matching refusal** | both returned the same nonzero CLI error without slicing; expected rejection passes |
 | ⬜ **Not verified** | not run or insufficient reference evidence |
 
 **249 byte-identical · 79 within observed variation · 3 support differences · 98 small model differences · 0 significant differences or failed checks · 11 both refused · 0 not verified** (of 440: 11 models × 40 configurations)

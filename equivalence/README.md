@@ -24,7 +24,7 @@ G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu
   Successful outputs must also confirm their effective printer, process, filament and requested override settings.
   The matrix distinguishes exact byte matches (green), geometry within observed reference variation (dark green),
   support-only differences (light green), small bounded model changes (yellow), significant differences or failed checks
-  (red), and matching refusals or unverified cases (grey). Geometric similarity is not byte equality.
+  (red), matching refusals (green), and unverified cases (grey). Geometric similarity is not byte equality.
   The checks deliberately fail a successful slice when a requested override was silently changed or clamped, even if
   both engines make the same change; that outcome does not prove the requested settings were applied.
 
@@ -41,7 +41,8 @@ may differ by at most 0.02 mm; and material for each changed feature must be pre
 more than 5% or the observed official variation (with a 0.002 mm filament noise allowance). Unrecognized features,
 larger changes, missing material, differing layer counts or Z positions beyond 0.001 mm, and incompatible settings are red. These are conservative screening limits, not
 proof of visual or mechanical equivalence. Numerical comparison bounds still apply. Matching refusals
-have a separate dark-grey status; missing evidence is light grey.
+are green because both engines rejected the settings with the same error code; their details distinguish them
+from byte-identical sliced outputs. Missing evidence is light grey.
 Gap infill uses the strict surface limits, since it can form narrow visible features; it does not receive the
 larger internal-infill allowance. Micron-scale gap-infill arc differences with matching material are therefore
 eligible for a small-difference tier, while missing or displaced thin features still fail.

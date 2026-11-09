@@ -361,6 +361,7 @@ def report(_):
         "| Runs | Each recorded cell has one phone run and the number of official runs recorded in its result; all are pinned to one CPU. |", "",
         "Models are generated (`equivalence/pandy_equiv/models.py`): cube 20 mm, cylinder, tube (hole), sphere, torus, gear,",
         "bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm; Benchy uses the verified model bundled with the reference.", "",
+        "A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configurations on a second phone.", "",
     ]
     others = sorted((r for r in results.values() if r["status"] in ("yellow", "red")), key=lambda r: (r["status"], r["row"], r["column"]))
     if others:

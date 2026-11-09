@@ -12,7 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import matrix
 import geometry
-from pandy_equiv import cases, models, profiles, verify_settings
+from pandy_equiv import cases, models, profiles, safety, verify_settings
 
 
 class FakePresets:
@@ -96,7 +96,7 @@ class EquivalenceTests(unittest.TestCase):
     def test_geometry_similarity_is_not_called_byte_identical(self):
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp); ref = p / 'ref'; ref2 = p / 'ref2'; candidate = p / 'phone'; ref.mkdir(); ref2.mkdir(); candidate.mkdir()
-            for d, text in ((ref, 'G28\n'), (ref2, 'G28\n'), (candidate, 'G29\n')):
+            for d, text in ((ref, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n'), (ref2, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n'), (candidate, 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n; different\n')):
                 (d / 'run.json').write_text(json.dumps({'sliced': True, 'cli_return_code': 0, 'profile_errors': []}))
                 with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as z:
                     z.writestr('Metadata/plate_1.gcode', text)
@@ -106,21 +106,81 @@ class EquivalenceTests(unittest.TestCase):
                 status, detail = matrix.classify([ref, ref2], candidate)
             self.assertEqual('variant', status)
             self.assertTrue(detail['within_official_variation'])
+            # Support-only changes remain blue even when the official runs also vary.
+            import numpy as np
+            support = {1: {'Support': (np.array([[0., 0.], [1., 1.]]), 1.)}}
+            with patch.object(matrix, 'paths', return_value=support), patch.object(matrix, 'diffs', side_effect=[
+                {(1, 'Support'): .5}, {(1, 'Support'): .5}, {(1, 'Support'): .5},
+            ]):
+                self.assertEqual('blue', matrix.classify([ref, ref2], candidate)[0])
             # A difference on layer 1 cannot excuse an unrelated error on layer 2.
             with patch.object(matrix, 'paths', return_value={}), patch.object(matrix, 'diffs', side_effect=[
                 {(1, 'Outer wall'): 10.0}, {(2, 'Outer wall'): 1.0}, {(2, 'Outer wall'): 1.0},
             ]):
                 self.assertEqual('red', matrix.classify([ref, ref2], candidate)[0])
-            with patch.object(matrix, 'paths', return_value={}), patch.object(matrix, 'diffs', side_effect=[
+            with patch.object(matrix, 'paths', return_value={}), patch.object(matrix, 'geometry_grade', return_value='variant'), patch.object(matrix, 'diffs', side_effect=[
                 {(1, 'Outer wall'): math.inf}, {(1, 'Outer wall'): 1.0}, {(1, 'Outer wall'): 1.0},
             ]):
                 self.assertEqual('unverified', matrix.classify([ref, ref2], candidate)[0])
+            with patch.object(matrix, 'paths', return_value={}), patch.object(matrix, 'geometry_grade', return_value='red'), patch.object(matrix, 'diffs', side_effect=[
+                {(1, 'Outer wall'): math.inf}, {(1, 'Outer wall'): 1.0}, {(1, 'Outer wall'): 1.0},
+            ]):
+                self.assertEqual('red', matrix.classify([ref, ref2], candidate)[0])
             with zipfile.ZipFile(candidate / 'out.gcode.3mf', 'w') as z:
-                z.writestr('Metadata/plate_1.gcode', 'G28\n')
+                z.writestr('Metadata/plate_1.gcode', 'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0.2\n')
                 z.writestr('Metadata/project_settings.config', '{"wall_loops":"3"}')
             status, detail = matrix.classify([ref, ref2], candidate)
             self.assertEqual('red', status)
             self.assertTrue(detail.get('effective_settings_differ'))
+
+    def test_tiers_separate_support_seams_infill_and_significant_changes(self):
+        import numpy as np
+        points = np.array([[0., 0.], [1., 1.]])
+        def paths(feature, p=points, amount=1.): return {1: {feature: (p, amount)}}
+        self.assertEqual('blue', matrix.geometry_grade({(1, 'Support'): 4.}, paths('Outer wall'), paths('Outer wall'), {}))
+        self.assertEqual('yellow', matrix.geometry_grade({(1, 'Sparse infill'): .2}, paths('Sparse infill'), paths('Sparse infill'), {}))
+        self.assertEqual('yellow', matrix.geometry_grade({(1, 'Outer wall'): .015}, paths('Outer wall'), paths('Outer wall'), {}))
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Inner wall'): .05}, paths('Inner wall'), paths('Inner wall'), {}))
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Support'): math.inf}, paths('Outer wall'), paths('Support'), {}))
+        bigger = points * 1.1
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Outer wall'): .1}, paths('Outer wall', bigger), paths('Outer wall'), {}))
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Sparse infill'): .2}, paths('Sparse infill', amount=.5), paths('Sparse infill'), {}))
+        self.assertEqual('red', matrix.geometry_grade({(1, 'Sparse infill'): .5}, paths('Sparse infill'), paths('Sparse infill'), {}))
+
+    def test_candidate_safety_checks_start_and_temperatures(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'slice.3mf'
+            def make(g):
+                with zipfile.ZipFile(p, 'w') as z: z.writestr('Metadata/plate_1.gcode', g)
+            make('G28\nG29\nM104 S220\n; CHANGE_LAYER\n'); self.assertEqual([], safety.problems(p))
+            make('G28\nG29\n; CHANGE_LAYER\nM104 S999\n'); self.assertTrue(safety.problems(p))
+            make('G28\nG29\n; CHANGE_LAYER\nM104S999\n'); self.assertTrue(safety.problems(p))
+            make('G28\nG29\n; CHANGE_LAYER\nM190 R150\n'); self.assertTrue(safety.problems(p))
+            make('G28\n; CHANGE_LAYER\nG29\n'); self.assertTrue(safety.problems(p))
+            make('G28\nM1002 judge_flag auto_bed_leveling_flag\n; CHANGE_LAYER\n'); self.assertTrue(safety.problems(p))
+            make('G29\nG28\n; CHANGE_LAYER\n'); self.assertTrue(safety.problems(p))
+            make('G28\nG29\n'); self.assertTrue(safety.problems(p))
+
+    def test_unsafe_identical_output_is_red(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp); ref = p / 'ref'; candidate = p / 'candidate'; ref.mkdir(); candidate.mkdir()
+            for d in (ref, candidate):
+                (d / 'run.json').write_text(json.dumps({'sliced': True, 'cli_return_code': 0, 'profile_errors': []}))
+                with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as z:
+                    z.writestr('Metadata/plate_1.gcode', 'G28\nG29\n; CHANGE_LAYER\nM104S999\n')
+                    z.writestr('Metadata/project_settings.config', '{}')
+            self.assertEqual('red', matrix.classify([ref], candidate)[0])
+
+    def test_layer_heights_detect_dimension_change(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            ref, candidate = Path(tmp) / 'ref', Path(tmp) / 'candidate'
+            ref.mkdir(); candidate.mkdir()
+            for d, z in ((ref, '.2'), (candidate, '.3')):
+                (d / 'run.json').write_text(json.dumps({'sliced': True, 'cli_return_code': 0, 'profile_errors': []}))
+                with zipfile.ZipFile(d / 'out.gcode.3mf', 'w') as output:
+                    output.writestr('Metadata/plate_1.gcode', f'G28\nG29\n; CHANGE_LAYER\n; Z_HEIGHT: 0{z}\n')
+                    output.writestr('Metadata/project_settings.config', '{}')
+            self.assertEqual('red', matrix.classify([ref, ref], candidate)[0])
 
     def test_stale_matrix_results_are_not_current(self):
         item = ('cube', 'baseline', {}); ident = {'engine_sha256': 'e', 'resources_sha256': 'r'}

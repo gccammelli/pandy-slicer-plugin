@@ -4,10 +4,10 @@ by the official Bambu Studio, classified and drawn as a colour grid in docs/equi
 
   green   G-code is byte-identical to an official run
   purple  bytes differ, but sampled geometry is within observed official variation
-  blue    both slicers refuse the settings with the same return code
-  yellow  sampled walls are within observed variation, but support-related features differ
-  red     sampled paths differ beyond observed official variation, or only one side sliced
-  grey    not verified, including cases with insufficient reference variation data
+  blue    only supports differ; sampled model paths and extrusion stay within observed variation
+  yellow  small bounded model-path differences, with consistent material and outline
+  red     significant model differences or a failed bounded safety check
+  grey    matching refusals, not verified, or insufficient reference variation data
 
 Each column changes one thing from the baseline (X1 Carbon 0.4 nozzle, 0.20mm Standard, Bambu PLA Basic), so the
 grid stays sparse but covers every printer, nozzle sizes, layer heights, infill, walls, supports and surface options.
@@ -23,22 +23,25 @@ import hashlib
 import html
 import json
 import math
+import re
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
-from pandy_equiv import cases, compare, models, runners, verify_settings  # noqa: E402
+from pandy_equiv import cases, compare, models, runners, safety, verify_settings  # noqa: E402
 from run import plate_hashes, outcome  # noqa: E402
 
 OUT = ROOT / "build" / "matrix"
 DOCS = ROOT / "docs" / "equivalence"
 ROWS = ["cube", "cylinder", "tube", "sphere", "torus", "gear", "bridge", "overhangs", "thin", "tower", "benchy"]
 X1C = "Bambu Lab X1 Carbon 0.4 nozzle"
-CLASSIFICATION_VERSION = 5
-VALIDATION_SHA256 = hashlib.sha256(Path(verify_settings.__file__).read_bytes()).hexdigest()
+CLASSIFICATION_VERSION = 9
+VALIDATION_SHA256 = hashlib.sha256(b''.join(Path(p).read_bytes() for p in
+    (verify_settings.__file__, safety.__file__, HERE / 'geometry.py'))).hexdigest()
 
 
 def columns():
@@ -111,8 +114,57 @@ def diffs(x, y):
 
 
 SUPPORT = ("Support", "Support interface", "Support transition")
-NEAR_SUPPORT = ("Bridge", "Internal Bridge", "Internal solid infill", "Bottom surface", "Skirt", "Brim", "Custom", "Prime tower")
 WALLS = ("Outer wall", "Inner wall", "Overhang wall")
+INTERNAL = ("Sparse infill", "Internal solid infill", "Floating vertical shell")
+SURFACE = WALLS + ("Top surface", "Bottom surface")
+
+
+def amounts(paths):
+    return {(layer, f): e for layer, features in paths.items() for f, (_, e) in features.items()}
+
+
+def layer_heights(path):
+    with zipfile.ZipFile(path) as z:
+        text = z.read('Metadata/plate_1.gcode').decode(errors='replace')
+    layers = re.findall(r'^; Z_HEIGHT:\s*(-?\d+(?:\.\d+)?)\s*$', text, re.M)
+    if len(layers) != text.count('; CHANGE_LAYER') or not layers:
+        return None
+    return [float(z) for z in layers]
+
+
+def geometry_grade(differences, candidate, reference, volume_tolerance):
+    """Grade a single reference; fail closed for missing material and unknown features."""
+    import numpy as np
+    ca, ra = amounts(candidate), amounts(reference)
+    volume_diff = {k: abs(ca.get(k, 0) - ra.get(k, 0)) for k in ca.keys() | ra.keys()}
+    changed_volume = {k: v for k, v in volume_diff.items() if v > max(0.002, volume_tolerance.get(k, 0) + 0.002)}
+    keys = differences.keys() | changed_volume.keys()
+    if not sum(v for (l, f), v in ca.items() if f in SUPPORT) and sum(v for (l, f), v in ra.items() if f in SUPPORT):
+        return 'red'
+    if not keys:
+        return 'variant'
+    if all(f in SUPPORT for _, f in keys):
+        return 'blue'
+    for layer, f in keys:
+        if f in SUPPORT:
+            continue
+        if f not in INTERNAL + SURFACE:
+            return 'red'
+        a, b = ca.get((layer, f), 0), ra.get((layer, f), 0)
+        # A missing path, or >5% extra/missing material, is not a small change.
+        if not a or not b or abs(a - b) > max(0.002, 0.05 * max(a, b), volume_tolerance.get((layer, f), 0) + 0.002):
+            return 'red'
+        d = differences.get((layer, f), 0)
+        if not math.isfinite(d) or d > (0.4 if f in INTERNAL else 0.02):
+            return 'red'
+        if f in SURFACE:
+            ap = candidate[layer][f][0]; bp = reference[layer][f][0]
+            if not len(ap) or not len(bp):
+                return 'red'
+            # Seam starts may move; the surface bounding box must not grow or shrink materially.
+            if np.max(np.abs(np.r_[ap.min(axis=0) - bp.min(axis=0), ap.max(axis=0) - bp.max(axis=0)])) > 0.02:
+                return 'red'
+    return 'yellow'
 
 
 def classify(ref_dirs, cand_dir):
@@ -129,46 +181,70 @@ def classify(ref_dirs, cand_dir):
         return "red", {"only_one_sliced": True, "candidate": co, "reference": ro[0]}
     ref_files = [d / "out.gcode.3mf" for d in ref_dirs if (d / "out.gcode.3mf").exists()]
     cand = cand_dir / "out.gcode.3mf"
+    try:
+        safety_errors = safety.problems(cand)
+    except (OSError, ValueError, zipfile.BadZipFile) as e:
+        return 'red', {'safety_errors': [f'Cannot read candidate output: {e}']}
+    if safety_errors:
+        return "red", {"safety_errors": safety_errors}
     mismatches = [verify_settings.compare_outputs(f, cand) for f in ref_files]
     mismatches = [errors for errors in mismatches if errors]
     if mismatches:
         return "red", {"effective_settings_differ": mismatches}
     if plate_hashes(cand) in {plate_hashes(f) for f in ref_files}:
         return "green", {"byte_identical": True, "official_variants": len({plate_hashes(f) for f in ref_files})}
+    if len(plate_hashes(cand)) != 1:
+        return 'unverified', {'reason': 'Geometry comparison currently supports one plate'}
     if len(ref_files) < 2:
         return "unverified", {"reason": "Non-identical G-code needs at least two official runs to assess variation"}
+    cz = layer_heights(cand)
+    rz = [layer_heights(f) for f in ref_files]
+    if cz is None or any(z is None for z in rz):
+        return 'unverified', {'reason': 'Layer heights missing or incomplete'}
     R = [paths(f) for f in ref_files]
     C = paths(cand)
     # The official build's own variation, per feature: the largest distance between any two official runs.
     tol = {}
+    volume_tolerance = {}
+    ref_amounts = [amounts(r) for r in R]
     for i in range(len(R)):
         for j in range(i + 1, len(R)):
             for (layer, f), d in diffs(R[i], R[j]).items():
                 tol[(layer, f)] = max(tol.get((layer, f), 0.0), d)
-    best = None
-    best_unbounded = None
-    for r in R:
+            for key in ref_amounts[i].keys() | ref_amounts[j].keys():
+                volume_tolerance[key] = max(volume_tolerance.get(key, 0), abs(ref_amounts[i].get(key, 0) - ref_amounts[j].get(key, 0)))
+    choices = []
+    for r, heights in zip(R, rz):
+        if len(cz) != len(heights) or any(abs(a - b) > .001 for a, b in zip(cz, heights)):
+            choices.append(('red', {}, {}, r, True))
+            continue
         observed = diffs(C, r)
         unbounded = {k: d for k, d in observed.items() if math.isinf(tol.get(k, 0.0))}
         dd = {k: d for k, d in observed.items() if k not in unbounded and d > tol.get(k, 0.0) + 0.01}
-        if best is None or (len(dd), len(unbounded)) < (len(best), len(best_unbounded)):
-            best, best_unbounded = dd, unbounded
-    if not best and best_unbounded:
-        return "unverified", {"reason": "Official runs have unbounded variation for a differing layer and feature",
-                              "unbounded_comparisons": len(best_unbounded)}
-    if not best:
-        return "variant", {"within_official_variation": True, "tolerance_scope": "per layer and feature",
-                           "largest_official_difference_mm": round(max(tol.values(), default=0.0), 3)}
-    support_layers = {layer for (layer, f) in best if f in SUPPORT} | {l for l in range(0, 1 + max(l for l, _ in best))
-                                                                       if any(f in SUPPORT for f in C.get(l, {}))}
-    part = {k: v for k, v in best.items() if k[1] not in SUPPORT}
-    walls = {k: v for k, v in part.items() if k[1] in WALLS}
-    near = all(f in NEAR_SUPPORT and any(l - k in support_layers for k in range(0, 4)) for (l, f) in part)
-    detail = {"max_mm": round(max(best.values()), 3), "differing": len(best),
-              "features": sorted({f for _, f in best}), "layers": [min(l for l, _ in best), max(l for l, _ in best)]}
-    if not walls and near and any(f in SUPPORT for _, f in best):
-        return "yellow", detail
-    return "red", detail
+        # A wide or unbounded official distribution must not excuse a large change
+        # in the model relative to every individual reference output.
+        hard_grade = geometry_grade(observed, C, r, {})
+        status = 'red' if hard_grade == 'red' else geometry_grade(dd, C, r, volume_tolerance)
+        if hard_grade == 'red':
+            dd = observed
+        if status == 'variant' and hard_grade == 'blue':
+            status = 'blue'
+        if unbounded and status != 'red':
+            status = 'unverified'
+        choices.append((status, dd, unbounded, r, False))
+    order = {'variant': 0, 'blue': 1, 'yellow': 2, 'unverified': 3, 'red': 4}
+    status, best, unbounded, best_ref, z_mismatch = min(choices, key=lambda x: (order[x[0]], len(x[1])))
+    ca, ra = amounts(C), amounts(best_ref)
+    changed_volume = {k for k in ca.keys() | ra.keys()
+                      if abs(ca.get(k, 0) - ra.get(k, 0)) > max(0.002, volume_tolerance.get(k, 0) + 0.002)}
+    changed = set(best) | changed_volume
+    detail = {"max_mm": round(max(best.values(), default=0), 3), "differing": len(best),
+              "features": sorted({f for _, f in changed}), "layers": [min(l for l, _ in changed), max(l for l, _ in changed)] if changed else [],
+              "extrusion_differences": len(changed_volume)}
+    if status == 'unverified': detail['reason'] = 'Official runs have unbounded variation for a differing layer and feature'
+    if status == 'variant': detail['within_official_variation'] = True
+    if z_mismatch: detail['reason'] = 'Layer Z positions differ by more than 0.001 mm or layer counts differ'
+    return status, detail
 
 
 def run(args):
@@ -273,7 +349,7 @@ def recheck(args):
         (OUT / "results.json").write_text(json.dumps(results, indent=1, default=str))
 
 
-COLOURS = {"green": "#2FB344", "variant": "#9D72CE", "refused": "#4688C7", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
+COLOURS = {"green": "#2FB344", "variant": "#9D72CE", "blue": "#4688C7", "refused": "#75828E", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
 
 
 def validation_hash():
@@ -326,7 +402,7 @@ def report(_):
     (DOCS / "matrix.svg").write_text(svg(results))
     cols = columns()
     total = len(cols) * len(ROWS)
-    counts = {k: sum(1 for r in results.values() if r["status"] == k) for k in ("green", "variant", "refused", "yellow", "red")}
+    counts = {k: sum(1 for r in results.values() if r["status"] == k) for k in ("green", "variant", "blue", "refused", "yellow", "red")}
     counts["grey"] = total - sum(counts.values())
     phones = sorted({f"{r['phone_model']} (Android SDK {r['phone_sdk']}, {r['phone_abi']}, CPU {r['phone_cpu']})" for r in results.values()})
     lines = [
@@ -338,11 +414,12 @@ def report(_):
         "| | |", "|---|---|",
         f"| 🟩 **Byte-identical** | the phone's G-code is byte-identical to an observed official output |",
         f"| 🟪 **Within observed variation** | bytes differ; sampled geometry is within the observed official variation |",
-        f"| 🟦 **Both refused** | both returned the same nonzero CLI error without slicing |",
-        f"| 🟨 **Support differences** | sampled walls stay within observed variation; support-related features differ |",
-        f"| 🟥 **Differs** | sampled paths differ beyond variation observed in the official runs |",
+        f"| 🟦 **Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |",
+        f"| 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |",
+        f"| 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |",
+        f"| ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |",
         f"| ⬜ **Not verified** | not run or insufficient reference evidence |", "",
-        f"**{counts['green']} byte-identical · {counts['variant']} within observed variation · {counts['refused']} both refused · {counts['yellow']} support differences · {counts['red']} differ · {counts['grey']} not verified** "
+        f"**{counts['green']} byte-identical · {counts['variant']} within observed variation · {counts['blue']} support differences · {counts['yellow']} small model differences · {counts['red']} significant differences or failed checks · {counts['refused']} both refused · {counts['grey']} not verified** "
         f"(of {total}: {len(ROWS)} models × {len(cols)} configurations)", "",
         "![Equivalence matrix](matrix.svg)", "",
         "Hover a cell (open the SVG) for its details. Columns change one thing from the baseline: X1 Carbon, 0.4 mm nozzle,",
@@ -363,11 +440,11 @@ def report(_):
         "bridge (32 mm span), overhangs (45°/60°/75°), thin walls (0.4–2 mm), tower 80 mm; Benchy uses the verified model bundled with the reference.", "",
         "A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configurations on a second phone.", "",
     ]
-    others = sorted((r for r in results.values() if r["status"] in ("yellow", "red")), key=lambda r: (r["status"], r["row"], r["column"]))
+    others = sorted((r for r in results.values() if r["status"] in ("blue", "yellow", "red")), key=lambda r: (r["status"], r["row"], r["column"]))
     if others:
         lines += ["## Cells that are not green", "",
                   "| | Model | Configuration | Largest difference | Features | Layers |", "|---|---|---|---|---|---|"]
-        icon = {"yellow": "🟨", "red": "🟥"}
+        icon = {"blue": "🟦", "yellow": "🟨", "red": "🟥"}
         for r in others:
             d = r["detail"]
             lines.append(f"| {icon[r['status']]} | {r['row']} | {r['column']} | {d.get('max_mm', '–')} mm | {', '.join(d.get('features', [])) or json.dumps(d)[:80]} | "
@@ -376,7 +453,8 @@ def report(_):
     lines += ["## Interpretation", "",
               "Geometric similarity is not byte equality. Unrun cells and results from older input formats or different engine, profile, or reference image identities are not counted.",
               "A matching refusal is recorded separately from a successful slice. A successful slice must also pass effective-settings checks.",
-              "Reported distances compare sampled per-layer extrusion paths; they are not measurements of printed-part dimensional error.", ""]
+              "Reported distances compare sampled per-layer extrusion paths; they are not measurements of printed-part dimensional error.",
+              "The safety check covers the start sequence and heater limits; it does not prove the absence of collisions or other hazards.", ""]
     (DOCS / "README.md").write_text("\n".join(lines))
     print(f"{DOCS / 'README.md'}: {counts}")
 

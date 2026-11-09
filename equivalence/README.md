@@ -22,16 +22,16 @@ G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu
   where the reference refuses the settings passes only if the candidate refuses them with the same return code.
   Other files of the 3MF are compared too and reported; only their creation dates are normalised (`compare.py`).
   Successful outputs must also confirm their effective printer, process, filament and requested override settings.
-  The matrix distinguishes exact byte matches (green), geometry within observed reference variation (purple),
-  support-only differences (blue), small bounded model changes (yellow), significant differences or failed checks
+  The matrix distinguishes exact byte matches (green), geometry within observed reference variation (dark green),
+  support-only differences (light green), small bounded model changes (yellow), significant differences or failed checks
   (red), and matching refusals or unverified cases (grey). Geometric similarity is not byte equality.
   The checks deliberately fail a successful slice when a requested override was silently changed or clamped, even if
   both engines make the same change; that outcome does not prove the requested settings were applied.
 
 ### Matrix tiers and limits
 
-Blue requires all model features and extrusion amounts to stay within observed official variation; support paths
-may differ. A candidate that drops all support present in a reference is not blue; blue does not certify that a
+Light green requires all model features and extrusion amounts to stay within observed official variation; support paths
+may differ. A candidate that drops all support present in a reference is not light green; light green does not certify that a
 different support arrangement will work. Yellow requires model changes to be limited to internal infill, floating vertical shell, or surface
 paths: sampled distances are at most 0.4 mm for internal paths or 0.02 mm for surfaces; per-layer surface bounds
 may differ by at most 0.02 mm; and material for each changed feature must be present on both sides and differ by no

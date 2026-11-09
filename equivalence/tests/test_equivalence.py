@@ -106,7 +106,7 @@ class EquivalenceTests(unittest.TestCase):
                 status, detail = matrix.classify([ref, ref2], candidate)
             self.assertEqual('variant', status)
             self.assertTrue(detail['within_official_variation'])
-            # Support-only changes remain blue even when the official runs also vary.
+            # Support-only changes remain light green even when the official runs also vary.
             import numpy as np
             support = {1: {'Support': (np.array([[0., 0.], [1., 1.]]), 1.)}}
             with patch.object(matrix, 'paths', return_value=support), patch.object(matrix, 'diffs', side_effect=[

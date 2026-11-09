@@ -4,13 +4,13 @@ Does Pandy Studio's phone slicer write the same G-code as the official Bambu Stu
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 
-*Generated 2026-11-09 12:36 UTC.*
+*Generated 2026-11-09 21:57 UTC.*
 
 | | |
 |---|---|
 | 🟩 **Byte-identical** | the phone's G-code is byte-identical to an observed official output |
-| 🟪 **Within observed variation** | bytes differ; sampled geometry is within the observed official variation |
-| 🟦 **Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |
+| **Dark green — Within observed variation** | bytes differ; sampled geometry is within the observed official variation |
+| **Light green — Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |
 | 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |
 | 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |
 | ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |
@@ -45,9 +45,9 @@ A separate [Xperia Benchy cross-check](xperia-benchy.md) covers all 40 configura
 
 | | Model | Configuration | Largest difference | Features | Layers |
 |---|---|---|---|---|---|
-| 🟦 | overhangs | tree supports | 5.305 mm | Support | 0–72 |
-| 🟦 | sphere | tree supports | 1.205 mm | Support | 0–9 |
-| 🟦 | torus | tree supports | 0.734 mm | Support | 0–1 |
+| Light green | overhangs | tree supports | 5.305 mm | Support | 0–72 |
+| Light green | sphere | tree supports | 1.205 mm | Support | 0–9 |
+| Light green | torus | tree supports | 0.734 mm | Support | 0–1 |
 | 🟥 | benchy | fuzzy skin | inf mm | Floating vertical shell, Gap infill, Inner wall, Outer wall, Overhang wall | 1–239 |
 | 🟥 | bridge | fuzzy skin | 0.591 mm | Inner wall, Outer wall, Overhang wall | 1–119 |
 | 🟥 | cube | fuzzy skin | 0.598 mm | Inner wall, Outer wall | 1–99 |

@@ -2,9 +2,9 @@
 """The equivalence matrix: reference models (rows) x printers and settings (columns), each cell sliced on a phone and
 by the official Bambu Studio, classified and drawn as a colour grid in docs/equivalence/.
 
-  green   G-code is byte-identical to an official run
-  purple  bytes differ, but sampled geometry is within observed official variation
-  blue    only supports differ; sampled model paths and extrusion stay within observed variation
+  green        G-code is byte-identical to an official run
+  dark green   bytes differ, but sampled geometry is within observed official variation
+  light green  only supports differ; sampled model paths and extrusion stay within observed variation
   yellow  small bounded model-path differences, with consistent material and outline
   red     significant model differences or a failed bounded safety check
   grey    matching refusals, not verified, or insufficient reference variation data
@@ -349,7 +349,7 @@ def recheck(args):
         (OUT / "results.json").write_text(json.dumps(results, indent=1, default=str))
 
 
-COLOURS = {"green": "#2FB344", "variant": "#9D72CE", "blue": "#4688C7", "refused": "#75828E", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
+COLOURS = {"green": "#2FB344", "variant": "#166534", "blue": "#A5D6A7", "refused": "#75828E", "yellow": "#F2C94C", "red": "#E5484D", "unverified": "#C9CDD3", "grey": "#C9CDD3"}
 
 
 def validation_hash():
@@ -381,7 +381,8 @@ def svg(results):
         for j, (label, _, _) in enumerate(cols):
             r = results.get(f"{row}|{label}")
             st = r["status"] if r else "grey"
-            tip = f"{row} / {label}: {st}" + (f" ({json.dumps(r['detail'])[:160]})" if r else " (not run)")
+            display = {"variant": "dark green: within observed variation", "blue": "light green: support differences"}.get(st, st)
+            tip = f"{row} / {label}: {display}" + (f" ({json.dumps(r['detail'])[:160]})" if r else " (not run)")
             out.append(f'<rect x="{left + j * cw + 1}" y="{y + 1}" width="{cw - 2}" height="{ch - 2}" rx="2" fill="{COLOURS[st]}">'
                        f'<title>{html.escape(tip)}</title></rect>')
     out.append("</svg>")
@@ -413,8 +414,8 @@ def report(_):
         f"*Generated {datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}.*", "",
         "| | |", "|---|---|",
         f"| 🟩 **Byte-identical** | the phone's G-code is byte-identical to an observed official output |",
-        f"| 🟪 **Within observed variation** | bytes differ; sampled geometry is within the observed official variation |",
-        f"| 🟦 **Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |",
+        f"| **Dark green — Within observed variation** | bytes differ; sampled geometry is within the observed official variation |",
+        f"| **Light green — Support differences** | support paths or extrusion differ; model paths and extrusion stay within observed variation |",
         f"| 🟨 **Small model differences** | bounded internal or surface changes with similar material and outline |",
         f"| 🟥 **Significant difference or failed safety check** | model differences exceed the bounds, a safety check fails, or slicing outcomes differ |",
         f"| ◼️ **Both refused** | both returned the same nonzero CLI error without slicing |",
@@ -444,7 +445,7 @@ def report(_):
     if others:
         lines += ["## Cells that are not green", "",
                   "| | Model | Configuration | Largest difference | Features | Layers |", "|---|---|---|---|---|---|"]
-        icon = {"blue": "🟦", "yellow": "🟨", "red": "🟥"}
+        icon = {"blue": "Light green", "yellow": "🟨", "red": "🟥"}
         for r in others:
             d = r["detail"]
             lines.append(f"| {icon[r['status']]} | {r['row']} | {r['column']} | {d.get('max_mm', '–')} mm | {', '.join(d.get('features', [])) or json.dumps(d)[:80]} | "

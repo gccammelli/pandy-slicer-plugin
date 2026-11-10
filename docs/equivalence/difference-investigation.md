@@ -98,8 +98,10 @@ build/venv/bin/python equivalence/yellow_diagnostics.py --case 'gear|walls 4' --
 The diagnostic reports both raw and completed distances, gap lengths, filament changes and bounds. A regression
 test verifies that completing identical underlying contours still reports a material difference.
 
-The next engine-level trace should compare Arachne loop orientation/start selection and variable-width extrusion
-conversion for gear before G-code arc fitting. For torus and tube, trace seam selection before fitting; earlier
+The [follow-up memory investigation](floating-shell-memory.md) found a use-after-free in floating-shell
+intersection detection and reproduced the gear variant by changing only official-process heap initialization.
+This supersedes the initial inference that the gear difference was fixed by architecture. The next engine step
+is an isolated lifetime repair and cross-architecture validation. For torus and tube, trace seam selection before fitting; earlier
 no-arc tests already showed fitting alone does not cause their discrepancy. The existing data does not yet
 identify a single computation responsible for all yellow cases.
 

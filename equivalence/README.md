@@ -146,3 +146,7 @@ and effective settings before recomputing cached outcomes with the current compa
 Its optional loop-gap completion is diagnostic only: it reports material differences separately and never changes
 a matrix grade. See [the yellow investigation](../docs/equivalence/difference-investigation.md#yellow-case-investigation)
 for commands, repeated-reference evidence and remaining engine traces.
+
+`heap_probe.py` reproduces the [floating-shell memory investigation](../docs/equivalence/floating-shell-memory.md)
+using isolated official runs with explicitly recorded allocator settings. These runs never enter the ordinary
+matrix reference population or alter its grades.

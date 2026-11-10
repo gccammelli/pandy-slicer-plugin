@@ -61,7 +61,7 @@ The skipped path retains the original widths and point order; the detected path 
 segments against floating areas before selecting starts and producing extrusion paths. Thus the invalid
 read lies directly upstream of the observed loop and material changes.
 
-## Repair to validate next
+## Upstream fix and isolated validation
 
 Keep the copied points alive through the intersection query:
 
@@ -72,9 +72,26 @@ if (grid.has_intersecting_edges())
     is_self_intersect = true;
 ```
 
-This describes the local lifetime repair; it has not been applied to the production engine. It should
-be tested in an isolated build, with Memcheck and both architectures, followed by the affected matrix
-cases. Disabling floating-shell detection would change requested slicing behavior and is not the repair.
+The upstream issue [#12712](https://github.com/bambulab/BambuStudio/issues/12712) and fix
+[#12876](https://github.com/bambulab/BambuStudio/pull/12876) already cover this lifetime error and a second
+out-of-range position read in `interpolate_width`. Independent evidence was posted to the
+[issue](https://github.com/bambulab/BambuStudio/issues/12712#issuecomment-6760091369) and the
+[PR review](https://github.com/bambulab/BambuStudio/pull/12876#pullrequestreview-5837347206), avoiding duplicates.
+
+The exact two-hunk PR diff at `d9218fc2aa21a24280a72afc68852fe31fb538ac` was backported to an isolated
+x86-64 build of pinned source `926a7192574bcb9b3a732e1ec59a46d79cb45466`. Only the affected translation
+unit was recompiled and the copied library relinked; the production package and upstream checkout stayed
+unchanged. All nine complete G-code files matched across normal allocation, heap-fill 85 and heap-fill 170
+(three runs each). The affected feature consistently used 3.40215 mm of filament.
+
+Memcheck no longer reported the floating-shell `has_intersecting_edges` / `resplit_order_loops` invalid-read
+contexts; unrelated errors remained elsewhere. This gear fixture validates the lifetime fix, not every
+boundary case of the interpolation fix. A read-only Claude review independently confirmed both memory-access
+repairs and noted pre-existing interpolation/extrapolation concerns outside this patch; those concerns were
+retained as limitations, not asserted to be new regressions. Artifacts are under `build/upstream-review/`.
+
+The remaining validation is a patched ARM build and wider affected-case coverage. This was not a full
+current-master GUI build, and the fix has not been applied to the production engine. Disabling floating-shell detection would change requested slicing behavior and is not the repair.
 A repaired engine may consistently choose one valid output while the unmodified official binary retains
 its memory-dependent variants; that distinction must remain explicit in equivalence reporting.
 

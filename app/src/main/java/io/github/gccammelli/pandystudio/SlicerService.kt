@@ -76,6 +76,7 @@ class SlicerService : Service() {
         val profiles = ProfileSource { path -> File(home, if (path.startsWith("pandy/")) path else "resources/$path").takeIf { it.isFile }?.readText() }
         val schema = Schema.load(profiles)
         if (action == CAPABILITIES) return org.json.JSONObject(PhoneProtocol.capabilities(schema))
+            .put("engine_version", "02.08.02.61") // the Bambu Studio release the engine is built from (engine/README.md)
             .put("engine_sha256", engine.engineSha256)
             .put("resource_version", assets.open("engine-resources.sha256").bufferedReader().use { it.readText().trim() })
             .toString()

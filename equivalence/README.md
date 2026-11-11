@@ -4,7 +4,7 @@
 > inherit-only presets and silently used fallback values. Format 3 resolves profiles explicitly, validates
 > effective output settings, and invalidates the old caches. Only results regenerated with format 3 apply.
 
-The claim Pandy Studio makes, and these tests check: **for the same plate and settings, the engine writes the same
+The claim the Pandy Slicer plugin makes, and these tests check: **for the same plate and settings, the engine writes the same
 G-code as the official Bambu Studio 02.08.02.61, byte for byte**, on every Bambu printer and for every print setting.
 
 ## What is compared

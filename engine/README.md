@@ -1,6 +1,6 @@
 # The slicing engine
 
-Pandy Studio slices with **Bambu Studio's own command-line slicer**, `src/BambuStudio.cpp` of Bambu Studio
+The Pandy Slicer plugin slices with **Bambu Studio's own command-line slicer**, `src/BambuStudio.cpp` of Bambu Studio
 02.08.02.61 (tag `v02.08.02.61`, commit `926a7192574bcb9b3a732e1ec59a46d79cb45466`), the release Pandy Slicer runs.
 Nothing in upstream's source is changed. What differs from Bambu's own Linux build is listed here in full.
 

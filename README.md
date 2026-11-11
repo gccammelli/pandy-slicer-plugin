@@ -1,37 +1,44 @@
-# Pandy Studio
+# Pandy Slicer plugin
 
-**Bambu Studio's slicer, on your phone.** Open an STL or 3MF, arrange it on the plate, choose printer, filaments and
-settings, slice on the phone, look through the layers, and send the file to your printer with
-[Pandy](https://github.com/gccammelli/pandy).
+**Bambu Studio's and OrcaSlicer's slicers, on your phone, for [Pandy](https://github.com/gccammelli/pandy).**
+The plugin has no screen of its own. Pandy's Studio tab is the editor: it opens the model, arranges the plate, chooses
+printer, filaments and settings, and asks this plugin to slice. The plugin runs the slicer on the phone, offline, checks
+the result and hands the sliced `.gcode.3mf` back. Pandy talks to the printer; the plugin never does.
 
-Pandy Studio does not imitate Bambu Studio's slicing: it runs it. The engine is Bambu Studio 02.08.02.61's own
-command-line slicer, built from Bambu Lab's published source with the same compiler and libraries as the official
-Linux build ([engine/README.md](engine/README.md)). Every release is tested against the official Bambu Studio on
-every Bambu printer and every print setting, and the G-code must match byte for byte
-([equivalence/README.md](equivalence/README.md)).
+The plugin does not imitate the desktop slicers: it runs them.
 
-## Features
+| Engine | Source | Notes |
+|---|---|---|
+| Bambu Studio 02.08.02.61 (default) | Bambu Lab's published source | [engine/README.md](engine/README.md) |
+| OrcaSlicer 2.5.0 | pinned upstream commit, unmodified | [engine/orca/README.md](engine/orca/README.md) |
 
-- Plate editor: orbit, zoom and pan; tap to select, drag to move; rotate, tip over, scale, duplicate, arrange
-- All Bambu Lab printers and nozzles, Bambu's system process and filament presets
-- Up to 16 filaments with colours, assigned per object
-- Every print setting, on Bambu Studio's own pages and groups, with its names, limits and tooltips
-- Slicing on the phone, offline, with a layer-by-layer preview coloured by feature, time and filament estimates
-- Safety check before sending: the printer's start sequence must be there and temperatures within limits
-- Print with Pandy, share, or save the sliced `.gcode.3mf`
+Each engine is its command-line slicer built with the same compiler and libraries as the official Linux build, with
+its own profiles and resources. The G-code is compared with the official desktop build: Bambu Studio over a matrix of
+printers and settings ([equivalence/README.md](equivalence/README.md)), OrcaSlicer over a smaller set of cases, byte
+for byte apart from the timestamp comment, on a PC and on phones
+([engine/orca/README.md](engine/orca/README.md#validation)).
 
-Android first (arm64); the app is Kotlin Multiplatform and Compose, so iOS shares all but the 3D view and the engine
-runner.
+## What it does
+
+- Slices 3MF plates for Bambu Lab printers with either engine, with that engine's own presets and settings
+- Serves each engine's profile catalog, settings schema and page layout to Pandy
+- Safety check before returning a file: the printer's start sequence must be there and temperatures within limits
+- Refuses a request it cannot honour exactly rather than changing engine or dropping settings
+
+Pandy reaches it through a bound service protected by a signature permission: only an app signed with the same key can
+use it ([docs/plugin-protocol.md](docs/plugin-protocol.md), [docs/phone-slicing.md](docs/phone-slicing.md)).
 
 ## Install
 
-Pandy Studio is sideloaded (arm64 phones, Android 8 or newer).
+The plugin is sideloaded next to Pandy (arm64 phones, Android 8 or newer).
 
 ## Build
 
     engine/build-deps.sh aarch64 && engine/build-engine.sh aarch64 && engine/package-android.sh
+    engine/orca/build-deps.sh aarch64 && engine/orca/build-engine.sh aarch64 && python3 engine/orca/package.py
     ./gradlew -Ppandy.testbed assembleDebug     (test installs; release builds drop the flag)
 
 ## Licence
 
-AGPL-3.0, like Bambu Studio, PrusaSlicer and Slic3r it is built on.
+AGPL-3.0, like Bambu Studio, OrcaSlicer, PrusaSlicer and Slic3r it is built on. Pandy is a separate MIT app and links
+none of this code.

@@ -1,6 +1,6 @@
 # Equivalence report
 
-Does Pandy Studio's phone slicer write the same G-code as the official Bambu Studio? Each cell below is one
+Does the Pandy Slicer plugin write the same G-code as the official Bambu Studio? Each cell below is one
 plate sliced on a phone and by the official Bambu Studio, compared as described in
 [equivalence/README.md](../../equivalence/README.md). Regenerate with `equivalence/matrix.py run` and `report`.
 

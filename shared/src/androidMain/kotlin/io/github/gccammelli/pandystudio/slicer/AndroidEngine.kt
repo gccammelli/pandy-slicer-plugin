@@ -52,10 +52,17 @@ class AndroidEngine(private val context: Context, val kind: EngineKind = EngineK
         return root
     }
 
-    /** The fastest CPU, by its maximum frequency (big.LITTLE phones list little cores first). */
-    private fun fastestCpu(): Int = (0 until Runtime.getRuntime().availableProcessors()).maxByOrNull { cpu ->
-        runCatching { File("/sys/devices/system/cpu/cpu$cpu/cpufreq/cpuinfo_max_freq").readText().trim().toLong() }.getOrDefault(0L)
-    } ?: 0
+    /**
+     * The fastest CPU this process may run on, by its maximum frequency (big.LITTLE phones list little cores first).
+     * Android's cpusets leave out cores for background and bound-service processes (a Pixel 8's fastest core is for
+     * the foreground app only), and `taskset` fails on a core outside the set, so only allowed cores are candidates.
+     */
+    private fun fastestCpu(): Int {
+        val allowed = runCatching {
+            File("/proc/self/status").readLines().firstOrNull { it.startsWith("Cpus_allowed_list:") }?.substringAfter(':')?.let(::parseCpuList)
+        }.getOrNull().orEmpty().ifEmpty { (0 until Runtime.getRuntime().availableProcessors()).toList() }
+        return fastestCpu(allowed) { cpu -> runCatching { File("/sys/devices/system/cpu/cpu$cpu/cpufreq/cpuinfo_max_freq").readText().trim().toLong() }.getOrDefault(0L) }
+    }
 
     /** Slices [job]; [onLog] gets the slicer's log lines as they come. Returns the result and the output directory. */
     suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = withContext(Dispatchers.IO) {
@@ -98,7 +105,7 @@ class AndroidEngine(private val context: Context, val kind: EngineKind = EngineK
                 }
                 listOf("--datadir", data.path)
             } else emptyList()
-            val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), exe.path) +
+            val cmd = listOf("/system/bin/taskset", cpuMask(fastestCpu()), exe.path) +
                 arguments + engineArgs + listOf("--outputdir", out.path)
             val pb = ProcessBuilder(cmd).directory(dir).redirectErrorStream(true)
             pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("PANDY_ENGINE_HOME", home.path)
@@ -171,3 +178,16 @@ data class EngineRun(val exitCode: Int, val outcome: SliceOutcome?, val output: 
         }
     }.getOrDefault(false)
 }
+
+/** The CPUs of a `Cpus_allowed_list` value such as "0-3,5"; malformed parts are ignored. */
+internal fun parseCpuList(list: String): List<Int> = list.trim().split(',').flatMap { part ->
+    val ends = part.trim().split('-')
+    val first = ends.firstOrNull()?.toIntOrNull(); val last = (if (ends.size == 2) ends[1] else ends[0]).toIntOrNull()
+    if (ends.size > 2 || first == null || last == null || last < first) emptyList() else (first..last).toList()
+}.distinct()
+
+/** The CPU with the highest [maxFrequency] among [allowed] (the first on a tie); 0 when none is allowed. */
+internal fun fastestCpu(allowed: List<Int>, maxFrequency: (Int) -> Long): Int = allowed.maxByOrNull(maxFrequency) ?: 0
+
+/** The `taskset` mask (hexadecimal) that selects only [cpu]. */
+internal fun cpuMask(cpu: Int): String = java.lang.Long.toHexString(1L shl cpu)

@@ -10,16 +10,12 @@ import java.security.MessageDigest
 import java.util.zip.ZipInputStream
 
 /**
- * Runs the engine (Bambu Studio's CLI, built for arm64; engine/README.md) on the phone.
- *
- * The executable ships in the APK as lib/arm64-v8a/libpandy_engine.so and runs from there (the only place Android
- * lets an app run files from). Its resources (Bambu's profiles) ship as assets/engine-resources.zip, unpacked once
- * per version into the app's files. The CLI looks for resources/ next to itself; PANDY_ENGINE_HOME points it at the
- * unpacked copy instead (engine/android-location.c), where bin/pandy-engine is an empty placeholder. Each slice runs in a fresh directory with a fresh HOME, LC_ALL=C and one CPU,
- * which is exactly how the equivalence tests run the official Bambu Studio and the engine.
+ * Runs the selected upstream CLI as an ARM64 executable installed in the APK's native library directory.
+ * Each engine has independent assets and storage. PANDY_ENGINE_HOME redirects executable discovery to its
+ * unpacked resources (engine/android-location.c). Every slice gets a fresh HOME, job directory and one CPU.
  */
-class AndroidEngine(private val context: Context) {
-    private val exe get() = File(context.applicationInfo.nativeLibraryDir, "libpandy_engine.so")
+class AndroidEngine(private val context: Context, val kind: EngineKind = EngineKind.BAMBU) {
+    private val exe get() = File(context.applicationInfo.nativeLibraryDir, kind.executable)
 
     /** SHA-256 of the installed engine executable, shown in About and matched against the equivalence report. */
     val engineSha256: String by lazy { sha256(exe) }
@@ -27,14 +23,19 @@ class AndroidEngine(private val context: Context) {
     /** The unpacked engine package: bin/pandy-engine (a link to the installed executable) and resources/. */
     val home: File by lazy { install() }
 
+    fun profiles(): ProfileSource = ProfileSource { path ->
+        File(home, if (path.startsWith("pandy/")) path else "${kind.profileRoot}/$path").takeIf { it.isFile }?.readText()
+    }
+
     private fun install(): File {
-        val version = context.assets.open("engine-resources.sha256").bufferedReader().readText().trim()
-        val root = File(context.filesDir, "engine/$version")
+        val version = context.assets.open("${kind.resourceAsset}.sha256").bufferedReader().use { it.readText().trim() }
+        require(Regex("[a-f0-9]{64}").matches(version)) { "Invalid engine resource version." }
+        val root = File(context.filesDir, "engine/${kind.id}/$version")
         val done = File(root, ".complete")
         if (!done.exists()) {
             root.deleteRecursively()
             File(root, "bin").mkdirs()
-            ZipInputStream(context.assets.open("engine-resources.zip").buffered()).use { z ->
+            ZipInputStream(context.assets.open("${kind.resourceAsset}.zip").buffered()).use { z ->
                 generateSequence { z.nextEntry }.forEach { e ->
                     val f = File(root, e.name).canonicalFile
                     require(f.path.startsWith(root.canonicalPath + File.separator)) { "Bad resource path ${e.name}" }
@@ -42,8 +43,11 @@ class AndroidEngine(private val context: Context) {
                 }
             }
             done.writeText(version)
-            File(context.filesDir, "engine").listFiles()?.filter { it.name != version }?.forEach { it.deleteRecursively() }
+            File(context.filesDir, "engine/${kind.id}").listFiles()?.filter { it.name != version }?.forEach { it.deleteRecursively() }
         }
+        // Legacy Bambu installations predate engine namespacing. Never remove another engine's directory.
+        File(context.filesDir, "engine").listFiles()?.filter { Regex("[a-f0-9]{64}").matches(it.name) }
+            ?.forEach { it.deleteRecursively() }
         File(root, "bin/pandy-engine").apply { if (!exists()) createNewFile() }
         return root
     }
@@ -55,48 +59,89 @@ class AndroidEngine(private val context: Context) {
 
     /** Slices [job]; [onLog] gets the slicer's log lines as they come. Returns the result and the output directory. */
     suspend fun slice(job: SliceJob, onLog: (String) -> Unit = {}): EngineRun = withContext(Dispatchers.IO) {
-        val root = home
-        val library = PresetLibrary(ProfileSource { path ->
-            File(root, if (path.startsWith("pandy/")) path else "resources/$path").takeIf { it.isFile }?.readText()
-        })
-        run(job.resolvedFiles(library), job.arguments(), SliceJob.OUTPUT, onLog)
+        val library = PresetLibrary(profiles())
+        val files = if (kind == EngineKind.ORCA) OrcaJob.files(job, library) else job.resolvedFiles(library)
+        run(files, job.arguments() + if (kind == EngineKind.ORCA) listOf("--strict") else emptyList(), SliceJob.OUTPUT, onLog)
     }
 
     /** Runs a prepared server-style job in a fresh directory without mutating engine resources. */
-    suspend fun sliceServer(job: ServerJob, onLog: (String) -> Unit = {}): EngineRun = run(job.files, job.arguments, "sliced.gcode.3mf", onLog)
+    suspend fun sliceServer(job: ServerJob, onLog: (String) -> Unit = {}): EngineRun {
+        require(kind.supportsServer) { "${kind.displayName} does not support server mode." }
+        return run(job.files, job.arguments, "sliced.gcode.3mf", onLog)
+    }
 
     private suspend fun run(files: Map<String, ByteArray>, arguments: List<String>, output: String, onLog: (String) -> Unit): EngineRun = withContext(Dispatchers.IO) {
-        val dir = File(context.cacheDir, "slice-${System.nanoTime()}").apply { mkdirs() }
-        val out = File(dir, "out").apply { mkdirs() }
-        File(dir, "home").mkdirs()
-        files.forEach { (name, bytes) -> File(dir, name).writeBytes(bytes) }
-        val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), exe.path) +
-            arguments + listOf("--outputdir", out.path)
-        val pb = ProcessBuilder(cmd).directory(dir).redirectErrorStream(true)
-        pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("PANDY_ENGINE_HOME", home.path)
-            // glibc registers rseq at start-up, before any handler exists; Android's sandbox may not allow it.
-            put("GLIBC_TUNABLES", "glibc.pthread.rseq=0"); put("TMPDIR", dir.path); put("PATH", "/system/bin") }
-        val started = System.currentTimeMillis()
-        val p = pb.start()
-        // The log is read on its own thread, so cancelling kills the slicer at once even when it prints nothing.
-        // The last slice's log is kept in the app's cache (last-slice.log), for diagnosing a failed slice.
-        val logFile = File(context.cacheDir, "last-slice.log").bufferedWriter()
-        val reader = Thread {
-            runCatching { p.inputStream.bufferedReader().forEachLine { logFile.write(it); logFile.newLine(); onLog(it) } }
-            runCatching { logFile.close() }
-        }.apply { isDaemon = true; start() }
+        val dir = File(context.cacheDir, "slice-${kind.id}-${System.nanoTime()}").apply { mkdirs() }
+        var process: Process? = null
+        var reader: Thread? = null
+        var logFile: java.io.BufferedWriter? = null
+        fun stop() {
+            process?.let { p -> if (p.isAlive) { p.destroyForcibly(); p.waitFor(2, java.util.concurrent.TimeUnit.SECONDS) } }
+            reader?.join(2000)
+            runCatching { logFile?.close() }
+        }
         try {
-            while (!p.waitFor(100, java.util.concurrent.TimeUnit.MILLISECONDS)) currentCoroutineContext().ensureActive()
-            reader.join(2000)
-            val rc = p.exitValue()
-            val outcome = SliceOutcome.parse(File(out, "result.json").takeIf { it.exists() }?.readText())
-            EngineRun(rc, outcome, File(out, output).takeIf { it.exists() }, dir, System.currentTimeMillis() - started)
+            val out = File(dir, "out").apply { mkdirs() }
+            File(dir, "home").mkdirs()
+            files.forEach { (name, bytes) -> File(dir, name).writeBytes(bytes) }
+            val engineArgs = if (kind == EngineKind.ORCA) {
+                val data = File(dir, "data").apply { mkdirs() }
+                val system = File(data, "system").apply { mkdirs() }
+                val caches = File(home, "resources/profiles").listFiles().orEmpty().filter { it.isFile && it.extension == "opc" }
+                require(caches.isNotEmpty()) { "Orca system presets are missing." }
+                // Private cache copies prevent upstream cache refreshes from modifying installed resources.
+                caches.forEach { it.copyTo(File(system, it.name)) }
+                val count = files.keys.count { Regex("filament\\d+\\.json").matches(it) }
+                OrcaJob.presetLinks(count).forEach { (alias, name) ->
+                    val link = File(data, alias); link.parentFile!!.mkdirs()
+                    android.system.Os.symlink(File(dir, name).path, link.path)
+                }
+                listOf("--datadir", data.path)
+            } else emptyList()
+            val cmd = listOf("/system/bin/taskset", Integer.toHexString(1 shl fastestCpu()), exe.path) +
+                arguments + engineArgs + listOf("--outputdir", out.path)
+            val pb = ProcessBuilder(cmd).directory(dir).redirectErrorStream(true)
+            pb.environment().apply { clear(); put("HOME", File(dir, "home").path); put("LC_ALL", "C"); put("PANDY_ENGINE_HOME", home.path)
+                // glibc registers rseq at start-up, before any handler exists; Android's sandbox may not allow it.
+                put("GLIBC_TUNABLES", "glibc.pthread.rseq=0"); put("TMPDIR", dir.path); put("PATH", "/system/bin") }
+            val started = System.currentTimeMillis()
+            val p = pb.start().also { process = it }
+            // The log is read on its own thread, so cancelling kills the slicer at once even when it prints nothing.
+            // The last slice's log is kept in the app's cache (last-slice.log), for diagnosing a failed slice.
+            val writer = File(context.cacheDir, if (kind == EngineKind.BAMBU) "last-slice.log" else "last-slice-${kind.id}.log").bufferedWriter().also { logFile = it }
+            val logReader = Thread {
+                runCatching { p.inputStream.bufferedReader().forEachLine { writer.write(it); writer.newLine(); onLog(it) } }
+                runCatching { writer.close() }
+            }.apply { isDaemon = true; reader = this; start() }
+            try {
+                while (!p.waitFor(100, java.util.concurrent.TimeUnit.MILLISECONDS)) currentCoroutineContext().ensureActive()
+                logReader.join(2000)
+                val rc = p.exitValue()
+                val resultText = File(out, "result.json").takeIf { it.exists() }?.readText()
+                val outcome = if (kind == EngineKind.ORCA) OrcaJob.outcome(resultText) else SliceOutcome.parse(resultText)
+                EngineRun(rc, outcome, File(out, output).takeIf { it.exists() }, dir, System.currentTimeMillis() - started)
+            } catch (e: Exception) {
+                if (p.isAlive) p.destroyForcibly()
+                throw e
+            } finally {
+                if (p.isAlive) p.destroyForcibly()
+            }
         } catch (e: Exception) {
-            if (p.isAlive) p.destroyForcibly()
+            stop()
             dir.deleteRecursively()
             throw e
         } finally {
-            if (p.isAlive) p.destroyForcibly()
+            stop()
+        }
+    }
+
+    companion object {
+        fun available(context: Context): List<EngineKind> {
+            val assets = context.assets.list("")?.toSet().orEmpty()
+            return EngineKind.entries.filter { kind ->
+                File(context.applicationInfo.nativeLibraryDir, kind.executable).isFile &&
+                    "${kind.resourceAsset}.zip" in assets && "${kind.resourceAsset}.sha256" in assets
+            }
         }
     }
 

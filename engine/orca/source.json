@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/OrcaSlicer/OrcaSlicer.git",
+  "tag": "v2.5.0",
+  "commit": "40ecc66f78ed72dc368e0c1ebe40d77f00cc8a19",
+  "license": "AGPL-3.0",
+  "reference": {
+    "url": "https://github.com/OrcaSlicer/OrcaSlicer/releases/download/v2.5.0/OrcaSlicer_Linux_AppImage_Ubuntu2404_V2.5.0.AppImage",
+    "sha256": "d13eb0a9cd618ed080ab6b82c64c0a60c4501aac91e88d5ac2c3b526fb141a7c"
+  }
+}

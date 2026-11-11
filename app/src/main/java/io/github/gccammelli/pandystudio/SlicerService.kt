@@ -17,7 +17,7 @@ import java.io.File
 /** Signature-protected, versioned IPC. Large files travel through descriptors, never Binder transactions. */
 class SlicerService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val engine by lazy { AndroidEngine(applicationContext) }
+    private val engines = mutableMapOf<EngineKind, AndroidEngine>()
     private var running: Job? = null
     private var runningId: String? = null
     private val incoming = Messenger(Handler(Looper.getMainLooper()) { message -> handle(message); true })
@@ -63,22 +63,43 @@ class SlicerService : Service() {
 
     @Suppress("DEPRECATION")
     private suspend fun execute(action: Int, id: String, b: Bundle, target: Messenger): String {
+        val kind = EngineKind.parse(b.getString("engine_id"))
+        val available = AndroidEngine.available(applicationContext)
+        require(kind in available) { "${kind.displayName} is not installed." }
+        val engine = engines.getOrPut(kind) { AndroidEngine(applicationContext, kind) }
+        val resourceVersion = assets.open("${kind.resourceAsset}.sha256").bufferedReader().use { it.readText().trim() }
+        require(Regex("[a-f0-9]{64}").matches(resourceVersion)) { "Invalid engine resource version." }
+        if (action == SLICE) kind.checkResourceVersion(b.getString("resource_version"), resourceVersion)
+        if (action == SLICE && b.getString("mode") == "server") {
+            require(kind.supportsServer) { "${kind.displayName} does not support server mode." }
+        }
         if (action == RESOURCES) {
             val output = b.getParcelable<ParcelFileDescriptor>("output") ?: error("Missing output file.")
             val digest = java.security.MessageDigest.getInstance("SHA-256")
             ParcelFileDescriptor.AutoCloseOutputStream(output).use { out ->
-                java.security.DigestInputStream(assets.open("engine-resources.zip"), digest).use { it.copyTo(out) }
+                java.security.DigestInputStream(assets.open("${kind.resourceAsset}.zip"), digest).use { it.copyTo(out) }
             }
             val sha = digest.digest().joinToString("") { "%02x".format(it) }
-            return "{\"version\":1,\"sha256\":\"$sha\"}"
+            // Bambu retains its existing resource-tree digest; Orca versions the archive itself.
+            require(kind == EngineKind.BAMBU || sha == resourceVersion) { "Engine resources failed their integrity check." }
+            return org.json.JSONObject().put("version", 1).put("engine_id", kind.id).put("profile_root", kind.profileRoot).put("sha256", sha).put("resource_version", resourceVersion).toString()
         }
         val home = engine.home
-        val profiles = ProfileSource { path -> File(home, if (path.startsWith("pandy/")) path else "resources/$path").takeIf { it.isFile }?.readText() }
+        val profiles = engine.profiles()
         val schema = Schema.load(profiles)
-        if (action == CAPABILITIES) return org.json.JSONObject(PhoneProtocol.capabilities(schema))
-            .put("engine_version", "02.08.02.61") // the Bambu Studio release the engine is built from (engine/README.md)
+        if (action == CAPABILITIES) return org.json.JSONObject(
+            if (kind.supportsServer) PhoneProtocol.capabilities(schema) else """{"version":1,"settings":[]}"""
+        )
+            .put("engine_id", kind.id)
+            .put("engine_version", kind.version)
+            .put("profile_root", kind.profileRoot)
+            .put("supported_modes", org.json.JSONArray(if (kind.supportsServer) listOf("editor", "server") else listOf("editor")))
+            .put("engines", org.json.JSONArray(available.map { installed ->
+                org.json.JSONObject().put("id", installed.id).put("name", installed.displayName).put("version", installed.version)
+                    .put("supported_modes", org.json.JSONArray(if (installed.supportsServer) listOf("editor", "server") else listOf("editor")))
+            }))
             .put("engine_sha256", engine.engineSha256)
-            .put("resource_version", assets.open("engine-resources.sha256").bufferedReader().use { it.readText().trim() })
+            .put("resource_version", resourceVersion)
             .toString()
         val input = b.getParcelable<ParcelFileDescriptor>("input") ?: error("Missing model file.")
         val output = b.getParcelable<ParcelFileDescriptor>("output") ?: run { input.close(); error("Missing output file.") }
@@ -114,7 +135,7 @@ class SlicerService : Service() {
                     PhoneResult(bytes, "{\"version\":1}")
                 }
                 ParcelFileDescriptor.AutoCloseOutputStream(output).use { it.write(result.file) }
-                return result.metadata
+                return org.json.JSONObject(result.metadata).put("engine_id", kind.id).put("engine_version", kind.version).toString()
             } finally { run.dir.deleteRecursively() }
         } finally { runCatching { input.close() }; runCatching { output.close() } }
     }

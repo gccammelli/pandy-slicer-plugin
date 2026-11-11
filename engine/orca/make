@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+"""Keep upstream recipes using bare `make -j` within the requested build budget."""
+import os
+import sys
+args = []
+skip = False
+for arg in sys.argv[1:]:
+    if skip and arg.isdigit():
+        skip = False
+        continue
+    skip = False
+    if arg in ('-j', '--jobs'):
+        skip = True
+    elif arg.startswith('-j') or arg.startswith('--jobs='):
+        continue
+    else:
+        args.append(arg)
+os.execv('/usr/bin/make', ['make', *args, '-j' + os.environ.get('CMAKE_BUILD_PARALLEL_LEVEL', '2')])

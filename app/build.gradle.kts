@@ -7,6 +7,7 @@ plugins {
 // The slicing engine (engine/README.md): Bambu Studio's command-line slicer for arm64, a static executable. Android
 // only lets apps run executables installed as native libraries, so it ships as lib/arm64-v8a/libpandy_engine.so;
 // its profiles and data ship as an asset archive the app unpacks once (engine/package-android.sh builds both).
+val orcaDir = rootProject.layout.projectDirectory.dir("build/android-orca")
 val engineDir = rootProject.layout.projectDirectory.dir("build/android-engine")
 
 android {
@@ -25,6 +26,8 @@ android {
     sourceSets.getByName("main") {
         jniLibs.directories += engineDir.dir("jniLibs").asFile.path
         assets.directories += engineDir.dir("assets").asFile.path
+        jniLibs.directories += orcaDir.dir("jniLibs").asFile.path
+        assets.directories += orcaDir.dir("assets").asFile.path
     }
 
     // Executables must be extracted to the native library directory to be runnable.

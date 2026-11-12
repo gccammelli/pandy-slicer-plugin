@@ -6,7 +6,7 @@ Nothing in upstream's source is changed. What differs from Bambu's own Linux bui
 
 ## How it is built
 
-| | Official Linux build | Pandy Studio engine |
+| | Official Linux build | Plugin engine |
 |---|---|---|
 | Source | tag v02.08.02.61 | same tree, unmodified (`third_party/bambustudio`) |
 | Compiler | GCC 13.3.0 (Ubuntu 24.04) | same: `gcc-13` / `aarch64-linux-gnu-gcc-13` 13.3.0-6ubuntu2~24.04.1 (`docker/Dockerfile`) |

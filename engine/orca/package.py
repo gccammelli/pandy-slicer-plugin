@@ -43,7 +43,7 @@ editor = metadata / 'editor/profiles'
 editor.mkdir(parents=True)
 index = json.loads((source / 'resources/profiles/BBL.json').read_text())
 shutil.copy2(source / 'resources/profiles/BBL.json', editor / 'BBL.json')
-for group in ('machine_list', 'process_list', 'filament_list'):
+for group in ('machine_model_list', 'machine_list', 'process_list', 'filament_list'):
     for preset in index[group]:
         relative = Path('BBL') / preset['sub_path']
         target = editor / relative

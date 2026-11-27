@@ -17,8 +17,8 @@ android {
         applicationId = "io.github.gccammelli.pandy.slicer" + if (providers.gradleProperty("pandy.testbed").isPresent) ".testbed" else ""
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.1.3"
+        versionCode = 5
+        versionName = "0.1.4"
         ndk { abiFilters += "arm64-v8a" }
     }
 

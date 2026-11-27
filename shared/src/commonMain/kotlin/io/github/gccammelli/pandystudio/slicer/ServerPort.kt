@@ -12,6 +12,7 @@ object ServerPort {
     private const val SETTINGS = "Metadata/project_settings.config"
     private const val MODEL = "Metadata/model_settings.config"
     private val gcodes = setOf("machine_start_gcode", "machine_end_gcode", "change_filament_gcode", "layer_change_gcode", "time_lapse_gcode")
+    private val presetMeta = setOf("name", "inherits", "from", "instantiation", "setting_id", "type", "include", "renamed_from", "compatible_printers", "compatible_printers_condition", "filament_id")
     private val beds = mapOf("cool_plate" to "Cool Plate", "eng_plate" to "Engineering Plate", "hot_plate" to "High Temp Plate", "textured_plate" to "Textured PEI Plate", "supertack_plate" to "Supertack Plate")
 
     private fun readObject(bytes: ByteArray): JsonObject = Json.parseToJsonElement(bytes.decodeToString()).jsonObject
@@ -39,6 +40,68 @@ object ServerPort {
         if (depth > 6) return JsonObject(emptyMap())
         val own = raw(source, folder, name) ?: return JsonObject(emptyMap())
         return JsonObject(flatten(source, folder, own.string("inherits"), depth + 1) + own.filterKeys { it != "inherits" })
+    }
+    private fun flattenWithIncludes(source: ProfileSource, folder: String, name: String, depth: Int = 0): JsonObject {
+        if (depth > 6) return JsonObject(emptyMap())
+        val own = raw(source, folder, name) ?: return JsonObject(emptyMap())
+        val merged = linkedMapOf<String, JsonElement>()
+        merged.putAll(flattenWithIncludes(source, folder, own.string("inherits"), depth + 1))
+        own.strings("include").forEach { inc ->
+            flattenWithIncludes(source, folder, inc, depth + 1)
+                .filterKeys { it !in setOf("name", "instantiation") }
+                .let(merged::putAll)
+        }
+        own.filterKeys { it != "inherits" && it != "include" }.let(merged::putAll)
+        return JsonObject(merged)
+    }
+
+    /**
+     * Backfills missing base preset keys in minimal/hand-crafted Bambu 3MF projects (which declare preset IDs but omit
+     * required keys such as nozzle_diameter, printable_height or filament_ids, causing Bambu Studio's CLI to crash).
+     * Complete projects already carry these keys and are returned unchanged.
+     */
+    private fun completeProjectSettings(cfg: JsonObject, source: ProfileSource): JsonObject {
+        val from = cfg.string("printer_settings_id")
+        if (from.isEmpty() || raw(source, "machine", from) == null) return cfg
+        val filamentNames = (cfg["filament_settings_id"] as? JsonArray)?.map { (it as? JsonPrimitive)?.contentOrNull.orEmpty() }.orEmpty()
+        val incomplete = "nozzle_diameter" !in cfg || "printable_height" !in cfg || "printable_area" !in cfg ||
+            (filamentNames.isNotEmpty() && "filament_ids" !in cfg)
+        if (!incomplete) return cfg
+        val merged = linkedMapOf<String, JsonElement>()
+        val machine = flattenWithIncludes(source, "machine", from)
+        machine.filterKeys { it !in presetMeta && it !in BLOCKED_OPTIONS }.let(merged::putAll)
+        val processName = cfg.string("print_settings_id").ifEmpty { machine.string("default_print_profile") }
+        val process = if (processName.isNotEmpty()) flattenWithIncludes(source, "process", processName) else JsonObject(emptyMap())
+        process.filterKeys { it !in presetMeta && it !in BLOCKED_OPTIONS }.let(merged::putAll)
+        val filaments = filamentNames.map { if (it.isNotEmpty()) flattenWithIncludes(source, "filament", it) else JsonObject(emptyMap()) }
+        if (filaments.any { it.isNotEmpty() }) {
+            val keys = linkedSetOf<String>()
+            filaments.forEach { f -> f.keys.filterTo(keys) { it !in presetMeta && it !in BLOCKED_OPTIONS } }
+            for (k in keys) {
+                val sample = filaments.firstNotNullOfOrNull { it[k]?.takeUnless { v -> v is JsonNull } } ?: continue
+                merged[k] = if (sample is JsonArray) {
+                    val fallback = sample.firstOrNull { it !is JsonNull } ?: JsonPrimitive("")
+                    JsonArray(filaments.map { f ->
+                        when (val v = f[k]) {
+                            is JsonArray -> v.firstOrNull { it !is JsonNull } ?: fallback
+                            null, JsonNull -> fallback
+                            else -> v
+                        }
+                    })
+                } else sample
+            }
+            merged["filament_ids"] = JsonArray(filaments.map { JsonPrimitive(it.string("filament_id")) })
+        }
+        merged.putAll(cfg)
+        if ("different_settings_to_system" !in cfg && process.isNotEmpty()) {
+            val diffs = cfg.keys.filter { it !in presetMeta && it !in BLOCKED_OPTIONS && it in process && cfg[it] != process[it] }.sorted()
+            if (diffs.isNotEmpty()) {
+                merged["different_settings_to_system"] = JsonArray(
+                    listOf(JsonPrimitive(diffs.joinToString(";"))) + List(filamentNames.size + 1) { JsonPrimitive("") }
+                )
+            }
+        }
+        return JsonObject(merged)
     }
     private fun systemGcodes(source: ProfileSource, machine: String): Map<String, JsonElement> {
         val preset = raw(source, "machine", machine) ?: return emptyMap()
@@ -91,6 +154,7 @@ object ServerPort {
         }
         require(!hasValue(cfg["post_process"]) && !hasValue(cfg["gcode_substitutions"])) { "The project contains blocked slicer options." }
         cfg = JsonObject(cfg.filterKeys { it !in BLOCKED_OPTIONS })
+        if (!bare) cfg = completeProjectSettings(cfg, profiles)
         val modelXml = data[MODEL]?.decodeToString().orEmpty()
         require(BLOCKED_OPTIONS.none { key -> Regex("\\bkey=[\"']${Regex.escape(key)}[\"']").containsMatchIn(modelXml) }) { "The project contains blocked object settings." }
         if (request.settings.isNotEmpty()) {

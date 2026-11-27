@@ -97,4 +97,52 @@ class ServerPortTest {
         val project = zip("3D/3dmodel.model" to "<model/>", "Metadata/model_settings.config" to "<config/>")
         assertFailsWith<IllegalArgumentException> { PhoneProtocol.validateEditorModel(request(), project) }
     }
+
+    @Test fun minimalProjectBackfillsMissingBasePresetKeysAndPreservesOverrides() {
+        val rich = profiles + mapOf(
+            "profiles/BBL/machine/Demo Printer.json" to """{"name":"Demo Printer","inherits":"Demo Base","default_print_profile":"0.20mm Standard @Demo","include":["Demo template"],"nozzle_diameter":["0.4"]}""",
+            "profiles/BBL/machine/Demo Base.json" to """{"name":"Demo Base","printable_area":["0x0","256x0","256x256","0x256"],"printable_height":"256"}""",
+            "profiles/BBL/process/0.20mm Standard @Demo.json" to """{"name":"0.20mm Standard @Demo","wall_loops":"2","sparse_infill_pattern":"grid","layer_height":"0.20"}""",
+            "profiles/BBL/filament/Bambu PLA Basic @Demo.json" to """{"name":"Bambu PLA Basic @Demo","filament_id":"GFA00","filament_type":["PLA"],"filament_flow_ratio":["0.98","0.98"],"filament_colour":["#FFFFFF"]}""",
+            "profiles/BBL/machine/Other Printer.json" to """{"name":"Other Printer","default_print_profile":"0.20mm Standard @Other","include":["Demo template"],"nozzle_diameter":["0.4"]}""",
+            "profiles/BBL/process/0.20mm Standard @Other.json" to """{"name":"0.20mm Standard @Other","wall_loops":"2"}""",
+            "profiles/BBL/filament/Bambu PLA Basic @Other.json" to """{"name":"Bambu PLA Basic @Other","filament_id":"GFA00","filament_type":["PLA"]}""",
+        )
+        val minimalCfg = """{"printer_settings_id":"Demo Printer","print_settings_id":"0.20mm Standard @Demo","filament_settings_id":["Bambu PLA Basic @Demo"],"filament_colour":["#F2C81E"],"wall_loops":"3","sparse_infill_pattern":"gyroid"}"""
+        val model = zip("3D/3dmodel.model" to "<model/>", "Metadata/project_settings.config" to minimalCfg)
+        val samePrinter = ServerPort.prepare(request(), model, ProfileSource { rich[it] }, "/engine/resources")
+        val cfg = obj(Zip.read(samePrinter.files.getValue("model.3mf")).getValue("Metadata/project_settings.config"))
+        assertEquals(listOf("0.4"), cfg.getValue("nozzle_diameter").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals("256", cfg.getValue("printable_height").jsonPrimitive.content)
+        assertEquals(listOf("GFA00"), cfg.getValue("filament_ids").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals(listOf("0.98"), cfg.getValue("filament_flow_ratio").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals("3", cfg.getValue("wall_loops").jsonPrimitive.content)
+        assertEquals("gyroid", cfg.getValue("sparse_infill_pattern").jsonPrimitive.content)
+        assertEquals("0.20", cfg.getValue("layer_height").jsonPrimitive.content)
+        assertEquals(listOf("#F2C81E"), cfg.getValue("filament_colour").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals("G28\nG29", cfg.getValue("machine_start_gcode").jsonPrimitive.content) // from class fixture's Demo template
+        assertEquals(listOf("sparse_infill_pattern;wall_loops", "", ""), cfg.getValue("different_settings_to_system").jsonArray.map { it.jsonPrimitive.content })
+        assertFalse("inherits" in cfg); assertFalse("filament_id" in cfg)
+        // Cross-printer conversion carries the author's overrides via synthesized different_settings_to_system.
+        val converted = ServerPort.prepare(request().copy(printer = "Other Printer"), model, ProfileSource { rich[it] }, "/engine/resources")
+        val process = obj(converted.files.getValue("process.json"))
+        assertEquals("3", process.getValue("wall_loops").jsonPrimitive.content)
+        assertEquals("gyroid", process.getValue("sparse_infill_pattern").jsonPrimitive.content)
+
+        // Multi-filament minimal project preserves per-slot array lengths.
+        val multiRich = rich + ("profiles/BBL/filament/Generic PETG @Demo.json" to """{"name":"Generic PETG @Demo","filament_id":"GFG99","filament_type":["PETG"],"filament_flow_ratio":["0.95","0.95"]}""")
+        val multiCfg = """{"printer_settings_id":"Demo Printer","print_settings_id":"0.20mm Standard @Demo","filament_settings_id":["Bambu PLA Basic @Demo","Generic PETG @Demo"],"wall_loops":"3"}"""
+        val multiJob = ServerPort.prepare(request(), zip("3D/3dmodel.model" to "<model/>", "Metadata/project_settings.config" to multiCfg), ProfileSource { multiRich[it] }, "/engine/resources")
+        val multiOut = obj(Zip.read(multiJob.files.getValue("model.3mf")).getValue("Metadata/project_settings.config"))
+        assertEquals(listOf("GFA00", "GFG99"), multiOut.getValue("filament_ids").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals(listOf("0.98", "0.95"), multiOut.getValue("filament_flow_ratio").jsonArray.map { it.jsonPrimitive.content })
+        assertEquals(listOf("wall_loops", "", "", ""), multiOut.getValue("different_settings_to_system").jsonArray.map { it.jsonPrimitive.content })
+
+        // Complete project already having required keys is not altered by backfill.
+        val completeCfg = """{"printer_settings_id":"Demo Printer","print_settings_id":"0.20mm Standard @Demo","filament_settings_id":["Bambu PLA Basic @Demo"],"nozzle_diameter":["0.4"],"printable_height":"256","printable_area":["0x0","256x0","256x256","0x256"],"filament_ids":["GFA00"]}"""
+        val completeJob = ServerPort.prepare(request(), zip("3D/3dmodel.model" to "<model/>", "Metadata/project_settings.config" to completeCfg), ProfileSource { rich[it] }, "/engine/resources")
+        val completeOut = obj(Zip.read(completeJob.files.getValue("model.3mf")).getValue("Metadata/project_settings.config"))
+        assertFalse("layer_height" in completeOut)
+        assertFalse("different_settings_to_system" in completeOut)
+    }
 }
